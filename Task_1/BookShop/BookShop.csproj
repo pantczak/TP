@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>BookShop</AssemblyName>
+    <RootNamespace>BookShop</RootNamespace>
   </PropertyGroup>
 
 </Project>
