@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
-namespace Task1
+namespace BookShop
 {
     public class DataContext
     {
