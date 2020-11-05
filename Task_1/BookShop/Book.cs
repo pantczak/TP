@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Task1
+namespace BookShop
 {
     public class Book //KATALAOG w instrukcji
     {

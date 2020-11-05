@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Task1
+namespace BookShop
 {
     public class Purchace //ZDARZENIE
     {

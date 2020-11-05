@@ -1,4 +1,4 @@
-﻿namespace Task1
+﻿namespace BookShop
 {
     public class Client //WYKAZ 
     {

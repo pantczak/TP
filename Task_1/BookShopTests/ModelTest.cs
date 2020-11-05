@@ -1,8 +1,8 @@
 ﻿using System;
-using Task1;
+using BookShop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Task1Tests
+namespace BookShopTests
 {
     [TestClass]
     public class ModelTest
