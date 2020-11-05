@@ -8,8 +8,8 @@
     <ProjectGuid>{52E49AA0-B4D9-4634-83E8-7EB3EA9B0F00}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Task1Tests</RootNamespace>
-    <AssemblyName>Task1Tests</AssemblyName>
+    <RootNamespace>BookShopTests</RootNamespace>
+    <AssemblyName>BookShopTests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -56,7 +56,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Task1\Task1.csproj">
+    <ProjectReference Include="..\BookShop\BookShop.csproj">
       <Project>{B278E15B-F872-4067-B7EB-B7FECA6349D5}</Project>
       <Name>Task1</Name>
     </ProjectReference>
