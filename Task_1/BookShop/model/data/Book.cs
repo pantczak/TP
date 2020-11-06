@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace BookShop
+namespace BookShop.model.data
 {
     public class Book //KATALAOG w instrukcji
     {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public Guid Isbn { get; set; }
+        public string Title { get; private set; }
+        public string Author { get; private set; }
+        public Guid Isbn { get; private set; }
 
         public Book(string title, string author, Guid isbn)
         {

@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace BookShop
+namespace BookShop.model.data
 {
     public class BookExample //OPIS STANU
     {
-        public Guid Id { get; set; }
-        public Book Book { get; set; }
+        public Guid Guid { get;private set; }
+        public Book Book { get;private set; }
         public int Tax { get; set; }
-        public int Quantitiy { get; set; }
-        public double Price { get; set; }
+        public double BasePrice { get; set; }
+        public double Price => BasePrice * Tax / 100.0;
 
-        public BookExample(Guid id, Book book, int tax, int quantitiy, double price)
+        public BookExample(Guid id, Book book, int tax, double price)
         {
-            Id = id;
+            Guid = id;
             Book = book;
             Tax = tax;
-            Quantitiy = quantitiy;
-            Price = price;
+            BasePrice = price;
         }
 
         public override bool Equals(object obj)
@@ -29,7 +27,7 @@ namespace BookShop
             else
             {
                 BookExample other = (BookExample)obj;
-                return (this.Id.Equals(other.Id)) && (this.Book.Equals(other.Book));
+                return (this.Guid.Equals(other.Guid)) && (this.Book.Equals(other.Book));
             }
         }
     }
