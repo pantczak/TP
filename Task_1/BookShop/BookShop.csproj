@@ -6,4 +6,8 @@
     <RootNamespace>BookShop</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="logic\" />
+  </ItemGroup>
+
 </Project>

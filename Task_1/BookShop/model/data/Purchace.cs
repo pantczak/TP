@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BookShop
+namespace BookShop.model.data
 {
     public class Purchace //ZDARZENIE
     {
-        public Guid Id { get; set; }
-        public Client Client;
-        public BookExample BookExample;
-        public DateTime DateOfPurchace { get; set; }
+        public Guid Guid { get;private set; }
+        public Client Client { get; private set; }
+        public BookExample BookExample { get; private set; }
+        public DateTime DateOfPurchace { get; private set; }
 
         public Purchace(Guid id, Client client, BookExample bookExample, DateTime dateOfPurchace)
         {
-            Id = id;
+            Guid = id;
             Client = client;
             BookExample = bookExample;
             DateOfPurchace = dateOfPurchace;
@@ -27,7 +27,7 @@ namespace BookShop
             else
             {
                 Purchace other = (Purchace)obj;
-                return (this.Id.Equals(other.Id)) && (this.Client.Equals(other.Client));
+                return (this.Guid.Equals(other.Guid)) && (this.Client.Equals(other.Client));
             }
         }
     }

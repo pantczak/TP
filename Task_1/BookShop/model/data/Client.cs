@@ -1,16 +1,16 @@
-﻿namespace BookShop
+﻿namespace BookShop.model.data
 {
     public class Client //WYKAZ 
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Id { get; set; }
+        public string Pesel { get; private set; }
 
-        public Client(string firstName, string lastName, string id)
+        public Client(string firstName, string lastName, string pesel)
         {
             FirstName = firstName;
             LastName = lastName;
-            Id = id;
+            Pesel = pesel;
         }
 
         public override bool Equals(object obj)
@@ -22,7 +22,7 @@
             else
             {
                 Client other = (Client)obj;
-                return this.Id.Equals(other.Id);
+                return this.Pesel.Equals(other.Pesel);
             }
         }
     }

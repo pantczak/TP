@@ -1,5 +1,5 @@
 ﻿using System;
-using BookShop;
+using BookShop.model.data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BookShopTests
@@ -21,7 +21,7 @@ namespace BookShopTests
         public void ClientTest()
         {
             Client client = new Client("Adam","Tomczak","98051234565");
-            Assert.AreEqual("98051234565", client.Id);
+            Assert.AreEqual("98051234565", client.Pesel);
             Assert.AreEqual("Adam", client.FirstName);
             Assert.AreEqual("Tomczak", client.LastName);
         }
@@ -33,12 +33,12 @@ namespace BookShopTests
             Guid guid = Guid.NewGuid();
             Guid guid1 = Guid.NewGuid();
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid1);
-            BookExample bookExample = new BookExample(guid,book, 23,5, 69.99);
-            Assert.AreEqual(guid, bookExample.Id);
+            BookExample bookExample = new BookExample(guid,book, 23, 69.99);
+            Assert.AreEqual(guid, bookExample.Guid);
             Assert.AreEqual(book, bookExample.Book);
             Assert.AreEqual(23, bookExample.Tax);
-            Assert.AreEqual(5, bookExample.Quantitiy);
-            Assert.AreEqual(69.99, bookExample.Price);
+            Assert.AreEqual(69.99, bookExample.BasePrice);
+            Assert.AreEqual(69.99 * 23 / 100.0, bookExample.Price);
         }
 
         [TestMethod]
@@ -47,10 +47,10 @@ namespace BookShopTests
             Guid guid = Guid.NewGuid();
             DateTime dateTime = DateTime.Now;
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
-            BookExample bookExample = new BookExample(guid, book, 23, 5, 69.99);
+            BookExample bookExample = new BookExample(guid, book, 23,69.99);
             Client client = new Client("Adam", "Tomczak", "98051234565");
             Purchace purchace = new Purchace(guid, client, bookExample, dateTime);
-            Assert.AreEqual(guid, purchace.Id);
+            Assert.AreEqual(guid, purchace.Guid);
             Assert.AreEqual(bookExample, purchace.BookExample);
             Assert.AreEqual(client, purchace.Client);
             Assert.AreEqual(dateTime, purchace.DateOfPurchace);
