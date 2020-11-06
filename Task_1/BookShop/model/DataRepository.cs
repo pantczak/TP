@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BookShop.model
 {
-    internal class DataRepository : IDataRepository
+    public class DataRepository : IDataRepository
     {
         private DataContext data;
         public void AddBook(Book book)
