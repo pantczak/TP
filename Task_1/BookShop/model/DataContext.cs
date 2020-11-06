@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace BookShop.model
 {
-    public class DataContext
+    internal class DataContext
     {
-        private List<Client> readers;
-        private Dictionary<Guid, Book> books;
-        private ObservableCollection<Purchace> purchaces;
-        private ObservableCollection<BookExample> bookExamples;
+        internal List<Client> readers { get; private set; }
+        internal Dictionary<Guid, Book> books { get; private set; }
+        internal ObservableCollection<Purchace> purchaces { get; private set; }
+        internal ObservableCollection<BookExample> bookExamples { get; private set; }
     }
 }
