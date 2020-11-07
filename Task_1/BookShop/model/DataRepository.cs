@@ -27,7 +27,12 @@ namespace BookShop.model
 
         public void AddBookExample(BookExample bookExample)
         {
-            throw new NotImplementedException();
+            if (dataContext.bookExamples.Contains(bookExample))
+            {
+                throw new Exception("Data already exists");
+            }
+            checkBookCopyIsbn(bookExample);
+            dataContext.bookExamples.Add(bookExample);
         }
 
         public void AddClient(Client client)
@@ -41,37 +46,83 @@ namespace BookShop.model
 
         public void AddPurchace(Purchace purchace)
         {
-            throw new NotImplementedException();
+            if (dataContext.purchaces.Contains(purchace))
+            {
+                throw new Exception("Data already exists");
+            }
+            dataContext.purchaces.Add(purchace);
         }
 
-        public void DeleteBook(Guid Isbn)
+        public void DeleteBook(Book book)
         {
-            throw new NotImplementedException();
+            foreach (var purchace in dataContext.purchaces)
+            {
+                if (purchace.BookExample.Book == book)
+                {
+                    throw new Exception("Book has examples in use, can't be deleted");
+                }
+            }
+            var result = dataContext.books.Remove(book.Isbn);
+
+            if (!result)
+            {
+                throw new Exception("No such book");
+            }
         }
 
-        public void DeleteBookExample(Guid Id)
+        public void DeleteBookExample(BookExample bookExample)
         {
-            throw new NotImplementedException();
+            foreach (var purchace in dataContext.purchaces)
+            {
+                if (purchace.BookExample == bookExample)
+                {
+                    throw new Exception("Book example is in use, can't be deleted");
+                }
+            }
+           var result =  dataContext.bookExamples.Remove(bookExample);
+
+            if (!result)
+            {
+                throw new Exception("No such book copy");
+            }
         }
 
-        public void DeleteClient(string Pesel)
+        public void DeleteClient(Client client)
         {
-            throw new NotImplementedException();
+            foreach (var purchace in dataContext.purchaces)
+            {
+                if (purchace.Client == client)
+                {
+                    throw new Exception("Client has purchaces, can't be deleted");
+                }
+            }
+
+            var result = dataContext.clients.Remove(client);
+
+            if (!result)
+            {
+                throw new Exception("No such client");
+            }
         }
 
         public void DeletePurchace(Purchace purchace)
         {
-            throw new NotImplementedException();
+            var result = dataContext.purchaces.Remove(purchace);
+
+            if (!result)
+            {
+                throw new Exception("No such purchace");
+            }
         }
 
         public IEnumerable<Book> GetAllBook()
         {
-            return (IEnumerable<Book>)dataContext.books;
+            return dataContext.books.Values;
         }
 
         public IEnumerable<BookExample> GetAllBookExamples()
         {
-            throw new NotImplementedException();
+            return dataContext.bookExamples;
         }
 
         public IEnumerable<Client> GetAllClient()
@@ -81,25 +132,25 @@ namespace BookShop.model
 
         public IEnumerable<Purchace> GetAllPurchace()
         {
-            throw new NotImplementedException();
+            return dataContext.purchaces;
         }
 
-        public Book GetBook(Guid Id)
-        {
-            return dataContext.books[Id];
-        }
-
-        public Book GetBookExample(Guid Id)
+        public Book GetBook(Guid Isbn)
         {
             throw new NotImplementedException();
         }
 
-        public Client GetClient(string PESEL)
+        public Book GetBookExample(int id)
         {
-            return dataContext.clients.Find(reader => reader.Pesel == PESEL);
+            throw new NotImplementedException();
         }
 
-        public Purchace GetPurchace(Guid Id)
+        public Client GetClient(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Purchace GetPurchace(int id)
         {
             throw new NotImplementedException();
         }
@@ -109,19 +160,32 @@ namespace BookShop.model
             throw new NotImplementedException();
         }
 
-        public void UpdateBookExample(Guid Id, BookExample bookExample)
+        public void UpdateBookExample(int Id, BookExample bookExample)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateClient(string PESEL, Client client)
+        public void UpdateClient(int id, Client client)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdatePurchace(Guid id, Purchace purchace)
+        public void UpdatePurchace(int id, Purchace purchace)
         {
             throw new NotImplementedException();
+        }
+
+
+
+        //PRIVATE METHODS
+
+        private void checkBookCopyIsbn(BookExample bookExample)
+        {
+            if (!dataContext.books.ContainsKey(bookExample.Book.Isbn))
+            {
+                throw new Exception("Wrong book example Isbn reference");
+            }
+
         }
     }
 }
