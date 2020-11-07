@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace BookShop.model.filler
 {
-    class ConstDataFiller : IDataFiller
-    {
+     public class ConstDataFiller : IDataFiller
+     {
         public void Fill(DataContext context)
         {
             context.clients.Add(new Client("Adam", "Kowalski", "99340540232"));
@@ -14,10 +14,10 @@ namespace BookShop.model.filler
             List<Book> books = new List<Book>
         {
             new Book("Hobbit", "J.R.R. Tolkien", Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")),
-            new Book("Mistborn", "Brandon Sanderson", Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")),
-            new Book("The Lord of the Rings", "J.R.R. Tolkien", Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")),
-            new Book("Harry Potter", "J.K. Rowling", Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")),
-            new Book("Metro 2033", "Dmitrij Głuchowski", Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226"))
+            new Book("Mistborn", "Brandon Sanderson", Guid.Parse("BD8A1680-65BD-44A6-92C0-88827A3B473A")),
+            new Book("The Lord of the Rings", "J.R.R. Tolkien", Guid.Parse("10957692-E446-4577-B8C7-8B41FF7C17B8")),
+            new Book("Harry Potter", "J.K. Rowling", Guid.Parse("A5CC4A82-7498-4A10-8FB8-973954335474")),
+            new Book("Metro 2033", "Dmitrij Głuchowski", Guid.Parse("86167D69-FA4D-42CC-8D08-9972F2F04EF5"))
         };
             context.books.Add(books[0].Isbn, books[0]);
             context.books.Add(books[1].Isbn, books[1]);
@@ -36,9 +36,9 @@ namespace BookShop.model.filler
             context.bookExamples.Add(new BookExample(books[3], 23, 22.99));
             context.bookExamples.Add(new BookExample(books[4], 23, 55.60));
 
-            context.purchaces.Add(new Purchace(context.clients[1], context.bookExamples[5], DateTime.Parse("21/10/2020 21:11:00")));
-            context.purchaces.Add(new Purchace(context.clients[1], context.bookExamples[7], DateTime.Parse("16/05/2019 11:30:00")));
-            context.purchaces.Add(new Purchace(context.clients[0], context.bookExamples[0], DateTime.Parse("01/01/2011 11:59:00")));
+            context.purchaces.Add(new Purchace(context.clients[0], context.bookExamples[0], DateTime.Parse("5/10/2020 21:11:00")));
+            context.purchaces.Add(new Purchace(context.clients[1], context.bookExamples[7], DateTime.Parse("3/5/2019 11:30:00")));
+            context.purchaces.Add(new Purchace(context.clients[0], context.bookExamples[0], DateTime.Parse("11/1/2011 11:59:00")));
         }
-    }
+     }
 }
