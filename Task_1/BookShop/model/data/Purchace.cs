@@ -5,8 +5,8 @@ namespace BookShop.model.data
 {
     public class Purchace //ZDARZENIE
     {
-        public Client Client { get; private set; }
-        public BookExample BookExample { get; private set; }
+        public Client Client { get; set; }
+        public BookExample BookExample { get;set; }
         public DateTime DateOfPurchace { get; private set; }
 
         public Purchace( Client client, BookExample bookExample, DateTime dateOfPurchace)

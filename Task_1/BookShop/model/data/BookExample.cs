@@ -4,7 +4,7 @@ namespace BookShop.model.data
 {
     public class BookExample //OPIS STANU
     {
-        public Book Book { get;private set; }
+        public Book Book { get;set; }
         public int Tax { get; set; }
         public double BasePrice { get; set; }
         public double Price => BasePrice * Tax / 100.0;
