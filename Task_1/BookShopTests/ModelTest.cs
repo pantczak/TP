@@ -33,8 +33,7 @@ namespace BookShopTests
             Guid guid = Guid.NewGuid();
             Guid guid1 = Guid.NewGuid();
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid1);
-            BookExample bookExample = new BookExample(guid,book, 23, 69.99);
-            Assert.AreEqual(guid, bookExample.Guid);
+            BookExample bookExample = new BookExample(book, 23, 69.99);
             Assert.AreEqual(book, bookExample.Book);
             Assert.AreEqual(23, bookExample.Tax);
             Assert.AreEqual(69.99, bookExample.BasePrice);
@@ -47,13 +46,18 @@ namespace BookShopTests
             Guid guid = Guid.NewGuid();
             DateTime dateTime = DateTime.Now;
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
-            BookExample bookExample = new BookExample(guid, book, 23,69.99);
+            BookExample bookExample = new BookExample(book, 23,69.99);
             Client client = new Client("Adam", "Tomczak", "98051234565");
-            Purchace purchace = new Purchace(guid, client, bookExample, dateTime);
-            Assert.AreEqual(guid, purchace.Guid);
+            Purchace purchace = new Purchace( client, bookExample, dateTime);
             Assert.AreEqual(bookExample, purchace.BookExample);
             Assert.AreEqual(client, purchace.Client);
             Assert.AreEqual(dateTime, purchace.DateOfPurchace);
+        }
+
+        [TestMethod]
+        public void DataRepositoryTest()
+        {
+
         }
 
     }
