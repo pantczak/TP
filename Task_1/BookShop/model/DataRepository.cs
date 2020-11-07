@@ -137,22 +137,38 @@ namespace BookShop.model
 
         public Book GetBook(Guid Isbn)
         {
-            throw new NotImplementedException();
+            if (dataContext.books.ContainsKey(Isbn))
+            {
+                return dataContext.books[Isbn];
+            }
+            throw new Exception("No such book");
         }
 
-        public Book GetBookExample(int id)
+        public BookExample GetBookExample(int id)
         {
-            throw new NotImplementedException();
+            if (dataContext.bookExamples.Count > id) 
+            {
+                return dataContext.bookExamples[id];
+            }
+            throw new Exception("No such book copy");
         }
 
         public Client GetClient(int id)
         {
-            throw new NotImplementedException();
+            if (dataContext.clients.Count > id)
+            {
+                return dataContext.clients[id];
+            }
+            throw new Exception("No such client");
         }
 
         public Purchace GetPurchace(int id)
         {
-            throw new NotImplementedException();
+            if(dataContext.purchaces.Count>id)
+            {
+                return dataContext.purchaces[id];
+            }
+            throw new Exception("No such purchase");
         }
 
         public void UpdateBook(Guid Isbn, Book book)
