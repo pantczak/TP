@@ -71,17 +71,20 @@ namespace BookShopTests
             int lastFilledBookExampleIndex = dataRepository.GetAllBookExamples().Count() - 1;
             int lastFilledClientIndex = dataRepository.GetAllClient().Count() - 1;
             int lastFilledPurchaseIndex = dataRepository.GetAllPurchace().Count() - 1;
+
+            //Correct Additions check
             dataRepository.AddBook(book);
-            dataRepository.AddBookExample(bookExample);
-            dataRepository.AddClient(client);
-            dataRepository.AddPurchace(purchace);
-            
-
             Assert.AreEqual(book, dataRepository.GetBook(book.Isbn));
-            Assert.AreEqual(bookExample, dataRepository.GetBookExample(lastFilledBookExampleIndex+1));
-            Assert.AreEqual(client, dataRepository.GetClient(lastFilledClientIndex+1));
-            Assert.AreEqual(purchace, dataRepository.GetPurchace(lastFilledPurchaseIndex+1));
 
+            dataRepository.AddBookExample(bookExample);
+            Assert.AreEqual(bookExample, dataRepository.GetBookExample(lastFilledBookExampleIndex+1));
+
+            dataRepository.AddClient(client);
+            Assert.AreEqual(client, dataRepository.GetClient(lastFilledClientIndex+1));
+
+            dataRepository.AddPurchace(purchace);
+            Assert.AreEqual(purchace, dataRepository.GetPurchace(lastFilledPurchaseIndex+1));
+            //Already Existing Data Additions check
             var exc= Assert.ThrowsException<Exception>(() => dataRepository.AddBook(book));
             Assert.AreEqual(exc.Message, "Data already exists");
 
@@ -93,8 +96,9 @@ namespace BookShopTests
 
             exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(purchace));
             Assert.AreEqual(exc.Message, "Data already exists");
-
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddBookExample(new BookExample(new Book("Ksiazka niebedaca w bazie","Anonim",Guid.NewGuid()),13,25.5)));
+            //Data with incorrect data references Additions check
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddBookExample(new BookExample(newBook,13,25.5)));
             Assert.AreEqual(exc.Message, "Wrong book example Isbn reference");
 
             BookExample newBookExample = new BookExample(book, 10, 49.9);
@@ -105,8 +109,45 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(new Purchace(newClient, bookExample, DateTime.Now)));
             Assert.AreEqual(exc.Message, "No such Client in DataRepository");
 
+            //Not existing Deletions tests
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(newBook));
+            Assert.AreEqual(exc.Message, "No such book");
 
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBookExample(newBookExample));
+            Assert.AreEqual(exc.Message, "No such book copy");
 
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(newClient));
+            Assert.AreEqual(exc.Message, "No such client");
+            Purchace newPurchase = new Purchace(newClient, newBookExample, DateTime.Now);
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeletePurchace(newPurchase));
+            Assert.AreEqual(exc.Message, "No such purchace");
+
+            //Referenced objects Deletions tests
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(book));
+            Assert.AreEqual(exc.Message, "Book has examples in use, can't be deleted");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBookExample(bookExample));
+            Assert.AreEqual(exc.Message, "Book example is in use, can't be deleted");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(client));
+            Assert.AreEqual(exc.Message, "Client has purchaces, can't be deleted");
+
+            //Correct Deletions check
+            Assert.IsTrue(dataRepository.GetAllPurchace().ToList().Contains(purchace));
+            dataRepository.DeletePurchace(purchace);
+            Assert.IsFalse(dataRepository.GetAllPurchace().ToList().Contains(purchace));
+
+            Assert.IsTrue(dataRepository.GetAllClient().ToList().Contains(client));
+            dataRepository.DeleteClient(client);
+            Assert.IsFalse(dataRepository.GetAllClient().ToList().Contains(client));
+
+            Assert.IsTrue(dataRepository.GetAllBookExamples().ToList().Contains(bookExample));
+            dataRepository.DeleteBookExample(bookExample);
+            Assert.IsFalse(dataRepository.GetAllBookExamples().ToList().Contains(bookExample));
+
+            Assert.IsTrue(dataRepository.GetAllBook().ToList().Contains(book));
+            dataRepository.DeleteBook(book);
+            Assert.IsFalse(dataRepository.GetAllBook().ToList().Contains(book));
         }
 
     }
