@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BookShop.model.filler
 {
-    class FillFromFile : IDataFiller
+    public class FillFromFile : IDataFiller
     {
         public void Fill(DataContext context)
         {
