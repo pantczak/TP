@@ -20,7 +20,7 @@ namespace BookShop.model
         void DeleteClient(Client client);
         //BOOKEXAMPLE
         void AddBookExample(BookExample bookExample);
-        Book GetBookExample(int id);
+        BookExample GetBookExample(int id);
         IEnumerable<BookExample> GetAllBookExamples();
         void UpdateBookExample(int Id,BookExample bookExample);
         void DeleteBookExample(BookExample bookExample);
