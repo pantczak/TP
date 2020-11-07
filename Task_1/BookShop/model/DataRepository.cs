@@ -50,13 +50,18 @@ namespace BookShop.model
             {
                 throw new Exception("Data already exists");
             }
-            if (dataContext.bookExamples.Contains(purchace.BookExample))
+            if (!dataContext.bookExamples.Contains(purchace.BookExample) )
             {
-                dataContext.purchaces.Add(purchace);
+                throw new Exception("No such BookExample in DataRepository");
+            }
+            if(!dataContext.clients.Contains(purchace.Client))
+                {
+                throw new Exception("No such Client in DataRepository");
             }
             else
             {
-                throw new Exception("No such BookExample in DataRepository");
+                
+                dataContext.purchaces.Add(purchace);
             }
         }
 
