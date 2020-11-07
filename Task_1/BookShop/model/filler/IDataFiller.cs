@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BookShop.model.filler
 {
-    internal interface DataFiller
+    public interface IDataFiller
     {
          void Fill(DataContext context);
     }
