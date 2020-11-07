@@ -1,5 +1,7 @@
 ﻿using System;
+using BookShop.model;
 using BookShop.model.data;
+using BookShop.model.filler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BookShopTests
@@ -57,7 +59,23 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryTest()
         {
+            Guid guid = Guid.NewGuid();
+            Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
+            BookExample bookExample = new BookExample(book, 23, 69.99);
+            Client client = new Client("Adam", "Tomczak", "98051234565");
+            Purchace purchace = new Purchace(client, bookExample, DateTime.Now);
+            DataRepository dataRepository = new DataRepository(new FillFromFile());
+            dataRepository.AddBook(book);
+            dataRepository.AddBookExample(bookExample);
+            dataRepository.AddClient(client);
+            dataRepository.AddPurchace(purchace);
 
+            Assert.AreEqual(book, dataRepository.GetBook(book.Isbn));
+            Assert.AreEqual(bookExample, dataRepository.GetBookExample(0));
+            Assert.AreEqual(client, dataRepository.GetClient(0));
+            Assert.AreEqual(purchace, dataRepository.GetPurchace(0));
+            
+            
         }
 
     }
