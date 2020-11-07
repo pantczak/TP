@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BookShop.model;
 using BookShop.model.data;
 using BookShop.model.filler;
@@ -64,18 +65,48 @@ namespace BookShopTests
             BookExample bookExample = new BookExample(book, 23, 69.99);
             Client client = new Client("Adam", "Tomczak", "98051234565");
             Purchace purchace = new Purchace(client, bookExample, DateTime.Now);
-            DataRepository dataRepository = new DataRepository(new FillFromFile());
+
+            DataRepository dataRepository = new DataRepository(new ConstDataFiller());
+            int lastFilledBookIndex = dataRepository.GetAllBook().Count()-1;
+            int lastFilledBookExampleIndex = dataRepository.GetAllBookExamples().Count() - 1;
+            int lastFilledClientIndex = dataRepository.GetAllClient().Count() - 1;
+            int lastFilledPurchaseIndex = dataRepository.GetAllPurchace().Count() - 1;
             dataRepository.AddBook(book);
             dataRepository.AddBookExample(bookExample);
             dataRepository.AddClient(client);
             dataRepository.AddPurchace(purchace);
+            
 
             Assert.AreEqual(book, dataRepository.GetBook(book.Isbn));
-            Assert.AreEqual(bookExample, dataRepository.GetBookExample(0));
-            Assert.AreEqual(client, dataRepository.GetClient(0));
-            Assert.AreEqual(purchace, dataRepository.GetPurchace(0));
-            
-            
+            Assert.AreEqual(bookExample, dataRepository.GetBookExample(lastFilledBookExampleIndex+1));
+            Assert.AreEqual(client, dataRepository.GetClient(lastFilledClientIndex+1));
+            Assert.AreEqual(purchace, dataRepository.GetPurchace(lastFilledPurchaseIndex+1));
+
+            var exc= Assert.ThrowsException<Exception>(() => dataRepository.AddBook(book));
+            Assert.AreEqual(exc.Message, "Data already exists");
+
+            exc = Assert.ThrowsException <Exception> (() => dataRepository.AddBookExample(bookExample));
+            Assert.AreEqual(exc.Message, "Data already exists");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddClient(client));
+            Assert.AreEqual(exc.Message, "Data already exists");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(purchace));
+            Assert.AreEqual(exc.Message, "Data already exists");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddBookExample(new BookExample(new Book("Ksiazka niebedaca w bazie","Anonim",Guid.NewGuid()),13,25.5)));
+            Assert.AreEqual(exc.Message, "Wrong book example Isbn reference");
+
+            BookExample newBookExample = new BookExample(book, 10, 49.9);
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(new Purchace(client,newBookExample,DateTime.Now)));
+            Assert.AreEqual(exc.Message, "No such BookExample in DataRepository");
+
+            Client newClient = new Client("Jan", "Kowalski", "11234567890");
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(new Purchace(newClient, bookExample, DateTime.Now)));
+            Assert.AreEqual(exc.Message, "No such Client in DataRepository");
+
+
+
         }
 
     }
