@@ -50,7 +50,14 @@ namespace BookShop.model
             {
                 throw new Exception("Data already exists");
             }
-            dataContext.purchaces.Add(purchace);
+            if (dataContext.bookExamples.Contains(purchace.BookExample))
+            {
+                dataContext.purchaces.Add(purchace);
+            }
+            else
+            {
+                throw new Exception("No such BookExample in DataRepository");
+            }
         }
 
         public void DeleteBook(Book book)
@@ -173,21 +180,70 @@ namespace BookShop.model
 
         public void UpdateBook(Guid Isbn, Book book)
         {
-            throw new NotImplementedException();
+            if (!dataContext.books.ContainsKey(Isbn)) 
+            {
+                throw new Exception("No such book");
+            }
+            Book currentBook = GetBook(Isbn);
+            foreach (var bookExample in dataContext.bookExamples)
+            {
+                if (bookExample.Book == currentBook)
+                {
+                    bookExample.Book = book;
+                }
+            }
+            dataContext.books.Add(Isbn, book);
         }
 
         public void UpdateBookExample(int Id, BookExample bookExample)
         {
-            throw new NotImplementedException();
+            if (!(Id<dataContext.bookExamples.Count))
+            {
+                throw new Exception("No such book index");
+            }
+            checkBookCopyIsbn(bookExample);
+            BookExample currentBookExample = GetBookExample(Id);
+            foreach (var purchase in dataContext.purchaces) 
+            {
+                if (purchase.BookExample == currentBookExample) {
+                    purchase.BookExample = bookExample;
+                }
+            }
+            dataContext.bookExamples.Remove(currentBookExample);
+            dataContext.bookExamples.Insert(Id, bookExample);
         }
 
         public void UpdateClient(int id, Client client)
         {
-            throw new NotImplementedException();
+            if (!(id < dataContext.clients.Count))
+            {
+                throw new Exception("No such client index");
+            }
+            Client currentClient = GetClient(id);
+            foreach(var purchase in dataContext.purchaces)
+            {
+                if(purchase.Client==currentClient)
+                {
+                    purchase.Client = client;
+                }
+            }
+            dataContext.clients.Remove(currentClient);
+            dataContext.clients.Insert(id, client);
         }
 
         public void UpdatePurchace(int id, Purchace purchace)
         {
+            if (!(id < dataContext.purchaces.Count))
+            {
+                throw new Exception("No such purchase index");
+            }
+            if (!dataContext.bookExamples.Contains(purchace.BookExample))
+            {
+                throw new Exception("No such BookExample in DataRepository");
+            }
+            dataContext.purchaces.RemoveAt(id);
+            dataContext.purchaces.Insert(id, purchace);
+
             throw new NotImplementedException();
         }
 
