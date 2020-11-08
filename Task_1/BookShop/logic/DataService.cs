@@ -25,9 +25,9 @@ namespace BookShop.logic
             dataRepository.AddBookExample(new BookExample(book, tax, basePrice));
         }
 
-        public void CreateClient(string firstName, string lastName, string pesel)
+        public void CreateClient(string firstName, string lastName, int age)
         {
-            dataRepository.AddClient(new Client(firstName, lastName, pesel));
+            dataRepository.AddClient(new Client(firstName, lastName, age));
         }
 
         public IEnumerable<BookExample> GetAllBookExamples()
