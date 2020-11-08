@@ -201,6 +201,7 @@ namespace BookShop.model
                     bookExample.Book = book;
                 }
             }
+            dataContext.books.Remove(book.Isbn);
             dataContext.books.Add(book.Isbn, book);
         }
 
