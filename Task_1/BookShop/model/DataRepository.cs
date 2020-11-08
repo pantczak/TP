@@ -248,8 +248,6 @@ namespace BookShop.model
             }
             dataContext.purchaces.RemoveAt(id);
             dataContext.purchaces.Insert(id, purchace);
-
-            throw new NotImplementedException();
         }
 
 
