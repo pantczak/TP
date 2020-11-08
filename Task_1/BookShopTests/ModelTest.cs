@@ -58,7 +58,7 @@ namespace BookShopTests
         }
 
         [TestMethod]
-        public void DataRepositoryTest()
+        public void DataRepositoryAddTest()
         {
             Guid guid = Guid.NewGuid();
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
@@ -84,6 +84,7 @@ namespace BookShopTests
 
             dataRepository.AddPurchace(purchace);
             Assert.AreEqual(purchace, dataRepository.GetPurchace(lastFilledPurchaseIndex+1));
+
             //Already Existing Data Additions check
             var exc= Assert.ThrowsException<Exception>(() => dataRepository.AddBook(book));
             Assert.AreEqual(exc.Message, "Data already exists");
@@ -108,9 +109,26 @@ namespace BookShopTests
             Client newClient = new Client("Jan", "Kowalski", "11234567890");
             exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(new Purchace(newClient, bookExample, DateTime.Now)));
             Assert.AreEqual(exc.Message, "No such Client in DataRepository");
+        }
 
-            //Not existing Deletions tests
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(newBook));
+        [TestMethod]
+        public void DataRepositoryDeleteTest() 
+        {
+            Guid guid = Guid.NewGuid();
+            Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
+            BookExample bookExample = new BookExample(book, 23, 69.99);
+            Client client = new Client("Adam", "Tomczak", "98051234565");
+            Purchace purchace = new Purchace(client, bookExample, DateTime.Now);
+            DataRepository dataRepository = new DataRepository(new ConstDataFiller());
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            BookExample newBookExample = new BookExample(book, 10, 49.9);
+            Client newClient = new Client("Jan", "Kowalski", "11234567890");
+            dataRepository.AddBook(book);
+            dataRepository.AddBookExample(bookExample);
+            dataRepository.AddClient(client);
+            dataRepository.AddPurchace(purchace);
+
+            var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(newBook));
             Assert.AreEqual(exc.Message, "No such book");
 
             exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBookExample(newBookExample));
@@ -148,11 +166,15 @@ namespace BookShopTests
             Assert.IsTrue(dataRepository.GetAllBook().ToList().Contains(book));
             dataRepository.DeleteBook(book);
             Assert.IsFalse(dataRepository.GetAllBook().ToList().Contains(book));
+        }
 
-            //Correct Update tests
-
+        [TestMethod]
+        public void DataRepositoryUpdateTest()
+        {
+            
+            DataRepository dataRepository = new DataRepository(new ConstDataFiller());
             Book book1 = dataRepository.GetAllBook().ToList()[0];
-            Book book2 = new Book("Igrzyska Smierci", "Suzanne Collins",book1.Isbn);
+            Book book2 = new Book("Igrzyska Smierci", "Suzanne Collins", book1.Isbn);
             BookExample bookExample1 = dataRepository.GetBookExample(0);
             BookExample bookExample2 = new BookExample(book1, 10, 73.5);
             Client client1 = dataRepository.GetClient(0);
@@ -160,6 +182,7 @@ namespace BookShopTests
             Purchace purchase1 = dataRepository.GetPurchace(0);
             Purchace purchase2 = new Purchace(client1, bookExample1, DateTime.Now);
 
+            //Correct Update tests
             Assert.IsTrue(dataRepository.GetAllPurchace().ToList().Contains(purchase1));
             Assert.IsFalse(dataRepository.GetAllPurchace().ToList().Contains(purchase2));
             dataRepository.UpdatePurchace(0, purchase2);
@@ -193,10 +216,10 @@ namespace BookShopTests
 
             //Not existing objects Update tests
 
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBook(new Book("Hobbit","J.R.R. Tolkien",Guid.NewGuid())));
+            var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBook(new Book("Silmarillion", "J.R.R. Tolkien", Guid.NewGuid())));
             Assert.AreEqual(exc.Message, "No such book");
 
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBookExample(dataRepository.GetAllBookExamples().Count(),bookExample1));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBookExample(dataRepository.GetAllBookExamples().Count(), bookExample1));
             Assert.AreEqual(exc.Message, "No such book copy index");
 
             exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(dataRepository.GetAllClient().Count(), client1));
@@ -210,7 +233,7 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBook(book2));
             Assert.AreEqual(exc.Message, "Data already exists");
 
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBookExample(0,bookExample2));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBookExample(0, bookExample2));
             Assert.AreEqual(exc.Message, "Data already exists");
 
             exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(0, client2));
@@ -218,9 +241,6 @@ namespace BookShopTests
 
             exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdatePurchace(0, purchase2));
             Assert.AreEqual(exc.Message, "Data already exists");
-
-
-
         }
 
     }
