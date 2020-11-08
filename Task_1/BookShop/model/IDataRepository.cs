@@ -10,7 +10,7 @@ namespace BookShop.model
         void AddBook(Book book);
         Book GetBook(Guid Isbn);
         IEnumerable<Book> GetAllBook();
-        void UpdateBook(Guid Isbn, Book book);
+        void UpdateBook(Book book);
         void DeleteBook(Book book);
         //CLIENT
         void AddClient(Client client);
