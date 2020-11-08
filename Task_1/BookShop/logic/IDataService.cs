@@ -18,13 +18,13 @@ namespace BookShop.logic
         void ModifyClient(Client oldClient,Client newClient);
         void ModifyBook(Book oldBook, Book newBook);
         void ModifyBookExample(BookExample oldBookExample,BookExample newBookExample);
-        void ModifyPurchase(Purchace oldPurchase, Purchace newPurchase);
+        void ModifyPurchase(Purchase oldPurchase, Purchase newPurchase);
         IEnumerable<Book> GetAllBooks();
         IEnumerable<BookExample> GetAllBookExamples();
         IEnumerable<Client> GetAllClients();
         IEnumerable<Event> GetAllEvents();
-        IEnumerable<Purchace> GetAllPurchases();
-        IEnumerable<Purchace> GetPurchasesInDateRange(DateTime from,DateTime to);
+        IEnumerable<Purchase> GetAllPurchases();
+        IEnumerable<Purchase> GetPurchasesInDateRange(DateTime from,DateTime to);
         IEnumerable<Event> GetEventsByClient(Client client);
         IEnumerable<Event> GetEventsByBookExample(BookExample bookExample);
         IEnumerable<Book> GetBooksByAuthor(string author);
