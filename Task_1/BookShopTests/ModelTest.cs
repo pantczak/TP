@@ -54,7 +54,7 @@ namespace BookShopTests
             Purchace purchace = new Purchace( client, bookExample, dateTime);
             Assert.AreEqual(bookExample, purchace.BookExample);
             Assert.AreEqual(client, purchace.Client);
-            Assert.AreEqual(dateTime, purchace.E);
+            Assert.AreEqual(dateTime, purchace.EventTime);
         }
 
         [TestMethod]
