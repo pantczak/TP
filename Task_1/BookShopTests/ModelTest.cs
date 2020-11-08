@@ -236,43 +236,23 @@ namespace BookShopTests
             dataRepository.AddEvent(purchace);
 
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(newBook));
-          //  Assert.AreEqual(exc.Message, "No such book");
 
-            //exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBookExample(newBookExample));
-           // Assert.AreEqual(exc.Message, "No such book copy");
-
-           // exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(newClient));
-           // Assert.AreEqual(exc.Message, "No such client");
-            Purchase newPurchase = new Purchase(newClient, newBookExample, DateTime.Now);
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteEvent(newPurchase));
-            Assert.AreEqual(exc.Message, "No such event");
-
-            //Referenced objects Deletions tests
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(book));
-            Assert.AreEqual(exc.Message, "Book has examples in use, can't be deleted");
-
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBookExample(bookExample));
-            Assert.AreEqual(exc.Message, "Book example is in use, can't be deleted");
-
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(client));
-            Assert.AreEqual(exc.Message, "Client has purchaces, can't be deleted");
-
-            //Correct Deletions tests
+           // Correct Deletions tests
             Assert.IsTrue(dataRepository.GetAllEvent().ToList().Contains(purchace));
             dataRepository.DeleteEvent(purchace);
-            Assert.IsFalse(dataRepository.GetAllEvent().ToList().Contains(purchace));
+           Assert.IsFalse(dataRepository.GetAllEvent().ToList().Contains(purchace));
 
-            Assert.IsTrue(dataRepository.GetAllClient().ToList().Contains(client));
-            dataRepository.DeleteClient(client);
-            Assert.IsFalse(dataRepository.GetAllClient().ToList().Contains(client));
+          //  Assert.IsTrue(dataRepository.GetAllClient().ToList().Contains(client));
+          //  dataRepository.DeleteClient(client);
+          //  Assert.IsFalse(dataRepository.GetAllClient().ToList().Contains(client));
 
-            Assert.IsTrue(dataRepository.GetAllBookExamples().ToList().Contains(bookExample));
-            dataRepository.DeleteBookExample(bookExample);
-            Assert.IsFalse(dataRepository.GetAllBookExamples().ToList().Contains(bookExample));
+          //  Assert.IsTrue(dataRepository.GetAllBookExamples().ToList().Contains(bookExample));
+          //  dataRepository.DeleteBookExample(bookExample);
+          //  Assert.IsFalse(dataRepository.GetAllBookExamples().ToList().Contains(bookExample));
 
-            Assert.IsTrue(dataRepository.GetAllBook().ToList().Contains(book));
-            dataRepository.DeleteBook(book);
-            Assert.IsFalse(dataRepository.GetAllBook().ToList().Contains(book));
+          //  Assert.IsTrue(dataRepository.GetAllBook().ToList().Contains(book));
+          //  dataRepository.DeleteBook(book);
+          //  Assert.IsFalse(dataRepository.GetAllBook().ToList().Contains(book));
         }
 
         [TestMethod]
@@ -282,7 +262,7 @@ namespace BookShopTests
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
 
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(newBook));
-            Assert.AreEqual(exc.Message, "No such book");
+            Assert.AreEqual("No such book",exc.Message);
         }
 
         [TestMethod]
@@ -294,7 +274,7 @@ namespace BookShopTests
             dataRepository.AddBook(newBook);
             
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBookExample(newBookExample));
-            Assert.AreEqual(exc.Message, "No such book copy");
+            Assert.AreEqual( "No such book copy",exc.Message);
         }
 
         [TestMethod]
@@ -304,10 +284,146 @@ namespace BookShopTests
             Client newClient = new Client("Jan", "Kowalski", 39);
 
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(newClient));
-            Assert.AreEqual(exc.Message, "No such client");
+            Assert.AreEqual( "No such client",exc.Message);
         }
 
+        [TestMethod]
+        public void DataRepositoryBadPurchaseDeleteTest()
+        {
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            BookExample newBookExample = new BookExample(newBook, 10, 49.9);
+            dataRepository.AddBook(newBook);
+            Client newClient = new Client("Jan", "Kowalski", 39);
 
+            var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteEvent(new Purchase(newClient,newBookExample,DateTime.Now)));
+            Assert.AreEqual( "No such event",exc.Message);
+        }
+
+        [TestMethod]
+        public void DataRepositoryBookRefDeleteTest()
+        {
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            BookExample newBookExample = new BookExample(newBook, 10, 49.9);
+            Client newClient = new Client("Jan", "Kowalski", 39);
+            dataRepository.AddBook(newBook);
+            dataRepository.AddBookExample(newBookExample);
+            dataRepository.AddClient(newClient);
+            dataRepository.AddEvent(new Purchase(newClient, newBookExample, DateTime.Now));
+            var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(newBook));
+            Assert.AreEqual( "Book has examples in use, can't be deleted",exc.Message);
+        }
+
+        [TestMethod]
+        public void DataRepositoryBookExampleRefDeleteTest()
+        {
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            BookExample newBookExample = new BookExample(newBook, 10, 49.9);
+            Client newClient = new Client("Jan", "Kowalski", 39);
+            dataRepository.AddBook(newBook);
+            dataRepository.AddBookExample(newBookExample);
+            dataRepository.AddClient(newClient);
+            dataRepository.AddEvent(new Purchase(newClient, newBookExample, DateTime.Now));
+
+            var  exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBookExample(newBookExample));
+            Assert.AreEqual( "Book example is in use, can't be deleted",exc.Message);
+        }
+
+        [TestMethod]
+        public void DataRepositoryClientRefDeleteTest()
+        {
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            BookExample newBookExample = new BookExample(newBook, 10, 49.9);
+            Client newClient = new Client("Jan", "Kowalski", 39);
+            dataRepository.AddBook(newBook);
+            dataRepository.AddBookExample(newBookExample);
+            dataRepository.AddClient(newClient);
+            dataRepository.AddEvent(new Purchase(newClient, newBookExample, DateTime.Now));
+
+            var  exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(newClient));
+            Assert.AreEqual( "Client has purchaces, can't be deleted",exc.Message);
+        }
+        //GOOD
+        [TestMethod]
+        public void DataRepositoryBookDeleteTest()
+        {
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            dataRepository.AddBook(newBook);
+
+            if (dataRepository.GetAllBook().Contains(newBook))
+            {
+                dataRepository.DeleteBook(newBook);
+                Assert.IsFalse(dataRepository.GetAllBook().Contains(newBook));
+            }
+            else
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void DataRepositoryBookExampleDeleteTest()
+        {
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            BookExample newBookExample = new BookExample(newBook, 10, 49.9);
+            dataRepository.AddBook(newBook);
+            dataRepository.AddBookExample(newBookExample);
+
+            if (dataRepository.GetAllBookExamples().Contains(newBookExample))
+            {
+                dataRepository.DeleteBookExample(newBookExample);
+                Assert.IsFalse(dataRepository.GetAllBookExamples().Contains(newBookExample));
+            }
+            else
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void DataRepositoryClientDeleteTest()
+        {
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
+            Client newClient = new Client("Jan", "Kowalski", 39);
+            dataRepository.AddClient(newClient);
+            if (dataRepository.GetAllClient().Contains(newClient))
+            {
+                dataRepository.DeleteClient(newClient);
+                Assert.IsFalse(dataRepository.GetAllClient().Contains(newClient));
+            }
+            else
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void DataRepositoryPurchaseDeleteTest()
+        {
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
+            Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
+            BookExample newBookExample = new BookExample(newBook, 10, 49.9);
+            Client newClient = new Client("Jan", "Kowalski", 39);
+            Purchase purchase = new Purchase(newClient, newBookExample, DateTime.Now);
+            dataRepository.AddBook(newBook);
+            dataRepository.AddBookExample(newBookExample);
+            dataRepository.AddClient(newClient);
+            dataRepository.AddEvent(purchase);
+            if (dataRepository.GetAllEvent().Contains(purchase))
+            {
+                dataRepository.DeleteEvent(purchase);
+                Assert.IsFalse(dataRepository.GetAllEvent().Contains(purchase));
+            }
+            else
+            {
+                Assert.Fail();
+            }
+        }
 
         [TestMethod]
         public void DataRepositoryUpdateTest()
