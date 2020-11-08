@@ -75,16 +75,16 @@ namespace BookShop.model
                     {
                         throw new Exception("Book has examples in use, can't be deleted");
                     }
-
-                    var result = dataContext.books.Remove(book.Isbn);
-
-                    if (!result)
-                    {
-                        throw new Exception("No such book");
-                    }
                 }
-               
             }
+                var result = dataContext.books.Remove(book.Isbn);
+
+                if (!result)
+                {
+                    throw new Exception("No such book");
+                }
+
+            
         }
 
         public void DeleteBookExample(BookExample bookExample)
