@@ -124,11 +124,11 @@ namespace BookShopTests
             new BookExample(booksList[4], 23, 55.60),
             };
 
-            List<Purchace> purchaceList = new List<Purchace>()
+            List<Purchase> purchaceList = new List<Purchase>()
             {
-            new Purchace(clientList[0], bookExampleList[0], DateTime.Parse("5/10/2020 21:11:00")),
-            new Purchace(clientList[1], bookExampleList[7], DateTime.Parse("3/5/2019 11:30:00")),
-            new Purchace(clientList[0], bookExampleList[0], DateTime.Parse("11/1/2011 11:59:00")),
+            new Purchase(clientList[0], bookExampleList[0], DateTime.Parse("5/10/2020 21:11:00")),
+            new Purchase(clientList[1], bookExampleList[7], DateTime.Parse("3/5/2019 11:30:00")),
+            new Purchase(clientList[0], bookExampleList[0], DateTime.Parse("11/1/2011 11:59:00")),
             };
 
             for (int i = 0; i < purchaceList.Count; i++)

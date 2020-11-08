@@ -51,7 +51,7 @@ namespace BookShopTests
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
             BookExample bookExample = new BookExample(book, 23,69.99);
             Client client = new Client("Adam", "Tomczak", "98051234565");
-            Purchace purchace = new Purchace( client, bookExample, dateTime);
+            Purchase purchace = new Purchase( client, bookExample, dateTime);
             Assert.AreEqual(bookExample, purchace.BookExample);
             Assert.AreEqual(client, purchace.Client);
             Assert.AreEqual(dateTime, purchace.EventTime);
@@ -64,7 +64,7 @@ namespace BookShopTests
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
             BookExample bookExample = new BookExample(book, 23, 69.99);
             Client client = new Client("Adam", "Tomczak", "98051234565");
-            Purchace purchace = new Purchace(client, bookExample, DateTime.Now);
+            Purchase purchace = new Purchase(client, bookExample, DateTime.Now);
 
             DataRepository dataRepository = new DataRepository(new ConstFiller());
             int lastFilledBookIndex = dataRepository.GetAllBook().Count()-1;
@@ -103,11 +103,11 @@ namespace BookShopTests
             Assert.AreEqual(exc.Message, "Wrong book example Isbn reference");
 
             BookExample newBookExample = new BookExample(book, 10, 49.9);
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(new Purchace(client,newBookExample,DateTime.Now)));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(new Purchase(client,newBookExample,DateTime.Now)));
             Assert.AreEqual(exc.Message, "No such BookExample in DataRepository");
 
             Client newClient = new Client("Jan", "Kowalski", "11234567890");
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(new Purchace(newClient, bookExample, DateTime.Now)));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(new Purchase(newClient, bookExample, DateTime.Now)));
             Assert.AreEqual(exc.Message, "No such Client in DataRepository");
         }
 
@@ -118,7 +118,7 @@ namespace BookShopTests
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
             BookExample bookExample = new BookExample(book, 23, 69.99);
             Client client = new Client("Adam", "Tomczak", "98051234565");
-            Purchace purchace = new Purchace(client, bookExample, DateTime.Now);
+            Purchase purchace = new Purchase(client, bookExample, DateTime.Now);
             DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(book, 10, 49.9);
@@ -136,7 +136,7 @@ namespace BookShopTests
 
             exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(newClient));
             Assert.AreEqual(exc.Message, "No such client");
-            Purchace newPurchase = new Purchace(newClient, newBookExample, DateTime.Now);
+            Purchase newPurchase = new Purchase(newClient, newBookExample, DateTime.Now);
             exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteEvent(newPurchase));
             Assert.AreEqual(exc.Message, "No such event");
 
@@ -179,8 +179,8 @@ namespace BookShopTests
             BookExample bookExample2 = new BookExample(book1, 10, 73.5);
             Client client1 = dataRepository.GetClient(0);
             Client client2 = new Client("John", "Watson", "94707384534");
-            Purchace purchase1 = (Purchace)dataRepository.GetEvent(0);
-            Purchace purchase2 = new Purchace(client1, bookExample1, DateTime.Now);
+            Purchase purchase1 = (Purchase)dataRepository.GetEvent(0);
+            Purchase purchase2 = new Purchase(client1, bookExample1, DateTime.Now);
 
             //Correct Update tests
             Assert.IsTrue(dataRepository.GetAllEvent().ToList().Contains(purchase1));
