@@ -40,7 +40,7 @@ namespace BookShopTests
             Assert.AreEqual(book, bookExample.Book);
             Assert.AreEqual(23, bookExample.Tax);
             Assert.AreEqual(69.99, bookExample.BasePrice);
-            Assert.AreEqual(69.99 * 23 / 100.0, bookExample.Price);
+            Assert.AreEqual(69.99 * 23 / 100.0, bookExample.Price,0.00001);
         }
 
         [TestMethod]
