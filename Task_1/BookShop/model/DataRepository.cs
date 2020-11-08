@@ -209,7 +209,7 @@ namespace BookShop.model
         {
             if (!(Id<dataContext.bookExamples.Count))
             {
-                throw new Exception("No such book index");
+                throw new Exception("No such book copy index");
             }
             if (dataContext.bookExamples.Contains(bookExample))
             {
