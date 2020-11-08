@@ -4,13 +4,13 @@
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Pesel { get; private set; }
+        public int Age { get; private set; }
 
-        public Client(string firstName, string lastName, string pesel)
+        public Client(string firstName, string lastName, int age)
         {
             FirstName = firstName;
             LastName = lastName;
-            Pesel = pesel;
+            Age = age;
         }
 
         public override bool Equals(object obj)
@@ -22,7 +22,7 @@
             else
             {
                 Client other = (Client)obj;
-                return this.Pesel.Equals(other.Pesel);
+                return this.Age.Equals(other.Age) && this.FirstName.Equals(other.FirstName) && this.LastName.Equals(other.LastName);
             }
         }
     }
