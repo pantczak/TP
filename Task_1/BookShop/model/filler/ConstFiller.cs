@@ -8,8 +8,8 @@ namespace BookShop.model.filler
      {
         public void Fill(DataContext context)
         {
-            context.clients.Add(new Client("Adam", "Kowalski", "99340540232"));
-            context.clients.Add(new Client("Jan", "Nowak", "02958382493"));
+            context.clients.Add(new Client("Adam", "Kowalski", 39));
+            context.clients.Add(new Client("Jan", "Nowak", 34));
 
             List<Book> books = new List<Book>
         {
