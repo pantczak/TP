@@ -24,7 +24,7 @@ namespace BookShop.model.data
             else
             {
                 Book other = (Book)obj;
-                return (this.Isbn.Equals(other.Isbn));
+                return (this.Isbn.Equals(other.Isbn) && this.Title.Equals(other.Title) && this.Author.Equals(other.Author));
             }
         }
 }
