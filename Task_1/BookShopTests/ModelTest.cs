@@ -132,7 +132,7 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(client));
             Assert.AreEqual(exc.Message, "Client has purchaces, can't be deleted");
 
-            //Correct Deletions check
+            //Correct Deletions tests
             Assert.IsTrue(dataRepository.GetAllPurchace().ToList().Contains(purchace));
             dataRepository.DeletePurchace(purchace);
             Assert.IsFalse(dataRepository.GetAllPurchace().ToList().Contains(purchace));
@@ -148,6 +148,79 @@ namespace BookShopTests
             Assert.IsTrue(dataRepository.GetAllBook().ToList().Contains(book));
             dataRepository.DeleteBook(book);
             Assert.IsFalse(dataRepository.GetAllBook().ToList().Contains(book));
+
+            //Correct Update tests
+
+            Book book1 = dataRepository.GetAllBook().ToList()[0];
+            Book book2 = new Book("Igrzyska Smierci", "Suzanne Collins",book1.Isbn);
+            BookExample bookExample1 = dataRepository.GetBookExample(0);
+            BookExample bookExample2 = new BookExample(book1, 10, 73.5);
+            Client client1 = dataRepository.GetClient(0);
+            Client client2 = new Client("John", "Watson", "94707384534");
+            Purchace purchase1 = dataRepository.GetPurchace(0);
+            Purchace purchase2 = new Purchace(client1, bookExample1, DateTime.Now);
+
+            Assert.IsTrue(dataRepository.GetAllPurchace().ToList().Contains(purchase1));
+            Assert.IsFalse(dataRepository.GetAllPurchace().ToList().Contains(purchase2));
+            dataRepository.UpdatePurchace(0, purchase2);
+            Assert.IsFalse(dataRepository.GetAllPurchace().ToList().Contains(purchase1));
+            Assert.IsTrue(dataRepository.GetAllPurchace().ToList().Contains(purchase2));
+
+
+            Assert.IsTrue(dataRepository.GetAllClient().ToList().Contains(client1));
+            Assert.IsFalse(dataRepository.GetAllClient().ToList().Contains(client2));
+            Assert.AreNotEqual(purchase2.Client, client2);
+            dataRepository.UpdateClient(0, client2);
+            Assert.IsFalse(dataRepository.GetAllClient().ToList().Contains(client1));
+            Assert.IsTrue(dataRepository.GetAllClient().ToList().Contains(client2));
+            Assert.AreEqual(purchase2.Client, client2);
+
+            Assert.IsTrue(dataRepository.GetAllBookExamples().ToList().Contains(bookExample1));
+            Assert.IsFalse(dataRepository.GetAllBookExamples().ToList().Contains(bookExample2));
+            Assert.AreNotEqual(purchase2.BookExample, bookExample2);
+            dataRepository.UpdateBookExample(0, bookExample2);
+            Assert.IsFalse(dataRepository.GetAllBookExamples().ToList().Contains(bookExample1));
+            Assert.IsTrue(dataRepository.GetAllBookExamples().ToList().Contains(bookExample2));
+            Assert.AreEqual(purchase2.BookExample, bookExample2);
+
+            Assert.IsTrue(dataRepository.GetAllBook().ToList().Contains(book1));
+            Assert.IsFalse(dataRepository.GetAllBook().ToList().Contains(book2));
+            Assert.AreNotEqual(bookExample2.Book, book2);
+            dataRepository.UpdateBook(book2);
+            Assert.IsFalse(dataRepository.GetAllBook().ToList().Contains(book1));
+            Assert.IsTrue(dataRepository.GetAllBook().ToList().Contains(book2));
+            Assert.AreEqual(bookExample2.Book, book2);
+
+            //Not existing objects Update tests
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBook(new Book("Hobbit","J.R.R. Tolkien",Guid.NewGuid())));
+            Assert.AreEqual(exc.Message, "No such book");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBookExample(dataRepository.GetAllBookExamples().Count(),bookExample1));
+            Assert.AreEqual(exc.Message, "No such book copy index");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(dataRepository.GetAllClient().Count(), client1));
+            Assert.AreEqual(exc.Message, "No such client index");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdatePurchace(dataRepository.GetAllPurchace().Count(), purchase1));
+            Assert.AreEqual(exc.Message, "No such purchase index");
+
+            // Diffrent index objects Update tests
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBook(book2));
+            Assert.AreEqual(exc.Message, "Data already exists");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBookExample(0,bookExample2));
+            Assert.AreEqual(exc.Message, "Data already exists");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(0, client2));
+            Assert.AreEqual(exc.Message, "Data already exists");
+
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdatePurchace(0, purchase2));
+            Assert.AreEqual(exc.Message, "Data already exists");
+
+
+
         }
 
     }
