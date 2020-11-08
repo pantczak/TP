@@ -183,13 +183,17 @@ namespace BookShop.model
             throw new Exception("No such purchase");
         }
 
-        public void UpdateBook(Guid Isbn, Book book)
+        public void UpdateBook(Book book)
         {
-            if (!dataContext.books.ContainsKey(Isbn)) 
+            if (!dataContext.books.ContainsKey(book.Isbn)) 
             {
                 throw new Exception("No such book");
             }
-            Book currentBook = GetBook(Isbn);
+            if (dataContext.books.ContainsValue(book))
+            {
+                throw new Exception("Data already exists");
+            }
+            Book currentBook = GetBook(book.Isbn);
             foreach (var bookExample in dataContext.bookExamples)
             {
                 if (bookExample.Book == currentBook)
@@ -197,7 +201,7 @@ namespace BookShop.model
                     bookExample.Book = book;
                 }
             }
-            dataContext.books.Add(Isbn, book);
+            dataContext.books.Add(book.Isbn, book);
         }
 
         public void UpdateBookExample(int Id, BookExample bookExample)
@@ -205,6 +209,10 @@ namespace BookShop.model
             if (!(Id<dataContext.bookExamples.Count))
             {
                 throw new Exception("No such book index");
+            }
+            if (dataContext.bookExamples.Contains(bookExample))
+            {
+                throw new Exception("Data already exists");
             }
             checkBookCopyIsbn(bookExample);
             BookExample currentBookExample = GetBookExample(Id);
@@ -223,6 +231,10 @@ namespace BookShop.model
             if (!(id < dataContext.clients.Count))
             {
                 throw new Exception("No such client index");
+            }
+            if (dataContext.clients.Contains(client))
+            {
+                throw new Exception("Data already exists");
             }
             Client currentClient = GetClient(id);
             foreach(var purchase in dataContext.purchaces)
@@ -245,6 +257,10 @@ namespace BookShop.model
             if (!dataContext.bookExamples.Contains(purchace.BookExample))
             {
                 throw new Exception("No such BookExample in DataRepository");
+            }
+            if (dataContext.purchaces.Contains(purchace))
+            {
+                throw new Exception("Data already exists");
             }
             dataContext.purchaces.RemoveAt(id);
             dataContext.purchaces.Insert(id, purchace);
