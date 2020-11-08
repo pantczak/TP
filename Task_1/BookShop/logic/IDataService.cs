@@ -16,9 +16,9 @@ namespace BookShop.logic
         void RemoveBookExample(BookExample bookExample);
         void RemoveEvent(Event evnt);
         void ModifyClient(Client oldClient,Client newClient);
-        void ModifyBook(Book oldBook, Book newBook);
+        void ModifyBook( Book newBook);
         void ModifyBookExample(BookExample oldBookExample,BookExample newBookExample);
-        void ModifyPurchase(Purchase oldPurchase, Purchase newPurchase);
+        void ModifyEvent(Purchase oldEvent, Purchase newEvent);
         IEnumerable<Book> GetAllBooks();
         IEnumerable<BookExample> GetAllBookExamples();
         IEnumerable<Client> GetAllClients();
@@ -33,7 +33,7 @@ namespace BookShop.logic
         IEnumerable<BookExample> GetBookExamplesByBook(Book book);
         IEnumerable<BookExample> GetBookExamplesInPriceRange(double priceMin, double priceMax);
         IEnumerable<Client> GetClientsByFirstLetterOfName(char letter);
-        IEnumerable<Client> GetClientsByPesel(string pesel);
+        IEnumerable<Client> GetClientsByAgeRange(int ageMin, int ageMax);
 
 
 

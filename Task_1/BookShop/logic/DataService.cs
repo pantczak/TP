@@ -126,6 +126,20 @@ namespace BookShop.logic
             return foundBooks;
         }
 
+        public IEnumerable<Client> GetClientsByAgeRange(int ageMin, int ageMax)
+        {
+            IEnumerable<Client> clients = dataRepository.GetAllClient();
+            List<Client> foundClients = new List<Client>();
+            foreach (Client client in clients)
+            {
+                if (client.Age >=ageMin && client.Age<=ageMax)
+                {
+                    foundClients.Add(client);
+                }
+            }
+            return foundClients;
+        }
+
         public IEnumerable<Client> GetClientsByFirstLetterOfName(char letter)
         {
             IEnumerable<Client> clients = dataRepository.GetAllClient();
@@ -140,44 +154,95 @@ namespace BookShop.logic
             return foundClients;
         }
 
-        public IEnumerable<Client> GetClientsByPesel(string pesel)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<Event> GetEventsByBookExample(BookExample bookExample)
         {
-            throw new NotImplementedException();
+            IEnumerable<Event> events= dataRepository.GetAllEvent();
+            List<Event> foundEvents= new List<Event>();
+            foreach (Event evnt in events)
+            {
+                if(evnt.BookExample==bookExample)
+                {
+                    foundEvents.Add(evnt);
+                }
+            }
+            return foundEvents;
         }
 
         public IEnumerable<Event> GetEventsByClient(Client client)
         {
-            throw new NotImplementedException();
+            IEnumerable<Event> events = dataRepository.GetAllEvent();
+            List<Event> foundEvents = new List<Event>();
+            foreach (Event evnt in events)
+            {
+                if (evnt.Client == client)
+                {
+                    foundEvents.Add(evnt);
+                }
+            }
+            return foundEvents;
         }
 
         public IEnumerable<Purchase> GetPurchasesInDateRange(DateTime from, DateTime to)
         {
-            throw new NotImplementedException();
+            IEnumerable<Purchase> purchases = GetAllPurchases();
+            List<Purchase> foundPurchases = new List<Purchase>();
+            foreach (Purchase purchase in purchases)
+            {
+                if (purchase.EventTime >=from && purchase.EventTime <=to)
+                {
+                    foundPurchases.Add(purchase);
+                }
+            }
+            return foundPurchases;
         }
 
-        public void ModifyBook(Book oldBook, Book newBook)
+        public void ModifyBook(Book newBook)
         {
-            throw new NotImplementedException();
+            dataRepository.UpdateBook(newBook);
+            
         }
 
         public void ModifyBookExample(BookExample oldBookExample, BookExample newBookExample)
         {
-            throw new NotImplementedException();
+        List<BookExample> books = GetAllBookExamples().ToList();
+            for (int i = 0; i < books.Count(); i++)
+            {
+                if (books[i] == oldBookExample)
+                {
+                    dataRepository.UpdateBookExample(i, newBookExample);
+                    return;
+                }
+            }
+            throw new Exception("No such book copy");
         }
 
         public void ModifyClient(Client oldClient, Client newClient)
         {
-            throw new NotImplementedException();
+            List<Client> clients = GetAllClients().ToList();
+            for (int i = 0; i < clients.Count(); i++)
+            {
+                if (clients[i] == oldClient)
+                {
+                    dataRepository.UpdateClient(i, newClient);
+                    return;
+                }
+            }
+            throw new Exception("No such client");
         }
 
-        public void ModifyPurchase(Purchase oldPurchase, Purchase newPurchase)
+        public void ModifyEvent(Event oldEvent, Event newEvent)
         {
-            throw new NotImplementedException();
+            List<Event> events = GetAllEvents().ToList();
+            for (int i = 0; i < events.Count(); i++)
+            {
+                if (events[i] == oldEvent)
+                {
+                    dataRepository.UpdateEvent(i, newEvent);
+                    return;
+                }
+            }
+            throw new Exception("No such event");
         }
 
         public void PurchaceBook(Client client, BookExample bookExample)
@@ -187,22 +252,22 @@ namespace BookShop.logic
 
         public void RemoveBook(Book book)
         {
-            throw new NotImplementedException();
+            dataRepository.DeleteBook(book);
         }
 
         public void RemoveBookExample(BookExample bookExample)
         {
-            throw new NotImplementedException();
+            dataRepository.DeleteBookExample(bookExample);
         }
 
         public void RemoveClient(Client client)
         {
-            throw new NotImplementedException();
+            dataRepository.DeleteClient(client);
         }
 
         public void RemoveEvent(Event evnt)
         {
-            throw new NotImplementedException();
+            dataRepository.DeleteEvent(evnt);
         }
     }
 }
