@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BookShop.model.filler
 {
-     public class ConstDataFiller : IDataFiller
+     public class ConstFiller : IDataFiller
      {
         public void Fill(DataContext context)
         {
