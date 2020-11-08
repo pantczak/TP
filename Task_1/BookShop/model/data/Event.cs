@@ -7,10 +7,14 @@ namespace BookShop.model.data
     public abstract class Event
     {
         public DateTime EventTime { get; set; }
+        public Client Client { get; set; }
+        public BookExample BookExample { get; set; }
 
-        protected Event(DateTime eventTime)
+        protected Event(DateTime eventTime, Client client, BookExample bookExample)
         {
             EventTime = eventTime;
+            Client = client;
+            BookExample = bookExample;
         }
 
         public override bool Equals(object obj)
@@ -22,7 +26,7 @@ namespace BookShop.model.data
             else
             {
                 Event other = (Event)obj;
-                return (this.EventTime.Equals(other.EventTime));
+                return (this.EventTime.Equals(other.EventTime)) && (this.Client.Equals(other.Client)) && (this.BookExample.Equals(other.BookExample));
             }
         }
     }
