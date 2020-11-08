@@ -36,9 +36,9 @@ namespace BookShop.model.filler
             context.bookExamples.Add(new BookExample(books[3], 23, 22.99));
             context.bookExamples.Add(new BookExample(books[4], 23, 55.60));
 
-            context.purchaces.Add(new Purchace(context.clients[0], context.bookExamples[0], DateTime.Parse("5/10/2020 21:11:00")));
-            context.purchaces.Add(new Purchace(context.clients[1], context.bookExamples[7], DateTime.Parse("3/5/2019 11:30:00")));
-            context.purchaces.Add(new Purchace(context.clients[0], context.bookExamples[0], DateTime.Parse("11/1/2011 11:59:00")));
+            context.events.Add(new Purchace(context.clients[0], context.bookExamples[0], DateTime.Parse("5/10/2020 21:11:00")));
+            context.events.Add(new Purchace(context.clients[1], context.bookExamples[7], DateTime.Parse("3/5/2019 11:30:00")));
+            context.events.Add(new Purchace(context.clients[0], context.bookExamples[0], DateTime.Parse("11/1/2011 11:59:00")));
         }
      }
 }

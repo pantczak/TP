@@ -46,7 +46,7 @@ namespace BookShop.model
 
         public void AddPurchace(Purchace purchace)
         {
-            if (dataContext.purchaces.Contains(purchace))
+            if (dataContext.events.Contains(purchace))
             {
                 throw new Exception("Data already exists");
             }
@@ -61,34 +61,44 @@ namespace BookShop.model
             else
             {
                 
-                dataContext.purchaces.Add(purchace);
+                dataContext.events.Add(purchace);
             }
         }
 
         public void DeleteBook(Book book)
         {
-            foreach (var purchace in dataContext.purchaces)
+            foreach (var purchace in dataContext.events)
             {
-                if (purchace.BookExample.Book == book)
+                if (purchace is Purchace purchace1)
                 {
-                    throw new Exception("Book has examples in use, can't be deleted");
-                }
-            }
-            var result = dataContext.books.Remove(book.Isbn);
+                    if (purchace1.BookExample.Book == book)
+                    {
+                        throw new Exception("Book has examples in use, can't be deleted");
+                    }
 
-            if (!result)
-            {
-                throw new Exception("No such book");
+                    var result = dataContext.books.Remove(book.Isbn);
+
+                    if (!result)
+                    {
+                        throw new Exception("No such book");
+                    }
+                }
+               
             }
         }
 
         public void DeleteBookExample(BookExample bookExample)
         {
-            foreach (var purchace in dataContext.purchaces)
+            foreach (var purchace in dataContext.events)
             {
-                if (purchace.BookExample == bookExample)
+                Purchace cast;
+                if (purchace is Purchace)
                 {
-                    throw new Exception("Book example is in use, can't be deleted");
+                    cast = (Purchace)purchace;
+                    if (cast.BookExample == bookExample)
+                    {
+                        throw new Exception("Book example is in use, can't be deleted");
+                    }
                 }
             }
            var result =  dataContext.bookExamples.Remove(bookExample);
@@ -101,11 +111,16 @@ namespace BookShop.model
 
         public void DeleteClient(Client client)
         {
-            foreach (var purchace in dataContext.purchaces)
+            foreach (var purchace in dataContext.events)
             {
-                if (purchace.Client == client)
+                Purchace cast;
+                if (purchace is Purchace)
                 {
-                    throw new Exception("Client has purchaces, can't be deleted");
+                    cast = (Purchace)purchace;
+                    if (cast.Client == client)
+                    {
+                        throw new Exception("Client has purchaces, can't be deleted");
+                    }
                 }
             }
 
@@ -119,7 +134,7 @@ namespace BookShop.model
 
         public void DeletePurchace(Purchace purchace)
         {
-            var result = dataContext.purchaces.Remove(purchace);
+            var result = dataContext.events.Remove(purchace);
 
             if (!result)
             {
@@ -142,9 +157,9 @@ namespace BookShop.model
             return dataContext.clients;
         }
 
-        public IEnumerable<Purchace> GetAllPurchace()
+        public IEnumerable<Event> GetAllEvent()
         {
-            return dataContext.purchaces;
+            return dataContext.events;
         }
 
         public Book GetBook(Guid Isbn)
@@ -176,9 +191,9 @@ namespace BookShop.model
 
         public Purchace GetPurchace(int id)
         {
-            if(dataContext.purchaces.Count>id)
+            if(dataContext.events.Count>id)
             {
-                return dataContext.purchaces[id];
+                return (Purchace)dataContext.events[id];
             }
             throw new Exception("No such purchase");
         }
@@ -217,10 +232,17 @@ namespace BookShop.model
             }
             checkBookCopyIsbn(bookExample);
             BookExample currentBookExample = GetBookExample(Id);
-            foreach (var purchase in dataContext.purchaces) 
+            foreach (var purchase in dataContext.events) 
             {
-                if (purchase.BookExample == currentBookExample) {
-                    purchase.BookExample = bookExample;
+                Purchace cast;
+                if (purchase is Purchace)
+                {
+                    cast = (Purchace)purchase;
+
+                    if (cast.BookExample == currentBookExample)
+                    {
+                        cast.BookExample = bookExample;
+                    }
                 }
             }
             dataContext.bookExamples.Remove(currentBookExample);
@@ -238,12 +260,19 @@ namespace BookShop.model
                 throw new Exception("Data already exists");
             }
             Client currentClient = GetClient(id);
-            foreach(var purchase in dataContext.purchaces)
+            foreach(var purchase in dataContext.events)
             {
-                if(purchase.Client==currentClient)
+                Purchace cast;
+                if(purchase is Purchace)
                 {
-                    purchase.Client = client;
+                    cast = (Purchace)purchase;
+
+                    if (cast.Client == currentClient)
+                    {
+                        cast.Client = client;
+                    }
                 }
+                
             }
             dataContext.clients.Remove(currentClient);
             dataContext.clients.Insert(id, client);
@@ -251,7 +280,7 @@ namespace BookShop.model
 
         public void UpdatePurchace(int id, Purchace purchace)
         {
-            if (!(id < dataContext.purchaces.Count))
+            if (!(id < dataContext.events.Count))
             {
                 throw new Exception("No such purchase index");
             }
@@ -259,12 +288,12 @@ namespace BookShop.model
             {
                 throw new Exception("No such BookExample in DataRepository");
             }
-            if (dataContext.purchaces.Contains(purchace))
+            if (dataContext.events.Contains(purchace))
             {
                 throw new Exception("Data already exists");
             }
-            dataContext.purchaces.RemoveAt(id);
-            dataContext.purchaces.Insert(id, purchace);
+            dataContext.events.RemoveAt(id);
+            dataContext.events.Insert(id, purchace);
         }
 
 

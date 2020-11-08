@@ -54,7 +54,7 @@ namespace BookShopTests
             Purchace purchace = new Purchace( client, bookExample, dateTime);
             Assert.AreEqual(bookExample, purchace.BookExample);
             Assert.AreEqual(client, purchace.Client);
-            Assert.AreEqual(dateTime, purchace.DateOfPurchace);
+            Assert.AreEqual(dateTime, purchace.E);
         }
 
         [TestMethod]
@@ -70,7 +70,7 @@ namespace BookShopTests
             int lastFilledBookIndex = dataRepository.GetAllBook().Count()-1;
             int lastFilledBookExampleIndex = dataRepository.GetAllBookExamples().Count() - 1;
             int lastFilledClientIndex = dataRepository.GetAllClient().Count() - 1;
-            int lastFilledPurchaseIndex = dataRepository.GetAllPurchace().Count() - 1;
+            int lastFilledPurchaseIndex = dataRepository.GetAllEvent().Count() - 1;
 
             //Correct Additions check
             dataRepository.AddBook(book);
@@ -151,9 +151,9 @@ namespace BookShopTests
             Assert.AreEqual(exc.Message, "Client has purchaces, can't be deleted");
 
             //Correct Deletions tests
-            Assert.IsTrue(dataRepository.GetAllPurchace().ToList().Contains(purchace));
+            Assert.IsTrue(dataRepository.GetAllEvent().ToList().Contains(purchace));
             dataRepository.DeletePurchace(purchace);
-            Assert.IsFalse(dataRepository.GetAllPurchace().ToList().Contains(purchace));
+            Assert.IsFalse(dataRepository.GetAllEvent().ToList().Contains(purchace));
 
             Assert.IsTrue(dataRepository.GetAllClient().ToList().Contains(client));
             dataRepository.DeleteClient(client);
@@ -183,11 +183,11 @@ namespace BookShopTests
             Purchace purchase2 = new Purchace(client1, bookExample1, DateTime.Now);
 
             //Correct Update tests
-            Assert.IsTrue(dataRepository.GetAllPurchace().ToList().Contains(purchase1));
-            Assert.IsFalse(dataRepository.GetAllPurchace().ToList().Contains(purchase2));
+            Assert.IsTrue(dataRepository.GetAllEvent().ToList().Contains(purchase1));
+            Assert.IsFalse(dataRepository.GetAllEvent().ToList().Contains(purchase2));
             dataRepository.UpdatePurchace(0, purchase2);
-            Assert.IsFalse(dataRepository.GetAllPurchace().ToList().Contains(purchase1));
-            Assert.IsTrue(dataRepository.GetAllPurchace().ToList().Contains(purchase2));
+            Assert.IsFalse(dataRepository.GetAllEvent().ToList().Contains(purchase1));
+            Assert.IsTrue(dataRepository.GetAllEvent().ToList().Contains(purchase2));
 
 
             Assert.IsTrue(dataRepository.GetAllClient().ToList().Contains(client1));
@@ -225,7 +225,7 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(dataRepository.GetAllClient().Count(), client1));
             Assert.AreEqual(exc.Message, "No such client index");
 
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdatePurchace(dataRepository.GetAllPurchace().Count(), purchase1));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdatePurchace(dataRepository.GetAllEvent().Count(), purchase1));
             Assert.AreEqual(exc.Message, "No such purchase index");
 
             // Diffrent index objects Update tests
