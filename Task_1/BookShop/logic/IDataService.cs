@@ -18,7 +18,7 @@ namespace BookShop.logic
         void ModifyClient(Client oldClient,Client newClient);
         void ModifyBook( Book newBook);
         void ModifyBookExample(BookExample oldBookExample,BookExample newBookExample);
-        void ModifyEvent(Purchase oldEvent, Purchase newEvent);
+        void ModifyEvent(Event oldEvent, Event newEvent);
         IEnumerable<Book> GetAllBooks();
         IEnumerable<BookExample> GetAllBookExamples();
         IEnumerable<Client> GetAllClients();
