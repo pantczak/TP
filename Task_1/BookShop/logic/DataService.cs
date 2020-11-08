@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BookShop.logic
 {
-    class DataService : IDataService
+    public class DataService : IDataService
     {
         private IDataRepository dataRepository;
 
