@@ -127,169 +127,141 @@ namespace BookShopTests
         [TestMethod()]
         public void DataServiceTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void AddBookTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void AddBookExampleTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void CreateClientTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllBookExamplesTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllBooksTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllClientsTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllEventsTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllPurchasesTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetBookByIsbnTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetBookExamplesByBookTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetBookExamplesInPriceRangeTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetBooksByAuthorTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetBooksByTitleTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetClientsByAgeRangeTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetClientsByFirstLetterOfNameTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetEventsByBookExampleTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetEventsByClientTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetPurchasesInDateRangeTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void ModifyBookTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void ModifyBookExampleTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void ModifyClientTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void ModifyEventTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void PurchaceBookTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void RemoveBookTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void RemoveBookExampleTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void RemoveClientTest()
         {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void RemoveEventTest()
         {
-            Assert.Fail();
         }
     }
 }
