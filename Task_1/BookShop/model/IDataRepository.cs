@@ -27,7 +27,7 @@ namespace BookShop.model
         //EVENT
         void AddPurchace(Purchace purchace);
         Purchace GetPurchace(int id);
-        IEnumerable<Purchace> GetAllPurchace();
+        IEnumerable<Event> GetAllEvent();
         void UpdatePurchace(int id, Purchace purchace);
         void DeletePurchace(Purchace purchace);
     }

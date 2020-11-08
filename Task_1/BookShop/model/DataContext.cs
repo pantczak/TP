@@ -9,7 +9,7 @@ namespace BookShop.model
     {
         internal List<Client> clients { get; private set; } = new List<Client>();
         internal Dictionary<Guid, Book> books { get; private set; } = new Dictionary<Guid, Book>();
-        internal ObservableCollection<Purchace> purchaces { get; private set; } = new ObservableCollection<Purchace>();
+        internal ObservableCollection<Event> events { get; private set; } = new ObservableCollection<Event>();
         internal ObservableCollection<BookExample> bookExamples { get; private set; } = new ObservableCollection<BookExample>();
     }
 }

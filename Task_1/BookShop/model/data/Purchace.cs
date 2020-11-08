@@ -3,17 +3,15 @@ using System.Collections.Generic;
 
 namespace BookShop.model.data
 {
-    public class Purchace //ZDARZENIE
+    public class Purchace : Event //ZDARZENIE
     {
         public Client Client { get; set; }
         public BookExample BookExample { get;set; }
-        public DateTime DateOfPurchace { get; private set; }
 
-        public Purchace( Client client, BookExample bookExample, DateTime dateOfPurchace)
+        public Purchace( Client client, BookExample bookExample, DateTime dateOfPurchace): base(dateOfPurchace)
         {
             Client = client;
             BookExample = bookExample;
-            DateOfPurchace = dateOfPurchace;
         }
 
         public override bool Equals(object obj)
@@ -25,7 +23,7 @@ namespace BookShop.model.data
             else
             {
                 Purchace other = (Purchace)obj;
-                return (this.BookExample.Equals(other.BookExample)) && (this.DateOfPurchace.Equals(other.DateOfPurchace))
+                return (this.BookExample.Equals(other.BookExample)) && (this.EventTime.Equals(other.EventTime))
                     && (this.Client.Equals(other.Client));
             }
         }
