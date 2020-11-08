@@ -133,7 +133,7 @@ namespace BookShopTests
 
             for (int i = 0; i < purchaceList.Count; i++)
             {
-                if (!purchaceList[i].Equals(dataRepository.GetPurchace(i)))
+                if (!purchaceList[i].Equals(dataRepository.GetEvent(i)))
                 {
                     Assert.Fail();
                 }
