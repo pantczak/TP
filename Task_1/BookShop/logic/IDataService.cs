@@ -28,7 +28,7 @@ namespace BookShop.logic
         IEnumerable<Event> GetEventsByClient(Client client);
         IEnumerable<Event> GetEventsByBookExample(BookExample bookExample);
         IEnumerable<Book> GetBooksByAuthor(string author);
-        IEnumerable<Book> GetBooksByName(string name);
+        IEnumerable<Book> GetBooksByTitle(string title);
         Book GetBookByIsbn(Guid isbn);
         IEnumerable<BookExample> GetBookExamplesByBook(Book book);
         IEnumerable<BookExample> GetBookExamplesInPriceRange(double priceMin, double priceMax);

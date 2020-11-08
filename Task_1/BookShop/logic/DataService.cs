@@ -32,57 +32,112 @@ namespace BookShop.logic
 
         public IEnumerable<BookExample> GetAllBookExamples()
         {
-            throw new NotImplementedException();
+            return dataRepository.GetAllBookExamples();
         }
 
         public IEnumerable<Book> GetAllBooks()
         {
-            throw new NotImplementedException();
+            return dataRepository.GetAllBook();
         }
 
         public IEnumerable<Client> GetAllClients()
         {
-            throw new NotImplementedException();
+            return dataRepository.GetAllClient();
         }
 
         public IEnumerable<Event> GetAllEvents()
         {
-            throw new NotImplementedException();
+            return dataRepository.GetAllEvent();
         }
 
         public IEnumerable<Purchase> GetAllPurchases()
         {
-            throw new NotImplementedException();
+            IEnumerable<Event> eventList= dataRepository.GetAllEvent();
+            List<Purchase> purchaseList = new List<Purchase>();
+            foreach (Event evnt in eventList)
+            {
+                if(evnt is Purchase)
+                {
+                    purchaseList.Add((Purchase)evnt);
+                }
+            }
+            return purchaseList;
         }
 
         public Book GetBookByIsbn(Guid isbn)
         {
-            throw new NotImplementedException();
+            return dataRepository.GetBook(isbn);
+
         }
 
         public IEnumerable<BookExample> GetBookExamplesByBook(Book book)
         {
-            throw new NotImplementedException();
+            IEnumerable<BookExample> bookExamples = dataRepository.GetAllBookExamples();
+            List<BookExample> foundBookExamples = new List<BookExample>();
+            foreach (BookExample bookExample in bookExamples)
+            {
+                if (bookExample.Book == book)
+                {
+                    foundBookExamples.Add(bookExample);
+                }
+            }
+            return foundBookExamples;
         }
 
         public IEnumerable<BookExample> GetBookExamplesInPriceRange(double priceMin, double priceMax)
         {
-            throw new NotImplementedException();
+            IEnumerable<BookExample> bookExamples = dataRepository.GetAllBookExamples();
+            List<BookExample> foundBookExamples = new List<BookExample>();
+            foreach (BookExample bookExample in bookExamples)
+            {
+                if (bookExample.Price >=priceMax && bookExample.Price <= priceMax)
+                {
+                    foundBookExamples.Add(bookExample);
+                }
+            }
+            return foundBookExamples;
         }
 
         public IEnumerable<Book> GetBooksByAuthor(string author)
         {
-            throw new NotImplementedException();
+            IEnumerable<Book> books = dataRepository.GetAllBook();
+            List<Book> foundBooks= new List<Book>();
+            foreach (Book book in books)
+            {
+                if (book.Author == author)
+                {
+                    foundBooks.Add(book);
+                }
+            }
+            return foundBooks;
         }
 
-        public IEnumerable<Book> GetBooksByName(string name)
+        public IEnumerable<Book> GetBooksByTitle(string title)
         {
-            throw new NotImplementedException();
+            IEnumerable<Book> books = dataRepository.GetAllBook();
+            List<Book> foundBooks = new List<Book>();
+            foreach (Book book in books)
+            {
+                if (book.Title == title)
+                {
+                    foundBooks.Add(book);
+                }
+            }
+            return foundBooks;
         }
 
         public IEnumerable<Client> GetClientsByFirstLetterOfName(char letter)
         {
-            throw new NotImplementedException();
+            IEnumerable<Client> clients = dataRepository.GetAllClient();
+            List<Client> foundClients = new List<Client>();
+            foreach (Client client in clients)
+            {
+                if (client.LastName[0]==letter)
+                {
+                    foundClients.Add(client);
+                }
+            }
+            return foundClients;
         }
 
         public IEnumerable<Client> GetClientsByPesel(string pesel)
