@@ -67,11 +67,11 @@ namespace BookShop.model
 
         public void DeleteBook(Book book)
         {
-            foreach (var purchace in dataContext.events)
+            foreach (var evnt in dataContext.events)
             {
-                if (purchace is Purchace purchace1)
+                if (evnt is Purchace purchace)
                 {
-                    if (purchace1.BookExample.Book == book)
+                    if (purchace.BookExample.Book == book)
                     {
                         throw new Exception("Book has examples in use, can't be deleted");
                     }
@@ -89,13 +89,11 @@ namespace BookShop.model
 
         public void DeleteBookExample(BookExample bookExample)
         {
-            foreach (var purchace in dataContext.events)
+            foreach (var evnt in dataContext.events)
             {
-                Purchace cast;
-                if (purchace is Purchace)
+                if (evnt is Purchace purchace)
                 {
-                    cast = (Purchace)purchace;
-                    if (cast.BookExample == bookExample)
+                    if (purchace.BookExample == bookExample)
                     {
                         throw new Exception("Book example is in use, can't be deleted");
                     }
@@ -111,13 +109,11 @@ namespace BookShop.model
 
         public void DeleteClient(Client client)
         {
-            foreach (var purchace in dataContext.events)
+            foreach (var evnt in dataContext.events)
             {
-                Purchace cast;
-                if (purchace is Purchace)
+                if (evnt is Purchace purchace)
                 {
-                    cast = (Purchace)purchace;
-                    if (cast.Client == client)
+                    if (purchace.Client == client)
                     {
                         throw new Exception("Client has purchaces, can't be deleted");
                     }
@@ -232,16 +228,13 @@ namespace BookShop.model
             }
             checkBookCopyIsbn(bookExample);
             BookExample currentBookExample = GetBookExample(Id);
-            foreach (var purchase in dataContext.events) 
+            foreach (var evnt in dataContext.events) 
             {
-                Purchace cast;
-                if (purchase is Purchace)
+                if (evnt is Purchace purchace)
                 {
-                    cast = (Purchace)purchase;
-
-                    if (cast.BookExample == currentBookExample)
+                    if (purchace.BookExample == currentBookExample)
                     {
-                        cast.BookExample = bookExample;
+                        purchace.BookExample = bookExample;
                     }
                 }
             }
@@ -260,16 +253,13 @@ namespace BookShop.model
                 throw new Exception("Data already exists");
             }
             Client currentClient = GetClient(id);
-            foreach(var purchase in dataContext.events)
+            foreach(var evnt in dataContext.events)
             {
-                Purchace cast;
-                if(purchase is Purchace)
+                if(evnt is Purchace purchace)
                 {
-                    cast = (Purchace)purchase;
-
-                    if (cast.Client == currentClient)
+                    if (purchace.Client == currentClient)
                     {
-                        cast.Client = client;
+                        purchace.Client = client;
                     }
                 }
                 
