@@ -37,8 +37,8 @@ namespace BookShopTests
             DataRepository dataRepository = new DataRepository(new ConstFiller());
             List<Client> clientList = new List<Client>()
             {
-                new Client("Adam", "Kowalski", "99340540232"),
-                new Client("Jan", "Nowak", "02958382493")
+                new Client("Adam", "Kowalski", 39),
+                new Client("Jan", "Nowak",34)
             };
             
 
@@ -97,8 +97,8 @@ namespace BookShopTests
 
             List<Client> clientList = new List<Client>()
             {
-                new Client("Adam", "Kowalski", "99340540232"),
-                new Client("Jan", "Nowak", "02958382493")
+                new Client("Adam", "Kowalski", 39),
+                new Client("Jan", "Nowak", 34)
             };
 
             List<Book> booksList = new List<Book>()

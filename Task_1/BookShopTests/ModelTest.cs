@@ -23,8 +23,8 @@ namespace BookShopTests
         [TestMethod]
         public void ClientTest()
         {
-            Client client = new Client("Adam","Tomczak","98051234565");
-            Assert.AreEqual("98051234565", client.Pesel);
+            Client client = new Client("Adam","Tomczak",39);
+            Assert.AreEqual(39, client.Age);
             Assert.AreEqual("Adam", client.FirstName);
             Assert.AreEqual("Tomczak", client.LastName);
         }
@@ -50,7 +50,7 @@ namespace BookShopTests
             DateTime dateTime = DateTime.Now;
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
             BookExample bookExample = new BookExample(book, 23,69.99);
-            Client client = new Client("Adam", "Tomczak", "98051234565");
+            Client client = new Client("Adam", "Tomczak", 39);
             Purchase purchace = new Purchase( client, bookExample, dateTime);
             Assert.AreEqual(bookExample, purchace.BookExample);
             Assert.AreEqual(client, purchace.Client);
@@ -63,7 +63,7 @@ namespace BookShopTests
             Guid guid = Guid.NewGuid();
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
             BookExample bookExample = new BookExample(book, 23, 69.99);
-            Client client = new Client("Adam", "Tomczak", "98051234565");
+            Client client = new Client("Adam", "Tomczak", 39);
             Purchase purchace = new Purchase(client, bookExample, DateTime.Now);
 
             DataRepository dataRepository = new DataRepository(new ConstFiller());
@@ -106,7 +106,7 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(new Purchase(client,newBookExample,DateTime.Now)));
             Assert.AreEqual(exc.Message, "No such BookExample in DataRepository");
 
-            Client newClient = new Client("Jan", "Kowalski", "11234567890");
+            Client newClient = new Client("Jan", "Kowalski", 39);
             exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(new Purchase(newClient, bookExample, DateTime.Now)));
             Assert.AreEqual(exc.Message, "No such Client in DataRepository");
         }
@@ -117,12 +117,12 @@ namespace BookShopTests
             Guid guid = Guid.NewGuid();
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
             BookExample bookExample = new BookExample(book, 23, 69.99);
-            Client client = new Client("Adam", "Tomczak", "98051234565");
+            Client client = new Client("Adam", "Tomczak", 39);
             Purchase purchace = new Purchase(client, bookExample, DateTime.Now);
             DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(book, 10, 49.9);
-            Client newClient = new Client("Jan", "Kowalski", "11234567890");
+            Client newClient = new Client("Jan", "Kowalski", 39);
             dataRepository.AddBook(book);
             dataRepository.AddBookExample(bookExample);
             dataRepository.AddClient(client);
@@ -178,7 +178,7 @@ namespace BookShopTests
             BookExample bookExample1 = dataRepository.GetBookExample(0);
             BookExample bookExample2 = new BookExample(book1, 10, 73.5);
             Client client1 = dataRepository.GetClient(0);
-            Client client2 = new Client("John", "Watson", "94707384534");
+            Client client2 = new Client("John", "Watson", 39);
             Purchase purchase1 = (Purchase)dataRepository.GetEvent(0);
             Purchase purchase2 = new Purchase(client1, bookExample1, DateTime.Now);
 
