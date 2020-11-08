@@ -25,10 +25,10 @@ namespace BookShop.model
         void UpdateBookExample(int Id,BookExample bookExample);
         void DeleteBookExample(BookExample bookExample);
         //EVENT
-        void AddPurchace(Purchace purchace);
-        Purchace GetPurchace(int id);
+        void AddEvent(Event evnt);
+        Event GetEvent(int id);
         IEnumerable<Event> GetAllEvent();
-        void UpdatePurchace(int id, Purchace purchace);
-        void DeletePurchace(Purchace purchace);
+        void UpdateEvent(int id, Event evnt);
+        void DeleteEvent(Event @event);
     }
 }

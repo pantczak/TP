@@ -32,7 +32,7 @@ namespace BookShop.logic
 
         public void PurchaceBook(Client client, BookExample bookExample)
         {
-            dataRepository.AddPurchace(new Purchace(client, bookExample,DateTime.Now));
+            dataRepository.AddEvent(new Purchace(client, bookExample,DateTime.Now));
         }
 
     }

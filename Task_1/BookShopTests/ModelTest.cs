@@ -82,8 +82,8 @@ namespace BookShopTests
             dataRepository.AddClient(client);
             Assert.AreEqual(client, dataRepository.GetClient(lastFilledClientIndex+1));
 
-            dataRepository.AddPurchace(purchace);
-            Assert.AreEqual(purchace, dataRepository.GetPurchace(lastFilledPurchaseIndex+1));
+            dataRepository.AddEvent(purchace);
+            Assert.AreEqual(purchace, dataRepository.GetEvent(lastFilledPurchaseIndex+1));
 
             //Already Existing Data Additions check
             var exc= Assert.ThrowsException<Exception>(() => dataRepository.AddBook(book));
@@ -95,7 +95,7 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.AddClient(client));
             Assert.AreEqual(exc.Message, "Data already exists");
 
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(purchace));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(purchace));
             Assert.AreEqual(exc.Message, "Data already exists");
             //Data with incorrect data references Additions check
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
@@ -103,11 +103,11 @@ namespace BookShopTests
             Assert.AreEqual(exc.Message, "Wrong book example Isbn reference");
 
             BookExample newBookExample = new BookExample(book, 10, 49.9);
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(new Purchace(client,newBookExample,DateTime.Now)));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(new Purchace(client,newBookExample,DateTime.Now)));
             Assert.AreEqual(exc.Message, "No such BookExample in DataRepository");
 
             Client newClient = new Client("Jan", "Kowalski", "11234567890");
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddPurchace(new Purchace(newClient, bookExample, DateTime.Now)));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.AddEvent(new Purchace(newClient, bookExample, DateTime.Now)));
             Assert.AreEqual(exc.Message, "No such Client in DataRepository");
         }
 
@@ -126,7 +126,7 @@ namespace BookShopTests
             dataRepository.AddBook(book);
             dataRepository.AddBookExample(bookExample);
             dataRepository.AddClient(client);
-            dataRepository.AddPurchace(purchace);
+            dataRepository.AddEvent(purchace);
 
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(newBook));
             Assert.AreEqual(exc.Message, "No such book");
@@ -137,8 +137,8 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(newClient));
             Assert.AreEqual(exc.Message, "No such client");
             Purchace newPurchase = new Purchace(newClient, newBookExample, DateTime.Now);
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeletePurchace(newPurchase));
-            Assert.AreEqual(exc.Message, "No such purchace");
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteEvent(newPurchase));
+            Assert.AreEqual(exc.Message, "No such event");
 
             //Referenced objects Deletions tests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(book));
@@ -152,7 +152,7 @@ namespace BookShopTests
 
             //Correct Deletions tests
             Assert.IsTrue(dataRepository.GetAllEvent().ToList().Contains(purchace));
-            dataRepository.DeletePurchace(purchace);
+            dataRepository.DeleteEvent(purchace);
             Assert.IsFalse(dataRepository.GetAllEvent().ToList().Contains(purchace));
 
             Assert.IsTrue(dataRepository.GetAllClient().ToList().Contains(client));
@@ -179,13 +179,13 @@ namespace BookShopTests
             BookExample bookExample2 = new BookExample(book1, 10, 73.5);
             Client client1 = dataRepository.GetClient(0);
             Client client2 = new Client("John", "Watson", "94707384534");
-            Purchace purchase1 = dataRepository.GetPurchace(0);
+            Purchace purchase1 = (Purchace)dataRepository.GetEvent(0);
             Purchace purchase2 = new Purchace(client1, bookExample1, DateTime.Now);
 
             //Correct Update tests
             Assert.IsTrue(dataRepository.GetAllEvent().ToList().Contains(purchase1));
             Assert.IsFalse(dataRepository.GetAllEvent().ToList().Contains(purchase2));
-            dataRepository.UpdatePurchace(0, purchase2);
+            dataRepository.UpdateEvent(0, purchase2);
             Assert.IsFalse(dataRepository.GetAllEvent().ToList().Contains(purchase1));
             Assert.IsTrue(dataRepository.GetAllEvent().ToList().Contains(purchase2));
 
@@ -225,7 +225,7 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(dataRepository.GetAllClient().Count(), client1));
             Assert.AreEqual(exc.Message, "No such client index");
 
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdatePurchace(dataRepository.GetAllEvent().Count(), purchase1));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateEvent(dataRepository.GetAllEvent().Count(), purchase1));
             Assert.AreEqual(exc.Message, "No such purchase index");
 
             // Diffrent index objects Update tests
@@ -239,7 +239,7 @@ namespace BookShopTests
             exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(0, client2));
             Assert.AreEqual(exc.Message, "Data already exists");
 
-            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdatePurchace(0, purchase2));
+            exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateEvent(0, purchase2));
             Assert.AreEqual(exc.Message, "Data already exists");
         }
 

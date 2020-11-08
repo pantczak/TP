@@ -44,25 +44,25 @@ namespace BookShop.model
             dataContext.clients.Add(client);
         }
 
-        public void AddPurchace(Purchace purchace)
+        public void AddEvent(Event evnt)
         {
-            if (dataContext.events.Contains(purchace))
+            if (dataContext.events.Contains(evnt))
             {
                 throw new Exception("Data already exists");
             }
-            if (!dataContext.bookExamples.Contains(purchace.BookExample) )
+            if (evnt is Purchace purchace)
             {
-                throw new Exception("No such BookExample in DataRepository");
-            }
-            if(!dataContext.clients.Contains(purchace.Client))
+                if (!dataContext.bookExamples.Contains(purchace.BookExample))
                 {
-                throw new Exception("No such Client in DataRepository");
+                    throw new Exception("No such BookExample in DataRepository");
+                }
+                if (!dataContext.clients.Contains(purchace.Client))
+                {
+                    throw new Exception("No such Client in DataRepository");
+                }
             }
-            else
-            {
-                
-                dataContext.events.Add(purchace);
-            }
+            dataContext.events.Add(evnt);
+            
         }
 
         public void DeleteBook(Book book)
@@ -132,13 +132,13 @@ namespace BookShop.model
             }
         }
 
-        public void DeletePurchace(Purchace purchace)
+        public void DeleteEvent(Event evnt)
         {
-            var result = dataContext.events.Remove(purchace);
+            var result = dataContext.events.Remove(evnt);
 
             if (!result)
             {
-                throw new Exception("No such purchace");
+                throw new Exception("No such event");
             }
         }
 
@@ -189,13 +189,13 @@ namespace BookShop.model
             throw new Exception("No such client");
         }
 
-        public Purchace GetPurchace(int id)
+        public Event GetEvent(int id)
         {
             if(dataContext.events.Count>id)
             {
-                return (Purchace)dataContext.events[id];
+                return dataContext.events[id];
             }
-            throw new Exception("No such purchase");
+            throw new Exception("No such event");
         }
 
         public void UpdateBook(Book book)
@@ -278,22 +278,25 @@ namespace BookShop.model
             dataContext.clients.Insert(id, client);
         }
 
-        public void UpdatePurchace(int id, Purchace purchace)
+        public void UpdateEvent(int id, Event evnt)
         {
             if (!(id < dataContext.events.Count))
             {
                 throw new Exception("No such purchase index");
             }
-            if (!dataContext.bookExamples.Contains(purchace.BookExample))
+            if (evnt is Purchace purchace)
             {
-                throw new Exception("No such BookExample in DataRepository");
-            }
-            if (dataContext.events.Contains(purchace))
-            {
-                throw new Exception("Data already exists");
+                if (!dataContext.bookExamples.Contains(purchace.BookExample))
+                {
+                    throw new Exception("No such BookExample in DataRepository");
+                }
+                if (dataContext.events.Contains(purchace))
+                {
+                    throw new Exception("Data already exists");
+                }
             }
             dataContext.events.RemoveAt(id);
-            dataContext.events.Insert(id, purchace);
+            dataContext.events.Insert(id, evnt);
         }
 
 
