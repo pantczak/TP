@@ -66,7 +66,7 @@ namespace BookShopTests
             Client client = new Client("Adam", "Tomczak", "98051234565");
             Purchace purchace = new Purchace(client, bookExample, DateTime.Now);
 
-            DataRepository dataRepository = new DataRepository(new ConstDataFiller());
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             int lastFilledBookIndex = dataRepository.GetAllBook().Count()-1;
             int lastFilledBookExampleIndex = dataRepository.GetAllBookExamples().Count() - 1;
             int lastFilledClientIndex = dataRepository.GetAllClient().Count() - 1;
@@ -119,7 +119,7 @@ namespace BookShopTests
             BookExample bookExample = new BookExample(book, 23, 69.99);
             Client client = new Client("Adam", "Tomczak", "98051234565");
             Purchace purchace = new Purchace(client, bookExample, DateTime.Now);
-            DataRepository dataRepository = new DataRepository(new ConstDataFiller());
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(book, 10, 49.9);
             Client newClient = new Client("Jan", "Kowalski", "11234567890");
@@ -172,7 +172,7 @@ namespace BookShopTests
         public void DataRepositoryUpdateTest()
         {
             
-            DataRepository dataRepository = new DataRepository(new ConstDataFiller());
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book book1 = dataRepository.GetAllBook().ToList()[0];
             Book book2 = new Book("Igrzyska Smierci", "Suzanne Collins", book1.Isbn);
             BookExample bookExample1 = dataRepository.GetBookExample(0);

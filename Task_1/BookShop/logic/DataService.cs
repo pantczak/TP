@@ -30,45 +30,6 @@ namespace BookShop.logic
             dataRepository.AddClient(new Client(firstName, lastName, pesel));
         }
 
-        public IEnumerable<Client> GetAllClientsByName(string name = null)
-        {
-            if (string.IsNullOrEmpty(name)){
-                return dataRepository.GetAllClient();
-            }
-            return dataRepository.GetAllClient().Where(client =>
-            (client.FirstName + " " + client.LastName).Contains(name));
-        }
-
-        public IEnumerable<BookExample> GetBookExamples(Guid isbn)
-        {
-            return dataRepository.GetAllBookExamples().Where(bookExample => bookExample.Book.Isbn == isbn);
-        }
-
-        public Dictionary<Book, int> GetBooks()
-        {
-            throw new NotImplementedException(); //BOOKCOUNT ???
-        }
-
-        public IEnumerable<Purchace> GetClientPurchaces(Client client)
-        {
-            return dataRepository.GetAllPurchace().Where(purchace => purchace.Client.Equals(client));
-        }
-
-        public IEnumerable<Purchace> GetPurchacesFromDate(DateTime? start = null, DateTime? end = null)
-        {
-            var result = dataRepository.GetAllPurchace();
-            if (start.HasValue)
-            {
-                result = result.Where(purchace => purchace.DateOfPurchace >= start);
-            }
-
-            if (end.HasValue)
-            {
-                result = result.Where(purchace => purchace.DateOfPurchace <= end);
-            }
-            return result;
-        }
-
         public void PurchaceBook(Client client, BookExample bookExample)
         {
             dataRepository.AddPurchace(new Purchace(client, bookExample,DateTime.Now));
