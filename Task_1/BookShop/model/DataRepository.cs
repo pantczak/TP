@@ -261,7 +261,7 @@ namespace BookShop.model
         {
             if (!(id < dataContext.events.Count))
             {
-                throw new Exception("No such purchase index");
+                throw new Exception("No such event index");
             }
             if (!dataContext.bookExamples.Contains(evnt.BookExample))
             {
