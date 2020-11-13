@@ -313,11 +313,30 @@ namespace BookShopTests
         [TestMethod()]
         public void GetEventsByBookExampleTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            Book book = new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            Book book1 = new Book("Pan Tadeusz1", "Adam M", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            BookExample bookExample = new BookExample(book, 23, 60);
+            dataService.PurchaceBook(new Client("Adam", "Malysz", 66), bookExample);
+            dataService.PurchaceBook(new Client("Adam", "Malysz", 66), new BookExample(book1, 23, 60));
+            dataService.PurchaceBook(new Client("Pan", "Malysz", 66), bookExample);
+            Assert.AreEqual(2, new List<Event>(dataService.GetEventsByBookExample(bookExample)).Count);
         }
 
         [TestMethod()]
         public void GetEventsByClientTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            Book book = new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            Book book1 = new Book("Pan Tadeusz1", "Adam M", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            BookExample bookExample = new BookExample(book, 23, 60);
+            Client client = new Client("Adam", "Malysz", 66);
+            dataService.PurchaceBook(client, bookExample);
+            dataService.PurchaceBook(client, new BookExample(book1, 23, 60));
+            dataService.PurchaceBook(new Client("Pan", "Malysz", 66), bookExample);
+            Assert.AreEqual(2, new List<Event>(dataService.GetEventsByClient(client)).Count);
         }
 
         [TestMethod()]
