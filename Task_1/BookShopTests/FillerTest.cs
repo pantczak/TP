@@ -4,6 +4,7 @@ using BookShop.model.filler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BookShopTests
 {
@@ -85,6 +86,36 @@ namespace BookShopTests
                     Assert.Fail();
                 }
             }
+        }
+
+        [TestMethod]
+        public void FillFromFileTest()
+        {
+            string text = "Client;Jan;Kowalski;22\n" +
+                          "Book;W pustyni i w puszczy;Henryk Sienkiewicz;820EF5E7-641D-4D4C-8785-36B538AF4226\n" +
+                          "BookExample;0;33;40\n" +
+                          "Purchase;0;0;5/10/2020 21:11:00";
+            File.WriteAllText("testfile.txt", text);
+            DataContext dataContext = new DataContext();
+            IDataRepository dataRepository = new DataRepository(new FillFromFile("testfile.txt"));
+
+            Assert.AreEqual("Jan", dataRepository.GetClient(0).FirstName);
+            Assert.AreEqual("Kowalski", dataRepository.GetClient(0).LastName);
+            Assert.AreEqual(22, dataRepository.GetClient(0).Age);
+
+            Assert.AreEqual("W pustyni i w puszczy", dataRepository.GetBook(Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")).Title);
+            Assert.AreEqual("Henryk Sienkiewicz", dataRepository.GetBook(Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")).Author);
+            Assert.AreEqual(Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226"), dataRepository.GetBook(Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")).Isbn);
+
+            Assert.AreEqual(dataRepository.GetBook(Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")), dataRepository.GetBookExample(0).Book);
+            Assert.AreEqual(33, dataRepository.GetBookExample(0).Tax);
+            Assert.AreEqual(40.0, dataRepository.GetBookExample(0).BasePrice);
+
+            Assert.AreEqual(dataRepository.GetBookExample(0), dataRepository.GetEvent(0).BookExample);
+            Assert.AreEqual(dataRepository.GetClient(0), dataRepository.GetEvent(0).Client);
+            Assert.AreEqual(DateTime.Parse("5/10/2020 21:11:00"), dataRepository.GetEvent(0).EventTime);
+
+
         }
     }
 }
