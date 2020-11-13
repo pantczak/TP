@@ -94,9 +94,9 @@ namespace BookShopTests
             string text = "Client;Jan;Kowalski;22\n" +
                           "Book;W pustyni i w puszczy;Henryk Sienkiewicz;820EF5E7-641D-4D4C-8785-36B538AF4226\n" +
                           "BookExample;0;33;40\n" +
-                          "Purchase;0;0;5/10/2020 21:11:00";
+                          "Purchase;0;0;5/10/2020 21:11:00\n" +
+                          "Return;0;0;5/10/2020 21:11:00;7/11/2020 23:11:00";
             File.WriteAllText("testfile.txt", text);
-            DataContext dataContext = new DataContext();
             IDataRepository dataRepository = new DataRepository(new FillFromFile("testfile.txt"));
 
             Assert.AreEqual("Jan", dataRepository.GetClient(0).FirstName);
@@ -114,6 +114,13 @@ namespace BookShopTests
             Assert.AreEqual(dataRepository.GetBookExample(0), dataRepository.GetEvent(0).BookExample);
             Assert.AreEqual(dataRepository.GetClient(0), dataRepository.GetEvent(0).Client);
             Assert.AreEqual(DateTime.Parse("5/10/2020 21:11:00"), dataRepository.GetEvent(0).EventTime);
+
+            Assert.AreEqual(dataRepository.GetBookExample(0), dataRepository.GetEvent(1).BookExample);
+            Assert.AreEqual(dataRepository.GetClient(0), dataRepository.GetEvent(1).Client);
+            Assert.AreEqual(DateTime.Parse("5/10/2020 21:11:00"), dataRepository.GetEvent(1).EventTime);
+            Return retrn =(Return) dataRepository.GetEvent(1);
+            Assert.AreEqual(DateTime.Parse("7/11/2020 23:11:00"), retrn.ReturnDate);
+
 
 
         }

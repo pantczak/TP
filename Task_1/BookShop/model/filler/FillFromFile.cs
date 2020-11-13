@@ -21,25 +21,33 @@ namespace BookShop.model.filler
             foreach(var line in lines)
             {
                 string[] values = line.Split(';');
-                if (values.Length != 4)
-                {
-                    throw new Exception("Wrong file content");
-                }
-                switch(values[0])
-                {
-                    case "Client":
-                        clients.Add(new Client(values[1], values[2], int.Parse(values[3])));
-                        break;
-                    case "Book":
-                        books.Add(new Book(values[1], values[2], Guid.Parse(values[3])));
-                        break;
-                    case "BookExample":
-                        bookExamples.Add(new BookExample(books[int.Parse(values[1])], int.Parse(values[2]), Double.Parse(values[3])));
-                        break;
-                    case "Purchase":
-                        events.Add(new Purchase(clients[int.Parse(values[1])], bookExamples[int.Parse(values[2])], DateTime.Parse(values[3])));
-                        break;
 
+                try
+                {
+                    switch (values[0])
+                    {
+                        case "Client":
+                            clients.Add(new Client(values[1], values[2], int.Parse(values[3])));
+                            break;
+                        case "Book":
+                            books.Add(new Book(values[1], values[2], Guid.Parse(values[3])));
+                            break;
+                        case "BookExample":
+                            bookExamples.Add(new BookExample(books[int.Parse(values[1])], int.Parse(values[2]), Double.Parse(values[3])));
+                            break;
+                        case "Purchase":
+                            events.Add(new Purchase(clients[int.Parse(values[1])], bookExamples[int.Parse(values[2])], DateTime.Parse(values[3])));
+                            break;
+                        case "Return":
+                            events.Add(new Return(DateTime.Parse(values[4]), clients[int.Parse(values[1])], bookExamples[int.Parse(values[2])], DateTime.Parse(values[3])));
+                            break;
+
+                    }
+                }
+                catch (IndexOutOfRangeException)
+                {
+
+                    throw new Exception("Wrong file content");
                 }
             }
 
