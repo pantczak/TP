@@ -7,7 +7,7 @@ namespace BookShop.model.data
         public Book Book { get;set; }
         public int Tax { get; set; }
         public double BasePrice { get; set; }
-        public double Price => BasePrice * Tax / 100.0;
+        public double Price => (100+Tax) * BasePrice/100;
 
         public BookExample( Book book, int tax, double price)
         {

@@ -11,6 +11,7 @@ namespace BookShop.logic
         void AddBook(string title, string author, Guid isbn);
         void AddBookExample(Book book, int tax, double basePrice);
         void PurchaceBook(Client client, BookExample bookExample);
+        void ReturnBook(Client client, BookExample bookExample, Event evnt);
         void RemoveClient(Client client);
         void RemoveBook(Book book);
         void RemoveBookExample(BookExample bookExample);

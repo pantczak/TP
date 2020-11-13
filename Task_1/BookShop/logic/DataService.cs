@@ -90,7 +90,7 @@ namespace BookShop.logic
             List<BookExample> foundBookExamples = new List<BookExample>();
             foreach (BookExample bookExample in bookExamples)
             {
-                if (bookExample.Price >=priceMax && bookExample.Price <= priceMax)
+                if (bookExample.Price >= priceMin && bookExample.Price <= priceMax)
                 {
                     foundBookExamples.Add(bookExample);
                 }
@@ -268,6 +268,11 @@ namespace BookShop.logic
         public void RemoveEvent(Event evnt)
         {
             dataRepository.DeleteEvent(evnt);
+        }
+
+        public void ReturnBook(Client client, BookExample bookExample, Event evnt)
+        {
+            dataRepository.AddEvent(new Return(DateTime.Now, client, bookExample, evnt.EventTime));
         }
     }
 }

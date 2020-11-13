@@ -11,13 +11,12 @@ namespace BookShopTests
     [TestClass]
     public class LogicTest
     {
-
         class TestRepository : IDataRepository
         {
-            internal List<Client> clients { get; private set; } = new List<Client>();
-            internal Dictionary<Guid, Book> books { get; private set; } = new Dictionary<Guid, Book>();
-            internal ObservableCollection<Event> events { get; private set; } = new ObservableCollection<Event>();
-            internal ObservableCollection<BookExample> bookExamples { get; private set; } = new ObservableCollection<BookExample>();
+            public List<Client> clients = new List<Client>();
+            public Dictionary<Guid, Book> books = new Dictionary<Guid, Book>();
+            public ObservableCollection<Event> events = new ObservableCollection<Event>();
+            public ObservableCollection<BookExample> bookExamples = new ObservableCollection<BookExample>();
 
             public void AddBook(Book book)
             {
@@ -123,85 +122,192 @@ namespace BookShopTests
                 events.Remove(GetEvent(id));
                 events.Insert(id, evnt);
             }
-        }
-        [TestMethod()]
-        public void DataServiceTest()
-        {
+
         }
 
         [TestMethod()]
         public void AddBookTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            dataService.AddBook("Pan Tadeusz", "Adam M", Guid.NewGuid());
+            Assert.AreEqual(1, testRepository.books.Count);
         }
 
         [TestMethod()]
         public void AddBookExampleTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            Book book = new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBookExample(book, 23, 60);
+            Assert.AreEqual(1, testRepository.bookExamples.Count);
         }
 
         [TestMethod()]
         public void CreateClientTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            dataService.CreateClient("Adam", "Malysz", 66);
+            Assert.AreEqual(1, testRepository.clients.Count);
         }
 
         [TestMethod()]
         public void GetAllBookExamplesTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            Book book = new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            List<BookExample> books = new List<BookExample>
+            {
+                new BookExample(book, 23, 60),
+                new BookExample(book, 22, 60)
+            };
+            dataService.AddBookExample(book, 23, 60);
+            dataService.AddBookExample(book, 22, 60);
+            CollectionAssert.AreEqual(books, (System.Collections.ICollection)dataService.GetAllBookExamples());
         }
 
         [TestMethod()]
         public void GetAllBooksTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            List<Book> books = new List<Book>
+            {
+                new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143")),
+                new Book("Pan Tadeusz1", "Adam M", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"))
+            };
+            dataService.AddBook("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBook("Pan Tadeusz1", "Adam M", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            CollectionAssert.AreEqual(books, (System.Collections.ICollection)dataService.GetAllBooks());
         }
+
 
         [TestMethod()]
         public void GetAllClientsTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            List<Client> clients = new List<Client>
+            {
+                new Client("Adam", "Malysz", 66),
+                new Client("Robert", "Malysz", 66),
+            };
+            dataService.CreateClient("Adam", "Malysz", 66);
+            dataService.CreateClient("Robert", "Malysz", 66);
+            CollectionAssert.AreEqual(clients, (System.Collections.ICollection)dataService.GetAllClients());
         }
 
         [TestMethod()]
         public void GetAllEventsTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            Book book = new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            List<Event> events = new List<Event>
+            {
+                new Purchase( new Client("Adam", "Malysz", 66), new BookExample(book, 23, 60),DateTime.Now)
+            };
+            dataService.PurchaceBook(new Client("Adam", "Malysz", 66), new BookExample(book, 23, 60));
+            Assert.AreEqual(events.Count, new List<Event>(dataService.GetAllEvents()).Count);
         }
 
         [TestMethod()]
         public void GetAllPurchasesTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            Book book = new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.PurchaceBook(new Client("Adam", "Malysz", 66), new BookExample(book, 23, 60));
+            dataService.ReturnBook(new Client("Adam", "Malysz", 66), new BookExample(book, 23, 60), new Purchase(new Client("Adam", "Malysz", 66), new BookExample(book, 23, 60), DateTime.Now));
+            Assert.AreEqual(1, new List<Event>(dataService.GetAllPurchases()).Count);
         }
 
         [TestMethod()]
         public void GetBookByIsbnTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            List<Book> books = new List<Book>
+            {
+                new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143")),
+                new Book("Pan Tadeusz1", "Adam M", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"))
+            };
+            dataService.AddBook("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBook("Pan Tadeusz1", "Adam M", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            Assert.AreEqual(books[0], dataService.GetBookByIsbn(Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143")));
         }
 
         [TestMethod()]
         public void GetBookExamplesByBookTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            Book book = new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            Book book1 = new Book("Pan Tadeusz1", "Adam M", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBookExample(book, 23, 60);
+            dataService.AddBookExample(book, 22, 60);
+            dataService.AddBookExample(book1, 22, 60);
+            Assert.AreEqual(2, new List<BookExample>(dataService.GetBookExamplesByBook(book)).Count);
         }
 
         [TestMethod()]
         public void GetBookExamplesInPriceRangeTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            Book book = new Book("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            Book book1 = new Book("Pan Tadeusz1", "Adam M", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBookExample(book, 10, 100);
+            dataService.AddBookExample(book, 10, 200);
+            dataService.AddBookExample(book1, 10, 300);
+            Assert.AreEqual(2, new List<BookExample>(dataService.GetBookExamplesInPriceRange(110,300)).Count);
         }
 
         [TestMethod()]
         public void GetBooksByAuthorTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            dataService.AddBook("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBook("Pan Tadeusz1", "Adam K", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBook("Pan Tadeusz1", "Adam M", Guid.Parse("51D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            Assert.AreEqual(2, new List<Book>(dataService.GetBooksByAuthor("Adam M")).Count);
         }
 
         [TestMethod()]
         public void GetBooksByTitleTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            dataService.AddBook("Pan Tadeusz", "Adam M", Guid.Parse("53D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBook("Pan Tadeusz1", "Adam K", Guid.Parse("52D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            dataService.AddBook("Pan Tadeusz1", "Adam M", Guid.Parse("51D2DA0E-22C1-4A0E-BF60-96859EB5A143"));
+            Assert.AreEqual(2, new List<Book>(dataService.GetBooksByTitle("Pan Tadeusz1")).Count);
         }
 
         [TestMethod()]
         public void GetClientsByAgeRangeTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            dataService.CreateClient("Adam", "Malysz", 65);
+            dataService.CreateClient("Robert", "Malysz", 60);
+            dataService.CreateClient("Jakub", "Malysz", 70);
+            Assert.AreEqual(2, new List<Client>(dataService.GetClientsByAgeRange(63,71)).Count);
         }
 
         [TestMethod()]
         public void GetClientsByFirstLetterOfNameTest()
         {
+            TestRepository testRepository = new TestRepository();
+            DataService dataService = new DataService(testRepository);
+            dataService.CreateClient("Rubert", "Malysz", 65);
+            dataService.CreateClient("Robert", "Kubica", 60);
+            dataService.CreateClient("Jakub", "Malysz", 70);
+            Assert.AreEqual(2, new List<Client>(dataService.GetClientsByFirstLetterOfName('M')).Count);
         }
 
         [TestMethod()]
