@@ -2,7 +2,7 @@
 
 namespace BookShop.model.data
 {
-    class Return : Event
+    public class Return : Event
     {
         public DateTime ReturnDate { get; set; }
 
