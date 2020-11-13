@@ -208,7 +208,7 @@ namespace BookShop.logic
         List<BookExample> books = GetAllBookExamples().ToList();
             for (int i = 0; i < books.Count(); i++)
             {
-                if (books[i] == oldBookExample)
+                if (books[i].Equals(oldBookExample))
                 {
                     dataRepository.UpdateBookExample(i, newBookExample);
                     return;
@@ -222,7 +222,7 @@ namespace BookShop.logic
             List<Client> clients = GetAllClients().ToList();
             for (int i = 0; i < clients.Count(); i++)
             {
-                if (clients[i] == oldClient)
+                if (clients[i].Equals(oldClient))
                 {
                     dataRepository.UpdateClient(i, newClient);
                     return;
@@ -236,7 +236,7 @@ namespace BookShop.logic
             List<Event> events = GetAllEvents().ToList();
             for (int i = 0; i < events.Count(); i++)
             {
-                if (events[i] == oldEvent)
+                if (events[i].Equals(oldEvent))
                 {
                     dataRepository.UpdateEvent(i, newEvent);
                     return;
