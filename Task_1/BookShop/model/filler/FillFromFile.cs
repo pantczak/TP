@@ -18,7 +18,7 @@ namespace BookShop.model.filler
         public FillFromFile(string filename)
             {
             string[] lines = File.ReadAllLines(filename);
-            foreach(var line in lines)
+            foreach(String line in lines)
             {
                 string[] values = line.Split(';');
 
@@ -55,19 +55,19 @@ namespace BookShop.model.filler
         }
         public void Fill(DataContext context)
         {
-            foreach (var client in clients)
+            foreach (Client client in clients)
             {
                 context.clients.Add(client);
             }
-            foreach (var book in books)
+            foreach (Book book in books)
             {
                 context.books.Add(book.Isbn, book);
             }
-            foreach (var bookExample in bookExamples)
+            foreach (BookExample bookExample in bookExamples)
             {
                 context.bookExamples.Add(bookExample);
             }
-            foreach (var evnt in events)
+            foreach (Event evnt in events)
             {
                 context.events.Add(evnt);
             }

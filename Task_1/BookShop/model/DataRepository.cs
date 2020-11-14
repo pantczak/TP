@@ -68,7 +68,7 @@ namespace BookShop.model
 
         public void DeleteBook(Book book)
         {
-            foreach (var evnt in dataContext.events)
+            foreach (Event evnt in dataContext.events)
             {
 
 
@@ -78,7 +78,7 @@ namespace BookShop.model
                 }
 
             }
-                var result = dataContext.books.Remove(book.Isbn);
+                Boolean result = dataContext.books.Remove(book.Isbn);
 
                 if (!result)
                 {
@@ -90,7 +90,7 @@ namespace BookShop.model
 
         public void DeleteBookExample(BookExample bookExample)
         {
-            foreach (var evnt in dataContext.events)
+            foreach (Event evnt in dataContext.events)
             {
 
                 if (evnt.BookExample == bookExample)
@@ -98,7 +98,7 @@ namespace BookShop.model
                     throw new Exception("Book example is in use, can't be deleted");
                }
             }
-           var result =  dataContext.bookExamples.Remove(bookExample);
+           Boolean result =  dataContext.bookExamples.Remove(bookExample);
 
             if (!result)
             {
@@ -108,7 +108,7 @@ namespace BookShop.model
 
         public void DeleteClient(Client client)
         {
-            foreach (var evnt in dataContext.events)
+            foreach (Event evnt in dataContext.events)
             {
                 if (evnt.Client == client)
                 {
@@ -116,7 +116,7 @@ namespace BookShop.model
                 }
             }
 
-            var result = dataContext.clients.Remove(client);
+            Boolean result = dataContext.clients.Remove(client);
 
             if (!result)
             {
@@ -126,7 +126,7 @@ namespace BookShop.model
 
         public void DeleteEvent(Event evnt)
         {
-            var result = dataContext.events.Remove(evnt);
+            Boolean result = dataContext.events.Remove(evnt);
 
             if (!result)
             {
@@ -201,7 +201,7 @@ namespace BookShop.model
                 throw new Exception("Data already exists");
             }
             Book currentBook = GetBook(book.Isbn);
-            foreach (var bookExample in dataContext.bookExamples)
+            foreach (BookExample bookExample in dataContext.bookExamples)
             {
                 if (bookExample.Book == currentBook)
                 {
@@ -224,7 +224,7 @@ namespace BookShop.model
             }
             checkBookCopyIsbn(bookExample);
             BookExample currentBookExample = GetBookExample(Id);
-            foreach (var evnt in dataContext.events) 
+            foreach (Event evnt in dataContext.events) 
             {
                     if (evnt.BookExample == currentBookExample)
                     {
@@ -246,7 +246,7 @@ namespace BookShop.model
                 throw new Exception("Data already exists");
             }
             Client currentClient = GetClient(id);
-            foreach(var evnt in dataContext.events)
+            foreach(Event evnt in dataContext.events)
             {
                     if (evnt.Client == currentClient)
                     {
