@@ -10,10 +10,13 @@ namespace BookShop.model
     {
         private DataContext dataContext;
 
+        private IDataFiller dataFiller;
+
         public DataRepository(IDataFiller dataFiller)
         {
             dataContext = new DataContext();
-            dataFiller.Fill(dataContext);
+            this.dataFiller = dataFiller;
+            this.dataFiller.Fill(dataContext);
         }
 
         public void AddBook(Book book)
