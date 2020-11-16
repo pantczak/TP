@@ -1,66 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BookShop.model;
+﻿using BookShop.model;
 using BookShop.model.data;
-using BookShop.model.filler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace BookShopTests
 {
     [TestClass]
     public class ModelTest
     {
-        private List<Book> booksList;
-
-        private List<Client> clientList;
-
-        private List<BookExample> bookExampleList;
-
-        private List<Event> purchaceList;
-        
-
-        [TestInitialize]
-        public void FillRepository()
-        {
-           booksList = new List<Book>()
-            {
-            new Book("Hobbit", "J.R.R. Tolkien", Guid.Parse("820EF5E7-641D-4D4C-8785-36B538AF4226")),
-            new Book("Mistborn", "Brandon Sanderson", Guid.Parse("BD8A1680-65BD-44A6-92C0-88827A3B473A")),
-            new Book("The Lord of the Rings", "J.R.R. Tolkien", Guid.Parse("10957692-E446-4577-B8C7-8B41FF7C17B8")),
-            new Book("Harry Potter", "J.K. Rowling", Guid.Parse("A5CC4A82-7498-4A10-8FB8-973954335474")),
-            new Book("Metro 2033", "Dmitrij Głuchowski", Guid.Parse("86167D69-FA4D-42CC-8D08-9972F2F04EF5"))
-            };
-
-             clientList = new List<Client>()
-            {
-                new Client("Adam", "Kowalski", 39),
-                new Client("Jan", "Nowak",34)
-            };
-
-             bookExampleList = new List<BookExample>()
-            {
-            new BookExample(booksList[0], 23, 59.99),
-            new BookExample(booksList[0], 23, 49.99),
-            new BookExample(booksList[1], 8, 29.99),
-            new BookExample(booksList[1], 8, 69.99),
-            new BookExample(booksList[1], 23, 129.99),
-            new BookExample(booksList[2], 3, 19.99),
-            new BookExample(booksList[2], 23, 9.99),
-            new BookExample(booksList[3], 8, 111.99),
-            new BookExample(booksList[3], 23, 22.99),
-            new BookExample(booksList[4], 23, 55.60),
-            };
-
-            purchaceList = new List<Event>()
-            {
-            new Purchase(clientList[0], bookExampleList[0], DateTime.Parse("5/10/2020 21:11:00")),
-            new Purchase(clientList[1], bookExampleList[7], DateTime.Parse("3/5/2019 11:30:00")),
-            new Purchase(clientList[0], bookExampleList[0], DateTime.Parse("11/1/2011 11:59:00")),
-            };
-        }
-
-
 
         [TestMethod]
         public void BookTest()
@@ -115,7 +63,7 @@ namespace BookShopTests
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
 
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList,booksList,purchaceList,bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             int lastFilledBookIndex = dataRepository.GetAllBook().Count() - 1;
 
             dataRepository.AddBook(book);
@@ -128,7 +76,7 @@ namespace BookShopTests
             Guid guid = Guid.NewGuid();
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
             BookExample bookExample = new BookExample(book, 23, 69.99);
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             int lastFilledBookExampleIndex = dataRepository.GetAllBookExamples().Count() - 1;
             dataRepository.AddBook(book);
@@ -140,7 +88,7 @@ namespace BookShopTests
         public void DataRepositoryAddClientTest()
         {
             Client client = new Client("Adam", "Tomczak", 39);
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             int lastFilledClientIndex = dataRepository.GetAllClient().Count() - 1;
 
@@ -156,7 +104,7 @@ namespace BookShopTests
             BookExample bookExample = new BookExample(book, 23, 69.99);
             Client client = new Client("Adam", "Tomczak", 39);
             Purchase purchace = new Purchase(client, bookExample, DateTime.Now);
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             int lastFilledPurchaseIndex = dataRepository.GetAllEvent().Count() - 1;
             dataRepository.AddBook(book);
@@ -173,7 +121,7 @@ namespace BookShopTests
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
 
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             dataRepository.AddBook(book);
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.AddBook(book));
@@ -186,7 +134,7 @@ namespace BookShopTests
             Guid guid = Guid.NewGuid();
             Book book = new Book("Hobbit", "J. R. R. Tolkien", guid);
             BookExample bookExample = new BookExample(book, 23, 69.99);
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             dataRepository.AddBook(book);
             dataRepository.AddBookExample(bookExample);
@@ -198,7 +146,7 @@ namespace BookShopTests
         public void DataRepositoryAddDuplicateClientTest()
         {
             Client client = new Client("Adam", "Tomczak", 39);
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
 
             dataRepository.AddClient(client);
@@ -214,7 +162,7 @@ namespace BookShopTests
             BookExample bookExample = new BookExample(book, 23, 69.99);
             Client client = new Client("Adam", "Tomczak", 39);
             Purchase purchace = new Purchase(client, bookExample, DateTime.Now);
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             dataRepository.AddBook(book);
             dataRepository.AddBookExample(bookExample);
@@ -227,7 +175,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryAddBookExampleWithBadIsbnTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.AddBookExample(new BookExample(newBook, 13, 25.5)));
@@ -241,7 +189,7 @@ namespace BookShopTests
             Client client = new Client("Adam", "Tomczak", 39);
             BookExample newBookExample = new BookExample(newBook, 10, 49.9);
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             int lastFilledClientIndex = dataRepository.GetAllClient().Count() - 1;
             dataRepository.AddBook(newBook);
@@ -258,7 +206,7 @@ namespace BookShopTests
             BookExample bookExample = new BookExample(book, 23, 69.99);
             Client client = new Client("Adam", "Tomczak", 39);
             Purchase purchace = new Purchase(client, bookExample, DateTime.Now);
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             dataRepository.AddBook(book);
             dataRepository.AddBookExample(bookExample);
@@ -271,7 +219,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryBadBookDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
 
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteBook(newBook));
@@ -281,7 +229,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryBadBookExampleDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(newBook, 10, 49.9);
             dataRepository.AddBook(newBook);
@@ -293,7 +241,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryBadClientDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Client newClient = new Client("Jan", "Kowalski", 39);
 
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.DeleteClient(newClient));
@@ -303,7 +251,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryBadPurchaseDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(newBook, 10, 49.9);
             dataRepository.AddBook(newBook);
@@ -316,7 +264,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryBookRefDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(newBook, 10, 49.9);
             Client newClient = new Client("Jan", "Kowalski", 39);
@@ -331,7 +279,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryBookExampleRefDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(newBook, 10, 49.9);
             Client newClient = new Client("Jan", "Kowalski", 39);
@@ -347,7 +295,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryClientRefDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(newBook, 10, 49.9);
             Client newClient = new Client("Jan", "Kowalski", 39);
@@ -363,7 +311,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryBookDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             dataRepository.AddBook(newBook);
 
@@ -381,7 +329,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryBookExampleDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(newBook, 10, 49.9);
             dataRepository.AddBook(newBook);
@@ -401,7 +349,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryClientDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Client newClient = new Client("Jan", "Kowalski", 39);
             dataRepository.AddClient(newClient);
             if (dataRepository.GetAllClient().Contains(newClient))
@@ -418,7 +366,7 @@ namespace BookShopTests
         [TestMethod]
         public void DataRepositoryPurchaseDeleteTest()
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book newBook = new Book("Ksiazka niebedaca w bazie", "Anonim", Guid.NewGuid());
             BookExample newBookExample = new BookExample(newBook, 10, 49.9);
             Client newClient = new Client("Jan", "Kowalski", 39);
@@ -442,7 +390,7 @@ namespace BookShopTests
         public void DataRepositoryPurchaseUpdateTest()
         {
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             BookExample bookExample1 = dataRepository.GetBookExample(0);
             Client client1 = dataRepository.GetClient(0);
             Purchase purchase1 = (Purchase)dataRepository.GetEvent(0);
@@ -465,7 +413,7 @@ namespace BookShopTests
         public void DataRepositoryClientUpdateTest()
         {
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Client client1 = dataRepository.GetClient(0);
             Client client2 = new Client("John", "Watson", 39);
 
@@ -486,7 +434,7 @@ namespace BookShopTests
         public void DataRepositoryClientForPurchaseUpdateTest()
         {
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Client client1 = dataRepository.GetClient(0);
             Client client2 = new Client("John", "Watson", 39);
             Purchase purchase1 = (Purchase)dataRepository.GetEvent(0);
@@ -514,7 +462,7 @@ namespace BookShopTests
         public void DataRepositoryBookExampleUpdateTest()
         {
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book book1 = dataRepository.GetAllBook().ToList()[0];
             Client client1 = dataRepository.GetClient(0);
             Client client2 = new Client("John", "Watson", 39);
@@ -542,7 +490,7 @@ namespace BookShopTests
         public void DataRepositoryBookUpdateTest()
         {
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Book book1 = dataRepository.GetAllBook().ToList()[0];
             Book book2 = new Book("Igrzyska Smierci", "Suzanne Collins", book1.Isbn);
             Client client1 = dataRepository.GetClient(0);
@@ -572,7 +520,7 @@ namespace BookShopTests
         {
             {
 
-                DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+                DataRepository dataRepository = new DataRepository(new ConstFiller());
 
                 var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBook(new Book("Silmarillion", "J.R.R. Tolkien", Guid.NewGuid())));
                 Assert.AreEqual("No such book", exc.Message);
@@ -584,7 +532,7 @@ namespace BookShopTests
         public void DataRepositoryBadBookExampleUpdateTest()
         {
             {
-                DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+                DataRepository dataRepository = new DataRepository(new ConstFiller());
                 BookExample bookExample1 = dataRepository.GetBookExample(0);
                 var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBookExample(dataRepository.GetAllBookExamples().Count(), bookExample1));
                 Assert.AreEqual("No such book copy index", exc.Message);
@@ -596,7 +544,7 @@ namespace BookShopTests
         public void DataRepositoryBadClientUpdateTest()
         {
             {
-                DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+                DataRepository dataRepository = new DataRepository(new ConstFiller());
                 Client client1 = dataRepository.GetClient(0);
                 var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(dataRepository.GetAllClient().Count(), client1));
                 Assert.AreEqual("No such client index", exc.Message);
@@ -608,7 +556,7 @@ namespace BookShopTests
         public void DataRepositoryBadEventUpdateTest()
         {
             {
-                DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+                DataRepository dataRepository = new DataRepository(new ConstFiller());
                 Purchase purchase1 = (Purchase)dataRepository.GetEvent(0);
                 var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateEvent(dataRepository.GetAllEvent().Count(), purchase1));
                 Assert.AreEqual(exc.Message, "No such event index");
@@ -621,7 +569,7 @@ namespace BookShopTests
         {
             {
 
-                DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+                DataRepository dataRepository = new DataRepository(new ConstFiller());
                 Book book1 = dataRepository.GetAllBook().ToList()[0];
                 Book book2 = new Book("Hobbit", "J.R.R. Tolkien", book1.Isbn);
                 var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBook(book2));
@@ -634,7 +582,7 @@ namespace BookShopTests
         public void DataRepositoryBadClientIndexUpdateTest()
         {
             {
-                DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+                DataRepository dataRepository = new DataRepository(new ConstFiller());
                 Client client2 = dataRepository.GetClient(0);
                 var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateClient(0, client2));
                 Assert.AreEqual("Data already exists", exc.Message);
@@ -646,7 +594,7 @@ namespace BookShopTests
         public void DataRepositoryBadBookExampleIndexUpdateTest()
         {
             {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
 
             BookExample bookExample1 = dataRepository.GetBookExample(0);
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateBookExample(0, bookExample1));
@@ -659,7 +607,7 @@ namespace BookShopTests
     public void DataRepositoryBadEventIndexUpdateTest()
     {
         {
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList, booksList, purchaceList, bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             Purchase purchase2 = (Purchase)dataRepository.GetEvent(0);
             var exc = Assert.ThrowsException<Exception>(() => dataRepository.UpdateEvent(0, purchase2));
             Assert.AreEqual("Data already exists", exc.Message);

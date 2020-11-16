@@ -1,15 +1,13 @@
-﻿using BookShop.model.data;
+﻿using BookShop.model;
+using BookShop.model.data;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
 
-namespace BookShop.model.filler
+namespace BookShopTests
 {
     public class FillFromFile : IDataFiller
     {
-        private string filename;
         private List<Client> clients = new List<Client>();
         private List<Book> books = new List<Book>();
         private List<Event> events = new List<Event>();
@@ -57,19 +55,19 @@ namespace BookShop.model.filler
         {
             foreach (Client client in clients)
             {
-                context.clients.Add(client);
+                context.Clients.Add(client);
             }
             foreach (Book book in books)
             {
-                context.books.Add(book.Isbn, book);
+                context.Books.Add(book.Isbn, book);
             }
             foreach (BookExample bookExample in bookExamples)
             {
-                context.bookExamples.Add(bookExample);
+                context.BookExamples.Add(bookExample);
             }
             foreach (Event evnt in events)
             {
-                context.events.Add(evnt);
+                context.Events.Add(evnt);
             }
         }
     }
