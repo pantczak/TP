@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace BookShop.model.data
+namespace BookShop.Model
 {
     public abstract class Event
     {

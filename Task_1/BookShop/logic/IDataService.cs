@@ -1,9 +1,8 @@
-﻿using BookShop.model.data;
+﻿using BookShop.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace BookShop.logic
+namespace BookShop.Logic
 {
     public interface IDataService
     {

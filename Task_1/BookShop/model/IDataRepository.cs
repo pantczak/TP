@@ -1,8 +1,7 @@
-﻿using BookShop.model.data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace BookShop.model
+namespace BookShop.Model
 {
     public interface IDataRepository
     {

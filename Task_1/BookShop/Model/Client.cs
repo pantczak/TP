@@ -1,4 +1,4 @@
-﻿namespace BookShop.model.data
+﻿namespace BookShop.Model
 {
     public class Client //WYKAZ 
     {

@@ -1,5 +1,4 @@
-﻿using BookShop.model;
-using BookShop.model.data;
+﻿using BookShop.Model;
 using System;
 using System.Collections.Generic;
 
