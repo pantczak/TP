@@ -1,6 +1,5 @@
-﻿using BookShop.logic;
-using BookShop.model;
-using BookShop.model.data;
+﻿using BookShop.Logic;
+using BookShop.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace BookShop.model
+﻿namespace BookShop.Model
 {
     public interface IDataFiller
     {

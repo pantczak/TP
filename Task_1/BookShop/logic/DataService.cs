@@ -1,10 +1,9 @@
-﻿using BookShop.model;
-using BookShop.model.data;
+﻿using BookShop.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BookShop.logic
+namespace BookShop.Logic
 {
     public class DataService : IDataService
     {

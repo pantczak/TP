@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BookShop.model.data
+namespace BookShop.Model
 {
     public class BookExample //OPIS STANU
     {

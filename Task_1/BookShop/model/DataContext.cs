@@ -1,9 +1,8 @@
 ﻿using System;
-using BookShop.model.data;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
-namespace BookShop.model
+namespace BookShop.Model
 {
     public class DataContext
     {
