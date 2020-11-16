@@ -1,6 +1,5 @@
 ﻿using BookShop.model;
 using BookShop.model.data;
-using BookShop.model.filler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -53,7 +52,7 @@ namespace BookShopTests
             };
 
 
-            DataRepository dataRepository = new DataRepository(new ConstFiller(clientList,booksList,purchaceList,bookExampleList));
+            DataRepository dataRepository = new DataRepository(new ConstFiller());
             
 
             for (int i = 0; i < booksList.Count; i++) {

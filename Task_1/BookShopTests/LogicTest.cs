@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BookShop.logic;
+﻿using BookShop.logic;
+using BookShop.model;
 using BookShop.model.data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using BookShop.model;
 
 namespace BookShopTests
 {
