@@ -8,14 +8,15 @@ namespace ConsoleSerializer
         static void Main(string[] args)
         {
             Console.WriteLine("Available operations: ");
-            Console.WriteLine("[1] Serialize \n[2] Deserialize\n[3] Serialize to JSON\n[4] Deserialize from JSON\n[5] Exit");
+            Console.WriteLine(
+                "[1] Serialize \n[2] Deserialize\n[3] Serialize to JSON\n[4] Deserialize from JSON\n[5] Exit");
             int choice = 0;
 
             //INIT Data
             DataRepository repository = new DataRepository(new NullDataFiller());
 
 
-            while(choice != 5)
+            while (choice != 5)
             {
                 choice = Console.Read() - '0';
                 switch (choice)
