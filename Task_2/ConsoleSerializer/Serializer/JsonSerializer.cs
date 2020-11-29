@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -14,13 +15,37 @@ namespace ConsoleSerializer.Serializer
 
         public static void Serialize(Object obj, string filePath)
         {
-            File.Delete(filePath);
-            using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate))
+            try
             {
-                string serialized =
-                    JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSerializer.JsonSettings);
-                // stream.Write(Encoding.UTF8.GetBytes(serialized));
-                stream.Flush();
+                using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
+                using (StreamWriter streamWriter = new StreamWriter(fileStream))
+                {
+                    string json = JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSerializer.JsonSettings);
+                    streamWriter.WriteLine(json);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error" + e.Message);
+                throw;
+            }
+        }
+
+        public static T Deserialize<T>(string filePath)
+        {
+            try
+            {
+                using (StreamReader streamReader = new StreamReader(filePath))
+                {
+                    String jsonString = streamReader.ReadToEnd();
+                    jsonString = jsonString.Remove(jsonString.Length - 2);
+                    return JsonConvert.DeserializeObject<T>(jsonString);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error" + e.Message);
+                throw;
             }
         }
     }
