@@ -10,18 +10,19 @@ namespace ConsoleSerializer.Serializer
     {
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+            TypeNameHandling = TypeNameHandling.Auto,
         };
 
         public static void Serialize(Object obj, string filePath)
         {
             try
             {
-                using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
-                using (StreamWriter streamWriter = new StreamWriter(fileStream))
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    string json = JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSerializer.JsonSettings);
-                    streamWriter.WriteLine(json);
+                    //File.Delete(filePath);
+                    string json = JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSettings);
+                    fileStream.Write(Encoding.UTF8.GetBytes(json), 0, Encoding.UTF8.GetByteCount(json));
                 }
             }
             catch (Exception e)
@@ -35,11 +36,11 @@ namespace ConsoleSerializer.Serializer
         {
             try
             {
-                using (StreamReader streamReader = new StreamReader(filePath))
+                using (Stream fileStream = new FileStream(filePath, FileMode.Open))
                 {
-                    String jsonString = streamReader.ReadToEnd();
-                    jsonString = jsonString.Remove(jsonString.Length - 2);
-                    return JsonConvert.DeserializeObject<T>(jsonString);
+                    byte[] bytes = new byte[fileStream.Length];
+                    fileStream.Read(bytes,0,bytes.Length);
+                    return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(bytes), JsonSettings);
                 }
             }
             catch (Exception e)

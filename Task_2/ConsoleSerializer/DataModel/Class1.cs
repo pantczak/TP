@@ -23,6 +23,42 @@ namespace ConsoleSerializer.DataModel
             Class3 = class3;
         }
 
+        protected bool Equals(Class1 other)
+        {
+            return TextData == other.TextData && DateTimeData.Equals(other.DateTimeData) &&
+                   DoubleData.Equals(other.DoubleData) && Equals(Class2, other.Class2) && Equals(Class3, other.Class3);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Class1) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (TextData != null ? TextData.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ DateTimeData.GetHashCode();
+                hashCode = (hashCode * 397) ^ DoubleData.GetHashCode();
+                hashCode = (hashCode * 397) ^ (Class2 != null ? Class2.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Class3 != null ? Class3.GetHashCode() : 0);
+                return hashCode;
+            }
+        }
+
+        protected Class1(SerializationInfo info, StreamingContext context)
+        {
+            TextData = info.GetString("TextData");
+            DateTimeData = info.GetDateTime("DateTimeData");
+            DoubleData = info.GetDouble("DoubleData");
+            Class2 = (Class2) info.GetValue("Class2", typeof(Class2));
+            Class3 = (Class3) info.GetValue("Class3", typeof(Class3));
+        }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("TextData", TextData);

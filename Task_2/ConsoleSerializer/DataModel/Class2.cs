@@ -23,6 +23,15 @@ namespace ConsoleSerializer.DataModel
             Class3 = class3;
         }
 
+        protected Class2(SerializationInfo info, StreamingContext context)
+        {
+            TextData = info.GetString("TextData");
+            DateTimeData = info.GetDateTime("DateTimeData");
+            IntegerData = info.GetInt32("IntegerData");
+            Class1 = (Class1) info.GetValue("Class1", typeof(Class1));
+            Class3 = (Class3) info.GetValue("Class3", typeof(Class3));
+        }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("TextData", TextData);

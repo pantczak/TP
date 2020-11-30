@@ -14,7 +14,14 @@ namespace ConsoleSerializer.Serializer
 
         public override void Serialize(Stream serializationStream, object graph)
         {
-            throw new NotImplementedException();
+            ISerializable _data = (ISerializable) graph;
+            SerializationInfo _info = new SerializationInfo(graph.GetType(), new FormatterConverter());
+            StreamingContext _context = new StreamingContext(StreamingContextStates.File);
+            _data.GetObjectData(_info, _context);
+            // foreach (SerializationEntry _item in _context)
+            // {
+            //     this.WriteMember(_item.Name, _item.Value);
+            // }
         }
 
         public override ISurrogateSelector SurrogateSelector { get; set; }

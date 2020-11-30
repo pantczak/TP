@@ -1,6 +1,6 @@
 ﻿using BookShop.Model;
 
-namespace ConsoleSerializer
+namespace ConsoleSerializer.DataModel
 {
     internal class NullDataFiller : IDataFiller
     {
