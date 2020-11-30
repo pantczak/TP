@@ -13,7 +13,7 @@ namespace ConsoleSerializer
             int choice = 0;
 
             //INIT Data
-            DataRepository repository = new DataRepository(new NullDataFiller());
+           // DataRepository repository = new DataRepository(new NullDataFiller());
 
 
             while (choice != 5)
