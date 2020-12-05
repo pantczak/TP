@@ -32,6 +32,20 @@ namespace ConsoleSerializer.DataModel
             Class1 = (Class1) info.GetValue("Class1", typeof(Class1));
         }
 
+        protected bool Equals(Class3 other)
+        {
+            return TextData == other.TextData && DateTimeData.Equals(other.DateTimeData) &&
+                   LongData.Equals(other.LongData) && Equals(Class2, other.Class2) && Equals(Class1, other.Class1);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Class3)obj);
+        }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("TextData", TextData);
