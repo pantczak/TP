@@ -29,7 +29,7 @@ namespace ConsoleSerializer.DataModel
 
 
 
-        protected Class2(SerializationInfo info, StreamingContext context)
+        public Class2(SerializationInfo info, StreamingContext context)
         {
             TextData = info.GetString("TextData");
             DateTimeData = info.GetDateTime("DateTimeData");

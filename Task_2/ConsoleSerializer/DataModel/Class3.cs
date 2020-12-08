@@ -26,7 +26,7 @@ namespace ConsoleSerializer.DataModel
             DateTimeData = dateTimeData;
         }
 
-        protected Class3(SerializationInfo info, StreamingContext context)
+        public Class3(SerializationInfo info, StreamingContext context)
         {
             TextData = info.GetString("TextData");
             DateTimeData = info.GetDateTime("DateTimeData"); ;
