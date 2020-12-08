@@ -14,33 +14,33 @@ namespace ConsoleSerializerTests
     [TestClass]
     public class JsonSerializerTest
     {
-        Class1 class1Empty;
-        Class1 class1;
-        Class2 class2;
-        Class3 class3;
-        Class1 class1Deserialized;
-        Class2 class2Deserialized;
-        Class3 class3Deserialized; 
-        DocumentBinder documentBinder;
-        DocumentBinder documentBinderDeserialized;
+        Class1 _class1Empty;
+        Class1 _class1;
+        Class2 _class2;
+        Class3 _class3;
+        Class1 _class1Deserialized;
+        Class2 _class2Deserialized;
+        Class3 _class3Deserialized; 
+        DocumentBinder _documentBinder;
+        DocumentBinder _documentBinderDeserialized;
 
         [TestInitialize]
         public void TestInitialize()
         {
           
-            class1Empty = new Class1("Text", DateTime.Now, 3.012);
-            class1 = new Class1("Text", DateTime.Now, 3.012);
-            class2 = new Class2("Text2",DateTime.Now);
-            class3 = new Class3("Text3",DateTime.Now);
+            _class1Empty = new Class1("Text", DateTime.Now, 3.012);
+            _class1 = new Class1("Text", DateTime.Now, 3.012);
+            _class2 = new Class2("Text2",DateTime.Now);
+            _class3 = new Class3("Text3",DateTime.Now);
 
-            class1.Class2 = class2;
-            class1.Class3 = class3;
+            _class1.Class2 = _class2;
+            _class1.Class3 = _class3;
 
-            class2.Class1 = class1;
-            class2.Class3 = class3;
+            _class2.Class1 = _class1;
+            _class2.Class3 = _class3;
 
-            class3.Class1 = class1;
-            class3.Class2 = class2;
+            _class3.Class1 = _class1;
+            _class3.Class2 = _class2;
              
             ObservableCollection<Document> documents = new ObservableCollection<Document>{
             
@@ -49,7 +49,7 @@ namespace ConsoleSerializerTests
                 new Document(324,"t3")
             };
 
-            documentBinder = new DocumentBinder(documents);
+            _documentBinder = new DocumentBinder(documents);
         }
 
 
@@ -60,7 +60,7 @@ namespace ConsoleSerializerTests
             const string fileName = "testJson.json";
             using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
             {
-                JsonSerializer.Serialize(fileStream, class1Empty);
+                JsonSerializer.Serialize(fileStream, _class1Empty);
             }
             FileInfo info = new FileInfo(fileName);
             Assert.IsTrue(info.Exists);
@@ -77,13 +77,13 @@ namespace ConsoleSerializerTests
             Class1 deserialized;
             using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
             {
-                JsonSerializer.Serialize(fileStream, class1Empty);
+                JsonSerializer.Serialize(fileStream, _class1Empty);
             }
             using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
             {
                  deserialized = JsonSerializer.Deserialize<Class1>(fileStream);
             }
-            Assert.AreEqual(true,class1Empty.Equals(deserialized));
+            Assert.AreEqual(true,_class1Empty.Equals(deserialized));
         }
 
         [TestMethod]
@@ -91,26 +91,26 @@ namespace ConsoleSerializerTests
         {
             using (FileStream fileStream = new FileStream("Class1Graph.json", FileMode.Create))
             {
-                JsonSerializer.Serialize(fileStream, class1);
+                JsonSerializer.Serialize(fileStream, _class1);
             }
 
             using (FileStream fileStream = new FileStream("Class1Graph.json", FileMode.Open))
             {
-                class1Deserialized = JsonSerializer.Deserialize<Class1>(fileStream);
+                _class1Deserialized = JsonSerializer.Deserialize<Class1>(fileStream);
             }
 
-            Assert.IsNotNull(class1Deserialized);
-            Assert.AreNotSame(class1, class1Deserialized);
+            Assert.IsNotNull(_class1Deserialized);
+            Assert.AreNotSame(_class1, _class1Deserialized);
 
-            Assert.AreEqual(class1.TextData, class1Deserialized.TextData);
-            Assert.AreEqual(class1.DateTimeData, class1Deserialized.DateTimeData);
-            Assert.AreEqual(class1.DoubleData, class1Deserialized.DoubleData);
+            Assert.AreEqual(_class1.TextData, _class1Deserialized.TextData);
+            Assert.AreEqual(_class1.DateTimeData, _class1Deserialized.DateTimeData);
+            Assert.AreEqual(_class1.DoubleData, _class1Deserialized.DoubleData);
 
-            Assert.AreEqual(class1.Class2.TextData, class1Deserialized.Class2.TextData);
-            Assert.AreEqual(class1.Class2.DateTimeData, class1Deserialized.Class2.DateTimeData);
+            Assert.AreEqual(_class1.Class2.TextData, _class1Deserialized.Class2.TextData);
+            Assert.AreEqual(_class1.Class2.DateTimeData, _class1Deserialized.Class2.DateTimeData);
 
-            Assert.AreEqual(class1.Class3.TextData, class1Deserialized.Class3.TextData);
-            Assert.AreEqual(class1.Class3.DateTimeData, class1Deserialized.Class3.DateTimeData);
+            Assert.AreEqual(_class1.Class3.TextData, _class1Deserialized.Class3.TextData);
+            Assert.AreEqual(_class1.Class3.DateTimeData, _class1Deserialized.Class3.DateTimeData);
         }
 
         [TestMethod]
@@ -118,26 +118,26 @@ namespace ConsoleSerializerTests
         {
             using (FileStream fileStream = new FileStream("Class2Graph.json", FileMode.Create))
             {
-                JsonSerializer.Serialize(fileStream, class2);
+                JsonSerializer.Serialize(fileStream, _class2);
             }
 
             using (FileStream fileStream = new FileStream("Class2Graph.json", FileMode.Open))
             {
-                class2Deserialized = JsonSerializer.Deserialize<Class2>(fileStream);
+                _class2Deserialized = JsonSerializer.Deserialize<Class2>(fileStream);
             }
 
-            Assert.IsNotNull(class2Deserialized);
-            Assert.AreNotSame(class2, class2Deserialized);
+            Assert.IsNotNull(_class2Deserialized);
+            Assert.AreNotSame(_class2, _class2Deserialized);
 
-            Assert.AreEqual(class2.TextData, class2Deserialized.TextData);
-            Assert.AreEqual(class2.DateTimeData, class2Deserialized.DateTimeData);
+            Assert.AreEqual(_class2.TextData, _class2Deserialized.TextData);
+            Assert.AreEqual(_class2.DateTimeData, _class2Deserialized.DateTimeData);
 
-            Assert.AreEqual(class2.Class1.TextData, class2Deserialized.Class1.TextData);
-            Assert.AreEqual(class2.Class1.DateTimeData, class2Deserialized.Class1.DateTimeData);
-            Assert.AreEqual(class2.Class1.DoubleData, class2Deserialized.Class1.DoubleData);
+            Assert.AreEqual(_class2.Class1.TextData, _class2Deserialized.Class1.TextData);
+            Assert.AreEqual(_class2.Class1.DateTimeData, _class2Deserialized.Class1.DateTimeData);
+            Assert.AreEqual(_class2.Class1.DoubleData, _class2Deserialized.Class1.DoubleData);
 
-            Assert.AreEqual(class2.Class3.TextData, class2Deserialized.Class3.TextData);
-            Assert.AreEqual(class2.Class3.DateTimeData, class2Deserialized.Class3.DateTimeData);
+            Assert.AreEqual(_class2.Class3.TextData, _class2Deserialized.Class3.TextData);
+            Assert.AreEqual(_class2.Class3.DateTimeData, _class2Deserialized.Class3.DateTimeData);
         }
 
 
@@ -146,26 +146,26 @@ namespace ConsoleSerializerTests
         {
             using (FileStream fileStream = new FileStream("Class3Graph.json", FileMode.Create))
             {
-                JsonSerializer.Serialize(fileStream, class3);
+                JsonSerializer.Serialize(fileStream, _class3);
             }
 
             using (FileStream fileStream = new FileStream("Class3Graph.json", FileMode.Open))
             {
-                class3Deserialized = JsonSerializer.Deserialize<Class3>(fileStream);
+                _class3Deserialized = JsonSerializer.Deserialize<Class3>(fileStream);
             }
 
-            Assert.IsNotNull(class3Deserialized);
-            Assert.AreNotSame(class3, class3Deserialized);
+            Assert.IsNotNull(_class3Deserialized);
+            Assert.AreNotSame(_class3, _class3Deserialized);
 
-            Assert.AreEqual(class3.TextData, class3Deserialized.TextData);
-            Assert.AreEqual(class3.DateTimeData, class3Deserialized.DateTimeData);
+            Assert.AreEqual(_class3.TextData, _class3Deserialized.TextData);
+            Assert.AreEqual(_class3.DateTimeData, _class3Deserialized.DateTimeData);
 
-            Assert.AreEqual(class3.Class1.TextData, class3Deserialized.Class1.TextData);
-            Assert.AreEqual(class3.Class1.DateTimeData, class3Deserialized.Class1.DateTimeData);
-            Assert.AreEqual(class3.Class1.DoubleData, class3Deserialized.Class1.DoubleData);
+            Assert.AreEqual(_class3.Class1.TextData, _class3Deserialized.Class1.TextData);
+            Assert.AreEqual(_class3.Class1.DateTimeData, _class3Deserialized.Class1.DateTimeData);
+            Assert.AreEqual(_class3.Class1.DoubleData, _class3Deserialized.Class1.DoubleData);
 
-            Assert.AreEqual(class3.Class2.TextData, class3Deserialized.Class2.TextData);
-            Assert.AreEqual(class3.Class2.DateTimeData, class3Deserialized.Class2.DateTimeData);
+            Assert.AreEqual(_class3.Class2.TextData, _class3Deserialized.Class2.TextData);
+            Assert.AreEqual(_class3.Class2.DateTimeData, _class3Deserialized.Class2.DateTimeData);
         }
 
         [TestMethod]
@@ -173,18 +173,18 @@ namespace ConsoleSerializerTests
         {
             using (FileStream fileStream = new FileStream("ListData.json", FileMode.Create))
             {
-                JsonSerializer.Serialize(fileStream, documentBinder);
+                JsonSerializer.Serialize(fileStream, _documentBinder);
             }
 
             using (FileStream fileStream = new FileStream("ListData.json", FileMode.Open))
             {
-                documentBinderDeserialized = JsonSerializer.Deserialize<DocumentBinder>(fileStream);
+                _documentBinderDeserialized = JsonSerializer.Deserialize<DocumentBinder>(fileStream);
             }
 
-            Assert.IsNotNull(documentBinderDeserialized);
-            Assert.AreNotSame(documentBinder, documentBinderDeserialized);
+            Assert.IsNotNull(_documentBinderDeserialized);
+            Assert.AreNotSame(_documentBinder, _documentBinderDeserialized);
 
-            CollectionAssert.AreEqual(documentBinder.Documents, documentBinderDeserialized.Documents);
+            CollectionAssert.AreEqual(_documentBinder.Documents, _documentBinderDeserialized.Documents);
         }
     }
 }
