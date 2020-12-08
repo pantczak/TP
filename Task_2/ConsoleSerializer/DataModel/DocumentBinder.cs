@@ -10,10 +10,10 @@ namespace ConsoleSerializer.DataModel
     [JsonObject]
     public class DocumentBinder : ISerializable
     {
-        public ObservableCollection<Document> Documents { get; set; }
+        public Dictionary<int,Document> Documents { get; set; }
         public string[] Aliases { get; set; }
 
-         public DocumentBinder(ObservableCollection<Document> documents, string[] aliases)
+         public DocumentBinder(Dictionary<int,Document> documents, string[] aliases)
          {
              Documents = documents;
              Aliases = aliases;
@@ -43,7 +43,7 @@ namespace ConsoleSerializer.DataModel
 
         public DocumentBinder(SerializationInfo info, StreamingContext context)
         {
-            Documents = (ObservableCollection<Document>) info.GetValue("Documents",typeof(ObservableCollection<Document>));
+            Documents = (Dictionary<int,Document>) info.GetValue("Documents",typeof(Dictionary<int,Document>));
         }
     }
 }

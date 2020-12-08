@@ -42,11 +42,10 @@ namespace ConsoleSerializerTests
             _class3.Class1 = _class1;
             _class3.Class2 = _class2;
              
-            ObservableCollection<Document> documents = new ObservableCollection<Document>{
-            
-                new Document(4,"t1"),
-                new Document(45, "t2"),
-                new Document(324,"t3")
+            Dictionary<int,Document> documents = new Dictionary<int, Document>{
+
+                {1, new Document(123, "342")},
+                {2, new Document(23, "sdsd")}
             };
 
             _documentBinder = new DocumentBinder(documents, new string[]{"a1","A2","A3"});
