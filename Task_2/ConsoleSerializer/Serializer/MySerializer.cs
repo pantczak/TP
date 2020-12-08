@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 using ConsoleSerializer.DataModel;
-using Newtonsoft.Json;
 
 namespace ConsoleSerializer.Serializer
 {
@@ -16,6 +13,7 @@ namespace ConsoleSerializer.Serializer
         List<Object> _objects = new List<Object>();
         List<Object> _sobjects = new List<Object>();
         Stream serializationStream;
+<<<<<<< HEAD
         ObjectIDGenerator objectIDGenerator = new ObjectIDGenerator();
         public override object Deserialize(Stream serializationStream)
         {
@@ -29,10 +27,11 @@ namespace ConsoleSerializer.Serializer
             SerializationInfo _info = new SerializationInfo(graph.GetType(), new FormatterConverter());
             StreamingContext _context = new StreamingContext(StreamingContextStates.File);
             _data.GetObjectData(_info, _context);
-             foreach (SerializationEntry _item in _info)
-             {
-                 this.WriteMember(_item.Name, _item.Value);
+            foreach (SerializationEntry _item in _info)
+            {
+                this.WriteMember(_item.Name, _item.Value);
             }
+
             StringBuilder fileContent = new StringBuilder("[");
             fileContent.Append(graph.GetType().Name+" ");
             fileContent.Append(objectIDGenerator.GetId(graph, out bool firstTime).ToString());
@@ -41,11 +40,13 @@ namespace ConsoleSerializer.Serializer
             {
                 fileContent.Append(dataStruct.ToString() + "\n");
             }
+
             fileContent.Append("]\n");
-            using (StreamWriter writer = new StreamWriter(serializationStream, Encoding.UTF8,32, true))
+            using (StreamWriter writer = new StreamWriter(serializationStream, Encoding.UTF8, 32, true))
             {
                 writer.Write(fileContent.ToString());
             }
+
             fileContent.Clear();
             _values.Clear();
             _sobjects.Add(graph);
@@ -58,12 +59,6 @@ namespace ConsoleSerializer.Serializer
                 }
             }
             serializationStream.Close();
-
-
-
-
-
-
         }
 
         public override ISurrogateSelector SurrogateSelector { get; set; }
@@ -124,14 +119,14 @@ namespace ConsoleSerializer.Serializer
         {
             if (obj == null)
             {
-                _values.Add(new DataStruct("null", name,"null"));
+                _values.Add(new DataStruct("null", name, "null"));
                 return;
             }
+
             if (memberType == typeof(String))
             {
-                _values.Add(new DataStruct(memberType.Name, name,(String)obj));
+                _values.Add(new DataStruct(memberType.Name, name, (String) obj));
                 return;
-
             }
             long id=objectIDGenerator.GetId(obj, out bool firstTime);
             if (firstTime)

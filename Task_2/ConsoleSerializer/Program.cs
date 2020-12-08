@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using BookShop.Model;
+using ConsoleSerializer.DataModel;
 
 namespace ConsoleSerializer
 {
@@ -9,11 +11,25 @@ namespace ConsoleSerializer
         {
             Console.WriteLine("Available operations: ");
             Console.WriteLine(
-                "[1] Serialize \n[2] Deserialize\n[3] Serialize to JSON\n[4] Deserialize from JSON\n[5] Exit");
+                "[1] Serialize graph \n[2] Deserialize graph \n[3] Serialize graph to JSON\n[4] Deserialize graph from JSON\n[5] Exit");
             int choice = 0;
 
-            //INIT Data
-           // DataRepository repository = new DataRepository(new NullDataFiller());
+            DataContext context = new DataContext();
+            IDataFiller filler = new ConstDataFiller();
+            filler.Fill(context);
+
+            Class1 class1 = new Class1("Text", DateTime.Now, 5.5);
+            Class2 class2 = new Class2("Text2", DateTime.Now);
+            Class3 class3 = new Class3("Text3", DateTime.Now);
+
+            class1.Class2 = class2;
+            class1.Class3 = class3;
+
+            class3.Class1 = class1;
+            class3.Class2 = class2;
+
+            class2.Class1 = class1;
+            class2.Class3 = class3;
 
 
             while (choice != 5)
@@ -22,10 +38,8 @@ namespace ConsoleSerializer
                 switch (choice)
                 {
                     case 1:
-                        //TODO add Serialization
                         break;
                     case 2:
-                        //TODO add Deserialization
                         break;
                     case 3:
                         //TODO add JSON serialization
