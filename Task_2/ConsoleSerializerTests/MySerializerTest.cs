@@ -133,12 +133,12 @@ namespace ConsoleSerializerTests
         public void TestListSerialization()
         {
             Assert.Inconclusive();
-            using (FileStream fileStream = new FileStream("ListData.json", FileMode.Create))
+            using (FileStream fileStream = new FileStream("ListData.txt", FileMode.Create))
             {
                serializer.Serialize(fileStream, _documentBinder);
             }
 
-            using (FileStream fileStream = new FileStream("ListData.json", FileMode.Open))
+            using (FileStream fileStream = new FileStream("ListData.txt", FileMode.Open))
             {
                 _documentBinderDeserialized = (DocumentBinder) serializer.Deserialize(fileStream);
             }
