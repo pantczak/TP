@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
@@ -9,15 +10,20 @@ namespace ConsoleSerializer.DataModel
     [JsonObject]
     public class DocumentBinder : ISerializable
     {
-        private LinkedList<Document> _documents = new  LinkedList<Document>();
+        public ObservableCollection<Document> Documents { get; set; }
 
-        public DocumentBinder()
+         public DocumentBinder(ObservableCollection<Document> documents)
+         {
+             Documents = documents;
+         }
+
+         public DocumentBinder()
         {
         }
 
         protected bool Equals(DocumentBinder other)
         {
-            return Equals(_documents, other._documents);
+            return Equals(Documents, other.Documents);
         }
 
         public override bool Equals(object obj)
@@ -30,12 +36,12 @@ namespace ConsoleSerializer.DataModel
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Documents",_documents);
+            info.AddValue("Documents",Documents);
         }
 
         public DocumentBinder(SerializationInfo info, StreamingContext context)
         {
-            _documents = (LinkedList<Document>) info.GetValue("Documents",typeof(LinkedList<Document>));
+            Documents = (ObservableCollection<Document>) info.GetValue("Documents",typeof(ObservableCollection<Document>));
         }
     }
 }

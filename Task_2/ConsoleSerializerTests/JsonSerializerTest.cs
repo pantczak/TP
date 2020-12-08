@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
@@ -18,7 +20,9 @@ namespace ConsoleSerializerTests
         Class3 class3;
         Class1 class1Deserialized;
         Class2 class2Deserialized;
-        Class3 class3Deserialized;
+        Class3 class3Deserialized; 
+        DocumentBinder documentBinder;
+        DocumentBinder documentBinderDeserialized;
 
         [TestInitialize]
         public void TestInitialize()
@@ -37,6 +41,15 @@ namespace ConsoleSerializerTests
 
             class3.Class1 = class1;
             class3.Class2 = class2;
+             
+            ObservableCollection<Document> documents = new ObservableCollection<Document>{
+            
+                new Document(4,"t1"),
+                new Document(45, "t2"),
+                new Document(324,"t3")
+            };
+
+            documentBinder = new DocumentBinder(documents);
         }
 
 
@@ -98,6 +111,80 @@ namespace ConsoleSerializerTests
 
             Assert.AreEqual(class1.Class3.TextData, class1Deserialized.Class3.TextData);
             Assert.AreEqual(class1.Class3.DateTimeData, class1Deserialized.Class3.DateTimeData);
+        }
+
+        [TestMethod]
+        public void TestGraphSerializationClass2()
+        {
+            using (FileStream fileStream = new FileStream("Class2Graph.json", FileMode.Create))
+            {
+                JsonSerializer.Serialize(fileStream, class2);
+            }
+
+            using (FileStream fileStream = new FileStream("Class2Graph.json", FileMode.Open))
+            {
+                class2Deserialized = JsonSerializer.Deserialize<Class2>(fileStream);
+            }
+
+            Assert.IsNotNull(class2Deserialized);
+            Assert.AreNotSame(class2, class2Deserialized);
+
+            Assert.AreEqual(class2.TextData, class2Deserialized.TextData);
+            Assert.AreEqual(class2.DateTimeData, class2Deserialized.DateTimeData);
+
+            Assert.AreEqual(class2.Class1.TextData, class2Deserialized.Class1.TextData);
+            Assert.AreEqual(class2.Class1.DateTimeData, class2Deserialized.Class1.DateTimeData);
+            Assert.AreEqual(class2.Class1.DoubleData, class2Deserialized.Class1.DoubleData);
+
+            Assert.AreEqual(class2.Class3.TextData, class2Deserialized.Class3.TextData);
+            Assert.AreEqual(class2.Class3.DateTimeData, class2Deserialized.Class3.DateTimeData);
+        }
+
+
+        [TestMethod]
+        public void TestGraphSerializationClass3()
+        {
+            using (FileStream fileStream = new FileStream("Class3Graph.json", FileMode.Create))
+            {
+                JsonSerializer.Serialize(fileStream, class3);
+            }
+
+            using (FileStream fileStream = new FileStream("Class3Graph.json", FileMode.Open))
+            {
+                class3Deserialized = JsonSerializer.Deserialize<Class3>(fileStream);
+            }
+
+            Assert.IsNotNull(class3Deserialized);
+            Assert.AreNotSame(class3, class3Deserialized);
+
+            Assert.AreEqual(class3.TextData, class3Deserialized.TextData);
+            Assert.AreEqual(class3.DateTimeData, class3Deserialized.DateTimeData);
+
+            Assert.AreEqual(class3.Class1.TextData, class3Deserialized.Class1.TextData);
+            Assert.AreEqual(class3.Class1.DateTimeData, class3Deserialized.Class1.DateTimeData);
+            Assert.AreEqual(class3.Class1.DoubleData, class3Deserialized.Class1.DoubleData);
+
+            Assert.AreEqual(class3.Class2.TextData, class3Deserialized.Class2.TextData);
+            Assert.AreEqual(class3.Class2.DateTimeData, class3Deserialized.Class2.DateTimeData);
+        }
+
+        [TestMethod]
+        public void ListDataTest()
+        {
+            using (FileStream fileStream = new FileStream("ListData.json", FileMode.Create))
+            {
+                JsonSerializer.Serialize(fileStream, documentBinder);
+            }
+
+            using (FileStream fileStream = new FileStream("ListData.json", FileMode.Open))
+            {
+                documentBinderDeserialized = JsonSerializer.Deserialize<DocumentBinder>(fileStream);
+            }
+
+            Assert.IsNotNull(documentBinderDeserialized);
+            Assert.AreNotSame(documentBinder, documentBinderDeserialized);
+
+            CollectionAssert.AreEqual(documentBinder.Documents, documentBinderDeserialized.Documents);
         }
     }
 }
