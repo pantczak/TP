@@ -21,7 +21,7 @@ namespace ConsoleSerializer.DataModel
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(className+ " "+name+" "+value);
+            stringBuilder.Append(className+ "|"+name+"|"+value);
             return stringBuilder.ToString();
         }
     }
