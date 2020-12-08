@@ -192,10 +192,24 @@ namespace ConsoleSerializer.Serializer
                 }
             }
 
-            serializationStream.Close();
+            //serializationStream.Close();
             // _sobjects.Clear();
         }
 
+        public void Serialize(Stream serializationStream, DocumentBinder documentBinder)
+        {
+            ObjectIDGenerator generator = new ObjectIDGenerator();
+            StringBuilder fileContent = new StringBuilder();
+            foreach (Document doc in documentBinder.Documents)
+            {
+                Serialize(serializationStream, doc);
+            }
+
+            foreach (Alias alias in documentBinder.Aliases)
+            {
+                Serialize(serializationStream, alias);
+            }
+        }
         public override ISurrogateSelector SurrogateSelector { get; set; }
         public override SerializationBinder Binder { get; set; }
         public override StreamingContext Context { get; set; }
