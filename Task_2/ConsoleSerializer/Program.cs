@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ConsoleSerializer.DataModel;
+using ConsoleSerializer.Serializer;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using ConsoleSerializer.DataModel;
-using ConsoleSerializer.Serializer;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
 
 namespace ConsoleSerializer
 {
@@ -13,7 +14,9 @@ namespace ConsoleSerializer
         {
             Console.WriteLine("Available operations: ");
             Console.WriteLine(
-                "[1] Serialize graph \n[2] Deserialize graph \n[3] Serialize graph to JSON\n[4] Deserialize graph from JSON\n[5] Serialize List to JSON\n[6] Deserialize List from JSON\n[7] Exit");
+                "[1] Serialize graph \n[2] Deserialize graph\n" +
+                "[3] Validate JSON (graph)\n[3] Serialize graph to JSON\n[4] Deserialize graph from JSON\n" +
+                "[5] Validate JSON (List)\n[6] Serialize List to JSON\n[7] Deserialize List from JSON\n[8] Exit");
             int choice = 0;
 
             Class1 class1 = new Class1("Text", DateTime.Now, 5.5);
@@ -33,7 +36,7 @@ namespace ConsoleSerializer
             {
                 new Document(123, "342"),
                 new Document(23, "sdsd")
-            }, new string[] {"a1", "a2", "a3"});
+            }, new [] {"a1", "a2", "a3"});
 
             while (choice != 7)
             {
@@ -45,6 +48,20 @@ namespace ConsoleSerializer
                     case 2:
                         break;
                     case 3:
+                        using (FileStream fileStream = new FileStream("serializationGraph.json", FileMode.Open))
+                        {
+                            string json;
+                            using (StreamReader reader = new StreamReader(fileStream))
+                            {
+                                json = reader.ReadToEnd();
+                            }
+                            JSchemaGenerator generator = new JSchemaGenerator();
+                            Console.WriteLine(JsonSerializer.Validate(generator.Generate(typeof(Class1)), json)
+                                ? "Valid"
+                                : "InValid");
+                        }
+                        break;
+                    case 4:
                         using (FileStream fileStream = new FileStream("serializationGraph.json", FileMode.Create))
                         {
                             JsonSerializer.Serialize(fileStream, class1);
@@ -52,7 +69,7 @@ namespace ConsoleSerializer
                             Console.WriteLine("Path: " + Directory.GetCurrentDirectory());
                         }
                         break;
-                    case 4:
+                    case 5:
                         using (FileStream fileStream = new FileStream("serializationGraph.json", FileMode.Open))
                         {
                             Class1 deserialize = JsonSerializer.Deserialize<Class1>(fileStream);
@@ -60,7 +77,21 @@ namespace ConsoleSerializer
 
                         }
                         break;
-                    case 5:
+                    case 6:
+                        using (FileStream fileStream = new FileStream("serializationList.json", FileMode.Open))
+                        {
+                            string json;
+                            using (StreamReader reader = new StreamReader(fileStream))
+                            {
+                                json = reader.ReadToEnd();
+                            }
+                            JSchemaGenerator generator = new JSchemaGenerator();
+                            Console.WriteLine(JsonSerializer.Validate(generator.Generate(typeof(DocumentBinder)), json)
+                                ? "Valid"
+                                : "InValid");
+                        }
+                        break;
+                    case 7:
                         using (FileStream fileStream = new FileStream("serializationList.json", FileMode.Create))
                         {
                             JsonSerializer.Serialize(fileStream, binder);
@@ -68,17 +99,18 @@ namespace ConsoleSerializer
                             Console.WriteLine("Path: " + Directory.GetCurrentDirectory());
                         }
                         break;
-                    case 6:
+                    case 8:
                         using (FileStream fileStream = new FileStream("serializationList.json", FileMode.Open))
                         {
                             DocumentBinder deserialize = JsonSerializer.Deserialize<DocumentBinder>(fileStream);
                             Console.WriteLine("Object deserialized");
                         }
                         break;
-                    case 7:
+                    case 9:
                         Environment.Exit(0);
                         break;
                     default:
+                        Console.WriteLine("Error, try again");
                         break;
                 }
             }
