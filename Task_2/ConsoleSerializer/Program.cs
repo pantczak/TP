@@ -35,10 +35,10 @@ namespace ConsoleSerializer
             class2.Class1 = class1;
             class2.Class3 = class3;
 
-            Dictionary<int, Document> documents = new Dictionary<int, Document>{
+            List< Document> documents = new List<Document>{
 
-                {1, new Document(123, "342")},
-                {2, new Document(23, "sdsd")}
+                 new Document(123, "342"),
+                 new Document(23, "sdsd")
             };
 
             DocumentBinder binder = new DocumentBinder(documents, new string[] { "a1", "A2", "A3" });

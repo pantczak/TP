@@ -41,11 +41,11 @@ namespace ConsoleSerializerTests
 
             _class3.Class1 = _class1;
             _class3.Class2 = _class2;
-             
-            Dictionary<int,Document> documents = new Dictionary<int, Document>{
 
-                {1, new Document(123, "342")},
-                {2, new Document(23, "sdsd")}
+            List<Document> documents = new List<Document>{
+
+                new Document(123, "342"),
+                new Document(23, "sdsd")
             };
 
             _documentBinder = new DocumentBinder(documents, new string[]{"a1","A2","A3"});
@@ -186,5 +186,7 @@ namespace ConsoleSerializerTests
             CollectionAssert.AreEqual(_documentBinder.Documents, _documentBinderDeserialized.Documents);
             CollectionAssert.AreEqual(_documentBinder.Aliases, _documentBinderDeserialized.Aliases);
         }
+
+
     }
 }
