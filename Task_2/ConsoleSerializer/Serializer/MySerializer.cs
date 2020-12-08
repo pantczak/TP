@@ -192,10 +192,10 @@ namespace ConsoleSerializer.Serializer
                 }
             }
 
-            //serializationStream.Close();
+            serializationStream.Close();
             // _sobjects.Clear();
         }
-
+        /*
         public void Serialize(Stream serializationStream, DocumentBinder documentBinder)
         {
             ObjectIDGenerator generator = new ObjectIDGenerator();
@@ -210,6 +210,7 @@ namespace ConsoleSerializer.Serializer
                 Serialize(serializationStream, alias);
             }
         }
+        */
         public override ISurrogateSelector SurrogateSelector { get; set; }
         public override SerializationBinder Binder { get; set; }
         public override StreamingContext Context { get; set; }
