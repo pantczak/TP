@@ -11,10 +11,12 @@ namespace ConsoleSerializer.DataModel
     public class DocumentBinder : ISerializable
     {
         public ObservableCollection<Document> Documents { get; set; }
+        public string[] Aliases { get; set; }
 
-         public DocumentBinder(ObservableCollection<Document> documents)
+         public DocumentBinder(ObservableCollection<Document> documents, string[] aliases)
          {
              Documents = documents;
+             Aliases = aliases;
          }
 
          public DocumentBinder()

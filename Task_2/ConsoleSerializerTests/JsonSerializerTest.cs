@@ -49,7 +49,7 @@ namespace ConsoleSerializerTests
                 new Document(324,"t3")
             };
 
-            _documentBinder = new DocumentBinder(documents);
+            _documentBinder = new DocumentBinder(documents, new string[]{"a1","A2","A3"});
         }
 
 
@@ -185,6 +185,7 @@ namespace ConsoleSerializerTests
             Assert.AreNotSame(_documentBinder, _documentBinderDeserialized);
 
             CollectionAssert.AreEqual(_documentBinder.Documents, _documentBinderDeserialized.Documents);
+            CollectionAssert.AreEqual(_documentBinder.Aliases, _documentBinderDeserialized.Aliases);
         }
     }
 }
