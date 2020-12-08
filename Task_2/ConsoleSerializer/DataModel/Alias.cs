@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace ConsoleSerializer.DataModel
 {
     [Serializable]
     [JsonObject]
-    public class Alias
+    public class Alias : ISerializable
     {
         public string Name { get; set; }
 
@@ -30,6 +31,16 @@ namespace ConsoleSerializer.DataModel
         public override int GetHashCode()
         {
             return (Name != null ? Name.GetHashCode() : 0);
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Name",Name);
+        }
+
+        public Alias(SerializationInfo info, StreamingContext context)
+        {
+            Name = info.GetString("Name");
         }
     }
 }
