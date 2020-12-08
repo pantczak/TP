@@ -38,12 +38,35 @@ namespace ConsoleSerializer.DataModel
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Documents",Documents);
+            for(int i=0;i<Documents.Count;i++)
+            {
+                info.AddValue("Documents"+i.ToString(), Documents[i]);
+            }
+            for (int i = 0; i < Aliases.Length; i++)
+            {
+                info.AddValue("Aliases" + i.ToString(), Aliases[i]);
+            }
+            info.AddValue("DocLen",Documents.Count);
+            info.AddValue("AliasLen", Aliases.Length);
         }
 
         public DocumentBinder(SerializationInfo info, StreamingContext context)
         {
-            Documents = (List<Document>) info.GetValue("Documents",typeof(List<Document>));
+            int DocLen = (int)info.GetValue("DocLen", typeof(int));
+            int AliasLen = (int)info.GetValue("AliasLen", typeof(int));
+            Documents = new List<Document>();
+            List<Alias> AliasesList = new List<Alias>();
+            for (int i = 0; i < DocLen; i++)
+            {
+                Documents.Add((Document)info.GetValue("Documents" + i.ToString(), typeof(Document)));
+            }
+            for (int i = 0; i < AliasLen; i++)
+            {
+                AliasesList.Add((Alias)info.GetValue("Aliases" + i.ToString(), typeof(Alias)));
+            }
+            Aliases = AliasesList.ToArray();
+
+
         }
     }
 }

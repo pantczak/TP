@@ -131,7 +131,6 @@ namespace ConsoleSerializerTests
         [TestMethod]
         public void TestListSerialization()
         {
-            Assert.Inconclusive();
             using (FileStream fileStream = new FileStream("ListData.txt", FileMode.Create))
             {
                serializer.Serialize(fileStream, _documentBinder);
