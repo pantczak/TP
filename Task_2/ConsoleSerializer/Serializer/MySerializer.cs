@@ -11,6 +11,7 @@ namespace ConsoleSerializer.Serializer
 {
     public class MySerializer : Formatter
     {
+
         List<DataStruct> _values = new List<DataStruct>();
         List<Object> _objects = new List<Object>();
         List<Object> _sobjects = new List<Object>();
