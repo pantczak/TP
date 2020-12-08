@@ -15,6 +15,18 @@ namespace ConsoleSerializer.DataModel
         {
         }
 
+        protected bool Equals(DocumentBinder other)
+        {
+            return Equals(_documents, other._documents);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((DocumentBinder) obj);
+        }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
