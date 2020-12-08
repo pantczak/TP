@@ -8,8 +8,8 @@ namespace ConsoleSerializer.DataModel
     [JsonObject]
     public class Document : ISerializable
     {
-        private int NumberOfPages { get; set; }
-        private string Title { get; set; }
+        public int NumberOfPages { get; set; }
+        public string Title { get; set; }
 
         public Document(int numberOfPages, string title)
         {
