@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel\Alias.cs" />
     <Compile Include="DataModel\Class1.cs" />
     <Compile Include="DataModel\Class2.cs" />
     <Compile Include="DataModel\Class3.cs" />
