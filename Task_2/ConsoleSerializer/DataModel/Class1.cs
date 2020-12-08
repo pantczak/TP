@@ -23,6 +23,17 @@ namespace ConsoleSerializer.DataModel
             Class3 = class3;
         }
 
+        public Class1(string textData, DateTime dateTimeData, double doubleData)
+        {
+            TextData = textData;
+            DateTimeData = dateTimeData;
+            DoubleData = doubleData;
+        }
+
+        public Class1()
+        {
+        }
+
         protected bool Equals(Class1 other)
         {
             return TextData == other.TextData && DateTimeData.Equals(other.DateTimeData) &&
@@ -37,20 +48,7 @@ namespace ConsoleSerializer.DataModel
             return Equals((Class1) obj);
         }
 
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = (TextData != null ? TextData.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ DateTimeData.GetHashCode();
-                hashCode = (hashCode * 397) ^ DoubleData.GetHashCode();
-                hashCode = (hashCode * 397) ^ (Class2 != null ? Class2.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Class3 != null ? Class3.GetHashCode() : 0);
-                return hashCode;
-            }
-        }
-
-        protected Class1(SerializationInfo info, StreamingContext context)
+        public Class1(SerializationInfo info, StreamingContext context)
         {
             TextData = info.GetString("TextData");
             DateTimeData = info.GetDateTime("DateTimeData");

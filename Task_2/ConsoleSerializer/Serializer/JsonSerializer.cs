@@ -1,53 +1,28 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace ConsoleSerializer.Serializer
 {
     public class JsonSerializer
     {
-        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        private static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             TypeNameHandling = TypeNameHandling.Auto,
+            NullValueHandling = NullValueHandling.Ignore,
         };
-
-        public static void Serialize(Object obj, string filePath)
+        public static void Serialize(Stream serializationStream, object obj)
         {
-            try
-            {
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    //File.Delete(filePath);
-                    string json = JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSettings);
-                    fileStream.Write(Encoding.UTF8.GetBytes(json), 0, Encoding.UTF8.GetByteCount(json));
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error" + e.Message);
-                throw;
-            }
+            string json = JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSettings);
+            serializationStream.Write(Encoding.UTF8.GetBytes(json),0, Encoding.UTF8.GetBytes(json).Length);
         }
 
-        public static T Deserialize<T>(string filePath)
+        public static T Deserialize<T>(Stream serializationStream)
         {
-            try
-            {
-                using (Stream fileStream = new FileStream(filePath, FileMode.Open))
-                {
-                    byte[] bytes = new byte[fileStream.Length];
-                    fileStream.Read(bytes,0,bytes.Length);
-                    return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(bytes), JsonSettings);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error" + e.Message);
-                throw;
-            }
+            byte[] bytes = new byte[serializationStream.Length];
+            serializationStream.Read(bytes,0,bytes.Length);
+            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(bytes), JsonSettings);
         }
     }
 }

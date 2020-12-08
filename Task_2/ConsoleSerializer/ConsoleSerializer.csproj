@@ -52,10 +52,13 @@
     <Compile Include="DataModel\Class1.cs" />
     <Compile Include="DataModel\Class2.cs" />
     <Compile Include="DataModel\Class3.cs" />
+    <Compile Include="DataModel\ConstDataFiller.cs" />
     <Compile Include="DataModel\NullDataFiller.cs" />
+	<Compile Include="DataModel\DataStruct.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\JsonSerializer.cs" />
+    <Compile Include="Serializer\CustomBinder.cs" />
     <Compile Include="Serializer\MySerializer.cs" />
   </ItemGroup>
   <ItemGroup>
