@@ -44,7 +44,7 @@ namespace ConsoleSerializer.DataModel
             return Equals((Class1) obj);
         }
 
-        protected Class1(SerializationInfo info, StreamingContext context)
+        public Class1(SerializationInfo info, StreamingContext context)
         {
             TextData = info.GetString("TextData");
             DateTimeData = info.GetDateTime("DateTimeData");
