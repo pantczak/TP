@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 
 namespace ConsoleSerializer.Serializer
 {
@@ -23,6 +25,12 @@ namespace ConsoleSerializer.Serializer
             byte[] bytes = new byte[serializationStream.Length];
             serializationStream.Read(bytes,0,bytes.Length);
             return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(bytes), JsonSettings);
+        }
+
+        public static bool Validate(JSchema schema, string json)
+        {
+            JObject o = JObject.Parse(json);
+            return o.IsValid(schema);
         }
     }
 }
