@@ -13,9 +13,10 @@ namespace ConsoleSerializer.Serializer
     public class MySerializer : Formatter
     {
         List<DataStruct> _values = new List<DataStruct>();
-        List<ObjStruct> _objects = new List<ObjStruct>();
+        List<Object> _objects = new List<Object>();
         List<Object> _sobjects = new List<Object>();
         Stream serializationStream;
+        ObjectIDGenerator objectIDGenerator = new ObjectIDGenerator();
         public override object Deserialize(Stream serializationStream)
         {
             throw new NotImplementedException();
@@ -33,21 +34,9 @@ namespace ConsoleSerializer.Serializer
                  this.WriteMember(_item.Name, _item.Value);
             }
             StringBuilder fileContent = new StringBuilder("[");
-
-            ObjStruct graphStruct=new ObjStruct(graph);
-            foreach (ObjStruct ost in _objects)
-            {
-                if (ost.value == graph)
-                {
-                 graphStruct =ost;
-                    break;
-                }
-            }
-            if (!_objects.Contains(graphStruct))
-            {
-                _objects.Add(graphStruct);
-            }
-            fileContent.Append(graphStruct.guid.ToString() + "\n");
+            fileContent.Append(graph.GetType().Name+" ");
+            fileContent.Append(objectIDGenerator.GetId(graph, out bool firstTime).ToString());
+            fileContent.Append("\n");
             foreach (DataStruct dataStruct in _values)
             {
                 fileContent.Append(dataStruct.ToString() + "\n");
@@ -60,11 +49,11 @@ namespace ConsoleSerializer.Serializer
             fileContent.Clear();
             _values.Clear();
             _sobjects.Add(graph);
-            foreach (ObjStruct objStruct in _objects)
+            foreach (Object obj in _objects)
             {
-                if(!_sobjects.Contains(objStruct.value))
+                if(!_sobjects.Contains(obj))
                     {
-                    this.Serialize(serializationStream,objStruct.value);
+                    this.Serialize(serializationStream,obj);
 
                 }
             }
@@ -144,25 +133,13 @@ namespace ConsoleSerializer.Serializer
                 return;
 
             }
-            bool isOnList = false;
-            Guid onListGuid= new Guid();
-            foreach(ObjStruct objStruct in _objects)
+            long id=objectIDGenerator.GetId(obj, out bool firstTime);
+            if (firstTime)
             {
-                if (objStruct.value == obj)
-                {
-                    isOnList = true;
-                    onListGuid = objStruct.guid;
-                }
+                _objects.Add(obj);
             }
-            if(!isOnList)
-            {
-                ObjStruct objStruct = new ObjStruct(obj);
-                _objects.Add(objStruct);
-                onListGuid = objStruct.guid;
-            }
-                _values.Add(new DataStruct(memberType.Name, name, onListGuid.ToString()));
-                return;
-            
+            _values.Add(new DataStruct(memberType.Name, name, id.ToString()));
+            return;
 
         }
 
