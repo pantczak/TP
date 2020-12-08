@@ -27,7 +27,9 @@ namespace ConsoleSerializer.DataModel
             DateTimeData = dateTimeData;
         }
 
-
+        public Class2()
+        {
+        }
 
         public Class2(SerializationInfo info, StreamingContext context)
         {
