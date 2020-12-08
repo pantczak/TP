@@ -18,8 +18,9 @@ namespace ConsoleSerializer
             Console.WriteLine("Available operations: ");
             Console.WriteLine(
                 "[1] Serialize graph \n[2] Deserialize graph\n" +
-                "[3] Validate JSON (graph)\n[4] Serialize graph to JSON\n[5] Deserialize graph from JSON\n" +
-                "[6] Validate JSON (List)\n[7] Serialize List to JSON\n[8] Deserialize List from JSON\n[9] Exit");
+                "[3] Serialize list \n[4] Deserialize list\n" +
+                "[5] Validate JSON (graph)\n[6] Serialize graph to JSON\n[7] Deserialize graph from JSON\n" +
+                "[8] Validate JSON (List)\n[9] Serialize List to JSON\n[10] Deserialize List from JSON\n[11] Exit");
             int choice = 0;
 
             Class1 class1 = new Class1("Text", DateTime.Now, 5.5);
@@ -43,7 +44,7 @@ namespace ConsoleSerializer
 
             DocumentBinder binder = new DocumentBinder(documents, new Alias[] {new Alias("A1"), new Alias("A2")});
 
-            while (choice != 9)
+            while (choice != 11)
             {
                 choice = Console.Read() - '0';
                 switch (choice)
@@ -66,6 +67,23 @@ namespace ConsoleSerializer
 
                         break;
                     case 3:
+                        using (FileStream fileStream = new FileStream("serializationList.txt", FileMode.Create))
+                        {
+                            serializer.Serialize(fileStream, binder);
+                            Console.WriteLine("Object serialized");
+                            Console.WriteLine("Path: " + Directory.GetCurrentDirectory());
+                        }
+
+                        break;
+                    case 4:
+                        using (FileStream fileStream = new FileStream("serializationList.txt", FileMode.Open))
+                        {
+                            serializer.Deserialize(fileStream);
+                            Console.WriteLine("Object deserialized");
+                        }
+
+                        break;
+                    case 5:
                         using (FileStream fileStream = new FileStream("serializationGraph.json", FileMode.Open))
                         {
                             string json;
@@ -81,7 +99,7 @@ namespace ConsoleSerializer
                         }
 
                         break;
-                    case 4:
+                    case 6:
                         using (FileStream fileStream = new FileStream("serializationGraph.json", FileMode.Create))
                         {
                             JsonSerializer.Serialize(fileStream, class1);
@@ -90,7 +108,7 @@ namespace ConsoleSerializer
                         }
 
                         break;
-                    case 5:
+                    case 7:
                         using (FileStream fileStream = new FileStream("serializationGraph.json", FileMode.Open))
                         {
                             Class1 deserialize = JsonSerializer.Deserialize<Class1>(fileStream);
@@ -98,7 +116,7 @@ namespace ConsoleSerializer
                         }
 
                         break;
-                    case 6:
+                    case 8:
                         using (FileStream fileStream = new FileStream("serializationList.json", FileMode.Open))
                         {
                             string json;
@@ -114,7 +132,7 @@ namespace ConsoleSerializer
                         }
 
                         break;
-                    case 7:
+                    case 9:
                         using (FileStream fileStream = new FileStream("serializationList.json", FileMode.Create))
                         {
                             JsonSerializer.Serialize(fileStream, binder);
@@ -123,7 +141,7 @@ namespace ConsoleSerializer
                         }
 
                         break;
-                    case 8:
+                    case 10:
                         using (FileStream fileStream = new FileStream("serializationList.json", FileMode.Open))
                         {
                             DocumentBinder deserialize = JsonSerializer.Deserialize<DocumentBinder>(fileStream);
@@ -131,7 +149,7 @@ namespace ConsoleSerializer
                         }
 
                         break;
-                    case 9:
+                    case 11:
                         Environment.Exit(0);
                         break;
                 }
