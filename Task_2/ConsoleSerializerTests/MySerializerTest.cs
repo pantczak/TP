@@ -3,7 +3,6 @@ using ConsoleSerializer.Serializer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 
 namespace ConsoleSerializerTests
@@ -37,10 +36,10 @@ namespace ConsoleSerializerTests
             _class3.Class1 = _class1;
             _class3.Class2 = _class2;
 
-            Dictionary<int,Document> documents = new Dictionary<int, Document>{
+            List<Document> documents = new List<Document>{
 
-                {1, new Document(123, "342")},
-                {2, new Document(23, "sdsd")}
+                new Document(123, "342"),
+                new Document(23, "sdsd")
             };
 
             _documentBinder = new DocumentBinder(documents, new string[] { "a1", "A2", "A3" });
