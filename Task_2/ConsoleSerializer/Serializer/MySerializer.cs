@@ -49,17 +49,20 @@ namespace ConsoleSerializer.Serializer
                         buff.RemoveAt(0);
                         objectStrings = buff.ToArray();
                     }
+
                     //Rozdzielam na informacje o poszczególnej właściwości
                     string[] objAtr = objectStrings[0].Split('|');
                     if (objAtr.Length != 3)
                     {
                         continue;
                     }
+
                     //Zapisuję do Słownika obiekt pod referencją do niego
-                    ReferencesDictionary.Add(objAtr[2], FormatterServices.GetSafeUninitializedObject(customBinder.BindToType(objAtr[0], objAtr[1])));
+                    ReferencesDictionary.Add(objAtr[2],
+                        FormatterServices.GetSafeUninitializedObject(customBinder.BindToType(objAtr[0], objAtr[1])));
                 }
 
-                    foreach (string data in readObjectsList)
+                foreach (string data in readObjectsList)
                 {
                     //Rozdzielam na poszczególne właściwości obiektu
                     String[] objectStrings = data.Split('\n');
@@ -69,12 +72,14 @@ namespace ConsoleSerializer.Serializer
                         buff.RemoveAt(0);
                         objectStrings = buff.ToArray();
                     }
+
                     //Rozdzielam na informacje o poszczególnej właściwości
                     string[] objAtr = objectStrings[0].Split('|');
                     if (objAtr.Length != 3)
                     {
                         continue;
                     }
+
                     // Tworzę obiekt przechowujący typ danego obiektu
                     Type deserializedObjType = customBinder.BindToType(objAtr[0], objAtr[1]);
                     // Tworzę nowe SerializationInfo i contex
@@ -89,7 +94,8 @@ namespace ConsoleSerializer.Serializer
                         Type atrType = customBinder.BindToType(objAtr[0], objAtrs[0]);
                         // sprawdzam czy typ obiektu nie jest nullem
                         if (atrType == null)
-                        {   //sprawdzam czy powinien być nullem
+                        {
+                            //sprawdzam czy powinien być nullem
                             if (!objAtrs[0].Equals("null"))
                             {
                                 SaveValueToSerialInfo(info, Type.GetType(objAtrs[0]), objAtrs[1], objAtrs[2]);
@@ -102,32 +108,36 @@ namespace ConsoleSerializer.Serializer
                         // jak tu doszło to jest referencją
                         else
                         {
-                            info.AddValue(objAtrs[1],ReferencesDictionary[objAtrs[2]],atrType);
+                            info.AddValue(objAtrs[1], ReferencesDictionary[objAtrs[2]], atrType);
                         }
                     }
+
                     // Tworzę listę typów parametrów konstruktora obiektu
-                    Type[] constructorTypes = { info.GetType(), _context.GetType() };
+                    Type[] constructorTypes = {info.GetType(), _context.GetType()};
                     // tworzę listę argumentów konstruktora
-                    object[] constructorArguments = { info, _context };
+                    object[] constructorArguments = {info, _context};
                     // tworzę obiekt
-                    ReferencesDictionary[objAtr[2]].GetType().GetConstructor(constructorTypes).Invoke(ReferencesDictionary[objAtr[2]], constructorArguments);
+                    ReferencesDictionary[objAtr[2]].GetType().GetConstructor(constructorTypes)
+                        .Invoke(ReferencesDictionary[objAtr[2]], constructorArguments);
                     returnObjects.Add(ReferencesDictionary[objAtr[2]]);
-                }      
+                }
             }
+
             return returnObjects[0];
         }
 
         private void SaveValueToSerialInfo(SerializationInfo info, Type type, string name, string val)
         {
-            if (type==null)
+            if (type == null)
             {
-                info.AddValue(name,null);
+                info.AddValue(name, null);
                 return;
             }
+
             switch (type.ToString())
             {
                 case "System.DateTime":
-                   info.AddValue(name, DateTime.Parse(val, null, DateTimeStyles.AssumeLocal));
+                    info.AddValue(name, DateTime.Parse(val, null, DateTimeStyles.AssumeLocal));
                     break;
                 case "System.String":
                     info.AddValue(name, val);
@@ -138,9 +148,6 @@ namespace ConsoleSerializer.Serializer
                 case "System.Int32":
                     info.AddValue(name, Int32.Parse(val, CultureInfo.InvariantCulture));
                     break;
-
-
-
             }
         }
 
@@ -159,10 +166,12 @@ namespace ConsoleSerializer.Serializer
             }
 
 
-            StringBuilder fileContent = new StringBuilder(assemblyName+"|"+typeName+"|"+ objectIDGenerator.GetId(graph, out bool firstTime).ToString());
+            StringBuilder fileContent = new StringBuilder(assemblyName + "|" + typeName + "|" +
+                                                          objectIDGenerator.GetId(graph, out bool firstTime)
+                                                              .ToString());
             foreach (DataStruct dataStruct in _values)
             {
-                fileContent.Append("\n"+dataStruct.ToString());
+                fileContent.Append("\n" + dataStruct.ToString());
             }
 
             fileContent.Append(";\n");
@@ -176,14 +185,14 @@ namespace ConsoleSerializer.Serializer
             _sobjects.Add(graph);
             foreach (Object obj in _objects)
             {
-                if(!_sobjects.Contains(obj))
-                    {
-                    this.Serialize(serializationStream,obj);
-
+                if (!_sobjects.Contains(obj))
+                {
+                    this.Serialize(serializationStream, obj);
                 }
             }
+
             serializationStream.Close();
-           // _sobjects.Clear();
+            // _sobjects.Clear();
         }
 
         public override ISurrogateSelector SurrogateSelector { get; set; }
@@ -197,6 +206,7 @@ namespace ConsoleSerializer.Serializer
             {
                 _objects.Add(obj);
             }
+
             _values.Add(new DataStruct(memberType.Name, name, id.ToString()));
             return;
         }
@@ -228,7 +238,7 @@ namespace ConsoleSerializer.Serializer
 
         protected override void WriteDouble(double val, string name)
         {
-            _values.Add(new DataStruct(val.GetType().ToString(), name, val.ToString( CultureInfo.InvariantCulture)));
+            _values.Add(new DataStruct(val.GetType().ToString(), name, val.ToString(CultureInfo.InvariantCulture)));
         }
 
         protected override void WriteInt16(short val, string name)
@@ -259,14 +269,15 @@ namespace ConsoleSerializer.Serializer
                 _values.Add(new DataStruct(obj.GetType().ToString(), name, (String) obj));
                 return;
             }
-            long id=objectIDGenerator.GetId(obj, out bool firstTime);
+
+            long id = objectIDGenerator.GetId(obj, out bool firstTime);
             if (firstTime)
             {
                 _objects.Add(obj);
             }
+
             _values.Add(new DataStruct(memberType.FullName, name, id.ToString()));
             return;
-
         }
 
         protected override void WriteSByte(sbyte val, string name)
