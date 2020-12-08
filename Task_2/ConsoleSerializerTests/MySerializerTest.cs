@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using ConsoleSerializer.DataModel;
+﻿using ConsoleSerializer.DataModel;
 using ConsoleSerializer.Serializer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
 
 namespace ConsoleSerializerTests
 {

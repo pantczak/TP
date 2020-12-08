@@ -30,6 +30,10 @@ namespace ConsoleSerializer.DataModel
             DoubleData = doubleData;
         }
 
+        public Class1()
+        {
+        }
+
         protected bool Equals(Class1 other)
         {
             return TextData == other.TextData && DateTimeData.Equals(other.DateTimeData) &&

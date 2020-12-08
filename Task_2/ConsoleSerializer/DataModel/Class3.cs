@@ -34,6 +34,10 @@ namespace ConsoleSerializer.DataModel
             Class1 = (Class1) info.GetValue("Class1", typeof(Class1));
         }
 
+        public Class3()
+        {
+        }
+
         protected bool Equals(Class3 other)
         {
             return TextData == other.TextData && DateTimeData.Equals(other.DateTimeData) &&
