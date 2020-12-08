@@ -11,7 +11,6 @@ namespace ConsoleSerializer.Serializer
 {
     public class MySerializer : Formatter
     {
-
         List<DataStruct> _values = new List<DataStruct>();
         List<Object> _objects = new List<Object>();
         List<Object> _sobjects = new List<Object>();
@@ -83,7 +82,7 @@ namespace ConsoleSerializer.Serializer
 
                     // Tworzę obiekt przechowujący typ danego obiektu
                     Type deserializedObjType = customBinder.BindToType(objAtr[0], objAtr[1]);
-                    // Tworzę nowe SerializationInfo i contex
+                    // Tworzę nowe SerializationInfo i context
                     SerializationInfo info = new SerializationInfo(deserializedObjType, new FormatterConverter());
                     StreamingContext _context = new StreamingContext(StreamingContextStates.File);
 
@@ -194,6 +193,7 @@ namespace ConsoleSerializer.Serializer
 
             serializationStream.Close();
         }
+
         public override ISurrogateSelector SurrogateSelector { get; set; }
         public override SerializationBinder Binder { get; set; }
         public override StreamingContext Context { get; set; }
