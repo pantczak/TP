@@ -27,7 +27,9 @@ namespace ConsoleSerializerTests
             Stream fileStream = new FileStream(filePath, FileMode.Create);
             serializer.Serialize( fileStream, class1);
             fileStream.Close();
+            Assert.AreEqual(1,1);
         }
+
         [TestMethod]
         public void TestRead()
         {
@@ -52,6 +54,13 @@ namespace ConsoleSerializerTests
             fileStream.Close();
             Assert.AreEqual(class1, obj);
             Assert.AreEqual(true, Equals(class1, obj));
+            
+        }
+
+        [TestMethod]
+        public void TestRead2()
+        {
+
         }
     }
 }
