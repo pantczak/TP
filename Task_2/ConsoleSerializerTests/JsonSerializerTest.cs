@@ -48,7 +48,7 @@ namespace ConsoleSerializerTests
                 new Document(23, "sdsd")
             };
 
-            _documentBinder = new DocumentBinder(documents, new string[]{"a1","A2","A3"});
+            _documentBinder = new DocumentBinder(documents, new Alias[] { new Alias("A1"), new Alias("A2")});
         }
 
 

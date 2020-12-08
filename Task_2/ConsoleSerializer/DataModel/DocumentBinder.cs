@@ -11,9 +11,9 @@ namespace ConsoleSerializer.DataModel
     public class DocumentBinder : ISerializable
     {
         public List<Document> Documents { get; set; }
-        public string[] Aliases { get; set; }
+        public Alias[] Aliases { get; set; }
 
-         public DocumentBinder(List<Document> documents, string[] aliases)
+         public DocumentBinder(List<Document> documents, Alias[] aliases)
          {
              Documents = documents;
              Aliases = aliases;
