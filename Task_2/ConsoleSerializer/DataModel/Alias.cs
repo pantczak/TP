@@ -14,6 +14,9 @@ namespace ConsoleSerializer.DataModel
         {
             Name = name;
         }
+        public Alias()
+        {
+        }
 
         protected bool Equals(Alias other)
         {
