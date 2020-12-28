@@ -62,15 +62,18 @@ namespace Task3
             DataClasses1DataContext productionDataContext = new DataClasses1DataContext();
             List<Product> productList = new List<Product>((from review in productionDataContext.ProductReviews
                 orderby review.ReviewDate descending
-                group review.Product by review.ProductID into tuple
+                group review.Product by review.ProductID
+                into tuple
                 select tuple.First()).Take(howManyProducts));
             return productList;
         }
 
         public static int GetTotalStandardCostByCategory(ProductCategory category)
         {
-            //TODO
-            return 0;
+            DataClasses1DataContext productionDataContext = new DataClasses1DataContext();
+            return (int) (from product in productionDataContext.Products
+                where product.ProductSubcategory.ProductCategory.Name == category.Name
+                select product.StandardCost).Sum();
         }
     }
 }

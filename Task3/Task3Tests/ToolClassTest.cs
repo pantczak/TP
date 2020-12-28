@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using Task3;
 using Task3.Database;
 
 namespace Task3Tests
@@ -13,7 +14,6 @@ namespace Task3Tests
         [TestMethod]
         public void GetProductsByName()
         {
-            List<Product> listOfProducts = SqlToolClass.GetProductsByName("Decal");
         }
 
         [TestMethod]
