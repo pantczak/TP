@@ -9,8 +9,6 @@ namespace Task3Tests
     [TestClass]
     public class ToolClassTest
     {
-        //TODO tests are probably wrong ( no DB conn )
-
         [TestMethod]
         public void GetProductsByName()
         {
@@ -75,7 +73,7 @@ namespace Task3Tests
         public void GetTotalStandardCostByCategory()
         {
             double totalCost = ToolClass.GetTotalStandardCostByCategory(new ProductCategory {Name = "Bikes"});
-            Assert.AreEqual( 92092,  totalCost);
+            Assert.AreEqual(92092, totalCost);
         }
     }
 }
