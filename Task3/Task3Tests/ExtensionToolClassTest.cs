@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using Task3;
@@ -69,6 +70,30 @@ namespace Task3Tests
             }
         }
 
-        //TODO add string tests
+        [TestMethod]
+        public void GetProductVendorPairs()
+        {
+            using (DataClasses1DataContext context = new DataClasses1DataContext())
+            {
+                List<Product> productsList = context.GetTable<Product>().ToList();
+                List<ProductVendor> productVendorsList = context.GetTable<ProductVendor>().ToList();
+                string data = productsList.GetProductVendorAsPair(productVendorsList);
+                string[] splitStrings = data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                Assert.AreEqual(460, splitStrings.Length);
+            }
+        }
+
+        [TestMethod]
+        public void GetProductVendorPairsImperative()
+        {
+            using (DataClasses1DataContext context = new DataClasses1DataContext())
+            {
+                List<Product> productsList = context.GetTable<Product>().ToList();
+                List<ProductVendor> productVendorsList = context.GetTable<ProductVendor>().ToList();
+                string data = productsList.GetProductVendorAsPair(productVendorsList);
+                string[] splitStrings = data.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                Assert.AreEqual( 460, splitStrings.Length);
+            }
+        }
     }
 }

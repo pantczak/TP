@@ -38,6 +38,40 @@ namespace Task3
             return productsPage;
         }
 
-        //TODO ADD STRING RETURN 
+        public static string GetProductVendorAsPair(this List<Product> productsList, List<ProductVendor> productVendorsList)
+        {
+            var query = (from product in productsList
+                from productVendor in productVendorsList
+                where productVendor.ProductID.Equals(product.ProductID)
+                select product.Name + " - " + productVendor.Vendor.Name).ToList();
+
+            string result = "";
+
+            foreach (var line in query)
+            {
+                result += line + '\n';
+            }
+
+            return result;
+        }
+
+        public static string GetProductVendorAsPairImperative(this List<Product> productsList, List<ProductVendor> productVendorsList)
+        {
+            var query = productsList.Join(productVendorsList,
+                product => product.ProductID,
+                productVendor => productVendor.ProductID,
+                (product, productVendor) => product.Name + " - " + productVendor.Vendor.Name).ToList();
+
+            string result = "";
+
+            foreach (var line in query)
+            {
+                result += line + '\n';
+            }
+
+            return result;
+        }
+
+        
     }
 }
