@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task3.Database;
 
 namespace Task3
 {
-    class MyProduct
+    public class MyProduct : Product
     {
     }
 }
