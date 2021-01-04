@@ -18,5 +18,6 @@ namespace Task3
                     property.SetValue(this, property.GetValue(product));
                 }
             }
+        }
     }
 }
