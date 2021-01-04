@@ -12,9 +12,9 @@ namespace Task3
         public static List<MyProduct> MyProducts { get; private set; }
 
 
-        public MyProductDataContext(List<Product> productsList)
+        public MyProductDataContext(DataClasses1DataContext productsList)
         {
-            MyProducts = productsList.Select(product => new MyProduct(product)).ToList();
+            MyProducts = productsList.Products.AsEnumerable().Select(product => new MyProduct(product)).ToList();
         }
     }
 }
