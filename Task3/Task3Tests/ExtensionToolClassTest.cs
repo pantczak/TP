@@ -18,7 +18,7 @@ namespace Task3Tests
                 List<Product> productsList = context.GetTable<Product>().ToList();
                 List<Product> results = productsList.GetProductsWithNoCategory();
 
-                foreach (var result in results)
+                foreach (Product result in results)
                 {
                     Assert.AreEqual(result.ProductSubcategory, null);
                 }
@@ -35,7 +35,7 @@ namespace Task3Tests
                 List<Product> productsList = context.GetTable<Product>().ToList();
                 List<Product> results = productsList.GetProductsWithNoCategoryImperative();
 
-                foreach (var result in results)
+                foreach (Product result in results)
                 {
                     Assert.AreEqual(result.ProductSubcategory, null);
                 }
@@ -50,10 +50,12 @@ namespace Task3Tests
             using (DataClasses1DataContext context = new DataClasses1DataContext())
             {
                 List<Product> productsList = context.GetTable<Product>().ToList();
-                List<Product> results = productsList.GetProductsAsPage(1, 20);
-                Assert.AreEqual(results.Count, 20);
+                List<Product> results = productsList.GetProductsAsPage(1, 3);
 
-                //TODO improve
+                Assert.AreEqual(3, results.Count);
+                Assert.AreEqual("Adjustable Race", results[0].Name);
+                Assert.AreEqual("Bearing Ball", results[1].Name);
+                Assert.AreEqual("BB Ball Bearing", results[2].Name);
             }
         }
 
@@ -63,10 +65,11 @@ namespace Task3Tests
             using (DataClasses1DataContext context = new DataClasses1DataContext())
             {
                 List<Product> productsList = context.GetTable<Product>().ToList();
-                List<Product> results = productsList.GetProductsAsPageImperative(1, 20);
-                Assert.AreEqual(results.Count, 20);
-
-                //TODO improve
+                List<Product> results = productsList.GetProductsAsPageImperative(1, 3);
+                Assert.AreEqual(3, results.Count);
+                Assert.AreEqual("Adjustable Race", results[0].Name);
+                Assert.AreEqual("Bearing Ball", results[1].Name);
+                Assert.AreEqual("BB Ball Bearing", results[2].Name);
             }
         }
 
@@ -78,8 +81,7 @@ namespace Task3Tests
                 List<Product> productsList = context.GetTable<Product>().ToList();
                 List<ProductVendor> productVendorsList = context.GetTable<ProductVendor>().ToList();
                 string data = productsList.GetProductVendorAsPair(productVendorsList);
-                string[] splitStrings = data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                Assert.AreEqual(460, splitStrings.Length);
+                Assert.AreEqual(460, data.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).Count());
             }
         }
 
@@ -90,9 +92,8 @@ namespace Task3Tests
             {
                 List<Product> productsList = context.GetTable<Product>().ToList();
                 List<ProductVendor> productVendorsList = context.GetTable<ProductVendor>().ToList();
-                string data = productsList.GetProductVendorAsPair(productVendorsList);
-                string[] splitStrings = data.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
-                Assert.AreEqual( 460, splitStrings.Length);
+                string data = productsList.GetProductVendorAsPairImperative(productVendorsList);
+                Assert.AreEqual(460, data.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).Count());
             }
         }
     }

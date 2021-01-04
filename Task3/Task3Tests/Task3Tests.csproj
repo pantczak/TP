@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionToolClassTest.cs" />
-    <Compile Include="MyProductTools.cs" />
+    <Compile Include="MyProductToolsTest.cs" />
     <Compile Include="ToolClassTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
