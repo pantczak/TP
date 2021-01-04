@@ -28,6 +28,8 @@ namespace Task3Tests
             List<Product> list = ToolClass.GetProductsByVendorName("Trikes, Inc.");
 
             Assert.AreEqual(2, list.Count);
+            Assert.AreEqual("Mountain Tire Tube", list[0].Name);
+            Assert.AreEqual("HL Mountain Tire", list[1].Name);
         }
 
         [TestMethod]
@@ -52,13 +54,17 @@ namespace Task3Tests
         {
             List<Product> list = ToolClass.GetProductsWithNRecentReviews(2);
             Assert.AreEqual(1, list.Count);
+            Assert.AreEqual("HL Mountain Pedal", list[0].Name);
         }
 
         [TestMethod]
         public void GetNRecentlyReviewedProducts()
         {
-            List<Product> list = ToolClass.GetNRecentlyReviewedProducts(2);
-            Assert.AreEqual(2, list.Count);
+            List<Product> list = ToolClass.GetNRecentlyReviewedProducts(3);
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual("HL Mountain Pedal", list[0].Name);
+            Assert.AreEqual("Road-550-W Yellow, 40", list[1].Name);
+            Assert.AreEqual("Mountain Bike Socks, M", list[2].Name);
         }
 
         [TestMethod]
@@ -67,13 +73,16 @@ namespace Task3Tests
             List<Product> list = ToolClass.GetNProductsFromCategory("Bikes", 3);
 
             Assert.AreEqual(3, list.Count);
+            Assert.AreEqual("Mountain-100 Silver, 38", list[0].Name);
+            Assert.AreEqual("Mountain-100 Silver, 42", list[1].Name);
+            Assert.AreEqual("Mountain-100 Silver, 44", list[2].Name);
         }
 
         [TestMethod]
         public void GetTotalStandardCostByCategory()
         {
-            double totalCost = ToolClass.GetTotalStandardCostByCategory(new ProductCategory {Name = "Bikes"});
-            Assert.AreEqual(92092, totalCost);
+            double totalCost = ToolClass.GetTotalStandardCostByCategory(new ProductCategory {Name = "Clothing" });
+            Assert.AreEqual(868, totalCost);
         }
     }
 }

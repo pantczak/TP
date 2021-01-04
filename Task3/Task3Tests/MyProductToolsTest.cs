@@ -15,12 +15,12 @@ namespace Task3Tests
         {
             using (DataClasses1DataContext context = new DataClasses1DataContext())
             {
-                MyProductDataContext mycontext = new MyProductDataContext(context);
+                MyProductDataContext myContext = new MyProductDataContext(context);
                 List<MyProduct> list = MyProductTools.GetProductsByName("Hex Nut");
 
                 Assert.AreEqual(39, list.Count);
 
-                foreach (Product product in list)
+                foreach (MyProduct product in list)
                 {
                     Assert.IsTrue(product.Name.Contains("Hex Nut"));
                 }
@@ -32,7 +32,7 @@ namespace Task3Tests
         {
             using (DataClasses1DataContext context = new DataClasses1DataContext())
             {
-                MyProductDataContext mycontext = new MyProductDataContext(context);
+                MyProductDataContext myContext = new MyProductDataContext(context);
                 List<MyProduct> list = MyProductTools.GetProductsWithNRecentReviews(2);
                 Assert.AreEqual(1, list.Count);
             }
@@ -44,7 +44,7 @@ namespace Task3Tests
         {
             using (DataClasses1DataContext context = new DataClasses1DataContext())
             {
-                MyProductDataContext mycontext = new MyProductDataContext(context);
+                MyProductDataContext myContext = new MyProductDataContext(context);
                 List<MyProduct> list = MyProductTools.GetNProductsFromCategory("Bikes", 3);
 
                 Assert.AreEqual(3, list.Count);
