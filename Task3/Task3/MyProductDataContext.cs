@@ -7,7 +7,7 @@ using Task3.Database;
 
 namespace Task3
 {
-    class MyProductDataContext
+    public class MyProductDataContext
     {
         public static List<MyProduct> MyProducts { get; private set; }
 
