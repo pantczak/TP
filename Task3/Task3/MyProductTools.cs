@@ -7,7 +7,7 @@ using Task3.Database;
 
 namespace Task3
 {
-    class MyProductTools
+    public static class MyProductTools
     {
         public static List<MyProduct> GetProductsByName(string namePart)
         {
