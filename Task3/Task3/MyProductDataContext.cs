@@ -14,8 +14,6 @@ namespace Task3
 
         public MyProductDataContext(List<Product> productsList)
         {
-            var i = 0;
-
             MyProducts = productsList.Select(product => new MyProduct(product)).ToList();
         }
     }
