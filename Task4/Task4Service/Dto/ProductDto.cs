@@ -10,5 +10,14 @@ namespace Task4Service.Dto
         {
             _product = product;
         }
+
+        internal Product GetProduct()
+        {
+            return this._product;
+        }
+
+        //TODO fill or abandon
+
+
     }
 }
