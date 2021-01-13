@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task4Data", "Task4Data\Task
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task4Service", "Task4Service\Task4Service.csproj", "{88C0C642-27F1-4746-9474-C463EF1C3FF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task4GUIViewModel", "Task4GUI\Task4GUIViewModel.csproj", "{F8A43132-6C86-4C58-B200-297AB7D3F4EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task4GUIView", "Task4GUI\Task4GUIView.csproj", "{F8A43132-6C86-4C58-B200-297AB7D3F4EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
