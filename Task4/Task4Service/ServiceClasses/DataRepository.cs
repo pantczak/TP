@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
+using System.Threading.Tasks;
 using Task4Data.Database;
 
 namespace Task4Service.ServiceClasses
 {
-    public class DataRepository : IDataRepository, IDisposable
+    public class DataRepository : IDataRepository
     {
         private readonly DataSourceDataContext _context;
 
@@ -14,18 +17,13 @@ namespace Task4Service.ServiceClasses
             _context = context;
         }
 
-        public bool CreateProduct(Product product)
+        public void CreateProduct(Product product)
         {
-            try
+            Task.Run(() =>
             {
                 _context.Products.InsertOnSubmit(product);
                 _context.SubmitChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            });
         }
 
         public Product ReadProduct(int productId)
@@ -36,60 +34,35 @@ namespace Task4Service.ServiceClasses
             return !result.Any() ? null : result.First();
         }
 
-        public bool DeleteProduct(int productId)
+        public void DeleteProduct(int productId)
         {
-            try
+            Task.Run(() =>
             {
                 _context.Products.DeleteOnSubmit(ReadProduct(productId));
                 _context.SubmitChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            });
         }
 
-        public bool UpdateProduct(Product product)
+        public void UpdateProduct(Product product)
         {
-            try
+            Task.Run(() =>
             {
-                Product productToUpdate = ReadProduct(product.ProductID);
-                productToUpdate.Name = product.Name;
-                productToUpdate.ProductNumber = product.ProductNumber;
-                productToUpdate.MakeFlag = product.MakeFlag;
-                productToUpdate.FinishedGoodsFlag = product.FinishedGoodsFlag;
-                productToUpdate.Color = product.Color;
-                productToUpdate.SafetyStockLevel = product.SafetyStockLevel;
-                productToUpdate.ReorderPoint = product.ReorderPoint;
-                productToUpdate.StandardCost = product.StandardCost;
-                productToUpdate.ListPrice = product.ListPrice;
-                productToUpdate.Size = product.Size;
-                productToUpdate.SizeUnitMeasureCode = product.SizeUnitMeasureCode;
-                productToUpdate.WeightUnitMeasureCode = product.WeightUnitMeasureCode;
-                productToUpdate.Weight = product.Weight;
-                productToUpdate.DaysToManufacture = product.DaysToManufacture;
-                productToUpdate.ProductLine = product.ProductLine;
-                productToUpdate.Class = product.Class;
-                productToUpdate.Style = product.Style;
-                productToUpdate.ProductSubcategoryID = product.ProductSubcategoryID;
-                productToUpdate.ProductModelID = product.ProductModelID;
-                productToUpdate.SellStartDate = product.SellStartDate;
-                productToUpdate.SellEndDate = product.SellEndDate;
-                productToUpdate.DiscontinuedDate = product.DiscontinuedDate;
-                productToUpdate.rowguid = product.rowguid;
-                productToUpdate.ModifiedDate = DateTime.Today;
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+                Product productToUpdate = _context.Products.FirstOrDefault(prod => prod.ProductID == product.ProductID);
+                if (productToUpdate != null)
+                    foreach (PropertyInfo info in productToUpdate.GetType().GetProperties())
+                    {
+                        if (info.CanWrite)
+                        {
+                            info.SetValue(productToUpdate, info.GetValue(product));
+                        }
+                    }
+            });
         }
 
-        public void Dispose() //TODO remove or keep
+        public IEnumerable<Product> ReadAllProducts()
         {
-            _context?.Dispose();
+            List<Product> productsList = new List<Product>(_context.Products);
+            return productsList;
         }
     }
 }
