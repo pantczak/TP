@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
 using System.Threading.Tasks;
 using Task4Data.Database;
+using Task4Service.ClassWrapper;
 
 namespace Task4Service.ServiceClasses
 {
@@ -17,52 +16,58 @@ namespace Task4Service.ServiceClasses
             _context = context;
         }
 
-        public void CreateProduct(Product product)
+        public void CreateProduct(ProductCategoryPlaceholder productCategoryPlaceholder)
         {
             Task.Run(() =>
             {
-                _context.Products.InsertOnSubmit(product);
+                _context.ProductCategories.InsertOnSubmit(productCategoryPlaceholder.GetProductCategory());
                 _context.SubmitChanges();
             });
         }
 
-        public Product ReadProduct(int productId)
+        public ProductCategoryPlaceholder ReadProduct(int productCategoryId)
         {
-            IQueryable<Product> result =
-                from product in _context.Products where product.ProductID == productId select product;
+            ProductCategory result =
+                _context.ProductCategories.FirstOrDefault(cat => cat.ProductCategoryID == productCategoryId);
 
-            return !result.Any() ? null : result.First();
+            return new ProductCategoryPlaceholder(result);
         }
 
         public void DeleteProduct(int productId)
         {
             Task.Run(() =>
             {
-                _context.Products.DeleteOnSubmit(ReadProduct(productId));
+                _context.ProductCategories.DeleteOnSubmit(ReadProduct(productId).GetProductCategory());
                 _context.SubmitChanges();
             });
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateProduct(ProductCategoryPlaceholder productCategory)
         {
             Task.Run(() =>
             {
-                Product productToUpdate = _context.Products.FirstOrDefault(prod => prod.ProductID == product.ProductID);
-                if (productToUpdate != null)
-                    foreach (PropertyInfo info in productToUpdate.GetType().GetProperties())
+                ProductCategory productCategoryToUpdate = _context.ProductCategories.FirstOrDefault(category =>
+                    category.ProductCategoryID == productCategory.GetProductCategory().ProductCategoryID);
+                if (productCategoryToUpdate != null)
+                    foreach (PropertyInfo info in productCategoryToUpdate.GetType().GetProperties())
                     {
                         if (info.CanWrite)
                         {
-                            info.SetValue(productToUpdate, info.GetValue(product));
+                            info.SetValue(productCategoryToUpdate, info.GetValue(productCategory));
                         }
                     }
             });
         }
 
-        public IEnumerable<Product> ReadAllProducts()
+        public IEnumerable<ProductCategoryPlaceholder> ReadAllProducts()
         {
-            List<Product> productsList = new List<Product>(_context.Products);
-            return productsList;
+            List<ProductCategory> productCategories = new List<ProductCategory>(_context.ProductCategories);
+            List<ProductCategoryPlaceholder> placeholders = new List<ProductCategoryPlaceholder>();
+            foreach (var productCategory in productCategories)
+            {
+                placeholders.Add(new ProductCategoryPlaceholder(productCategory));
+            }
+            return placeholders;
         }
     }
 }

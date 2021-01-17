@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\ProductDto.cs" />
+    <Compile Include="ClassWrapper\ProductCategoryConverter.cs" />
+    <Compile Include="ClassWrapper\ProductCategoryPlaceholder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceClasses\DataRepository.cs" />
     <Compile Include="ServiceClasses\IDataRepository.cs" />
