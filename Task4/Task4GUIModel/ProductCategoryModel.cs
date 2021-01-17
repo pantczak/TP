@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Task4GUIModel
+namespace Task4GUIModel //TODO REMOVE chyba zbedne -> ProperProductCategoryModel
 {
     public class ProductCategoryModel : INotifyPropertyChanged
     {
