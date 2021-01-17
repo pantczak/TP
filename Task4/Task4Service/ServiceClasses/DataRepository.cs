@@ -16,6 +16,11 @@ namespace Task4Service.ServiceClasses
             _context = context;
         }
 
+        public DataRepository()
+        {
+            _context = new DataSourceDataContext();
+        }
+
         public void CreateProduct(ProductCategoryPlaceholder productCategoryPlaceholder)
         {
             Task.Run(() =>
