@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Task4GUIModel;
 
 namespace Task4GUIViewModel
@@ -13,7 +8,9 @@ namespace Task4GUIViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private IModel 
+        private IModel _dataModel;
+        
+        private 
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
