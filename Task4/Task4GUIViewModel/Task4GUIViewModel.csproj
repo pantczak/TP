@@ -31,15 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDetailInfoWindow.cs" />
@@ -50,10 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Task4GUIModel\Task4GUIModel.csproj">
-      <Project>{4CDB8B29-5275-4DBA-91DB-C7D7345C0708}</Project>
+      <Project>{08c91f10-5c70-44fd-a4aa-1384456c6371}</Project>
       <Name>Task4GUIModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
