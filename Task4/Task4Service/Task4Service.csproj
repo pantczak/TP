@@ -42,8 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassWrapper\ProductCategoryConverter.cs" />
-    <Compile Include="ClassWrapper\ProductCategoryPlaceholder.cs" />
+    <Compile Include="ClassWrapper\LocationConverter.cs" />
+    <Compile Include="ClassWrapper\LocationPlaceholder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceClasses\DataRepository.cs" />
     <Compile Include="ServiceClasses\IDataRepository.cs" />

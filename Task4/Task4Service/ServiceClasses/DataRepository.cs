@@ -21,57 +21,58 @@ namespace Task4Service.ServiceClasses
             _context = new DataSourceDataContext();
         }
 
-        public void CreateProduct(ProductCategoryPlaceholder productCategoryPlaceholder)
+        public void CreateLocation(LocationPlaceholder locationPlaceholder)
         {
             Task.Run(() =>
             {
-                _context.ProductCategories.InsertOnSubmit(productCategoryPlaceholder.GetProductCategory());
+                _context.Locations.InsertOnSubmit(locationPlaceholder.GetLocation());
                 _context.SubmitChanges();
             });
         }
 
-        public ProductCategoryPlaceholder ReadProduct(int productCategoryId)
+        public LocationPlaceholder ReadLocation(int locationId)
         {
-            ProductCategory result =
-                _context.ProductCategories.FirstOrDefault(cat => cat.ProductCategoryID == productCategoryId);
+            Location result =
+                _context.Locations.FirstOrDefault(location => location.LocationID == locationId);
 
-            return new ProductCategoryPlaceholder(result);
+            return new LocationPlaceholder(result);
         }
 
-        public void DeleteProduct(int productId)
+        public void DeleteLocation(int locationId)
         {
             Task.Run(() =>
             {
-                _context.ProductCategories.DeleteOnSubmit(ReadProduct(productId).GetProductCategory());
+                _context.Locations.DeleteOnSubmit(ReadLocation(locationId).GetLocation());
                 _context.SubmitChanges();
             });
         }
 
-        public void UpdateProduct(ProductCategoryPlaceholder productCategory)
+        public void UpdateLocation(LocationPlaceholder location)
         {
             Task.Run(() =>
             {
-                ProductCategory productCategoryToUpdate = _context.ProductCategories.FirstOrDefault(category =>
-                    category.ProductCategoryID == productCategory.GetProductCategory().ProductCategoryID);
-                if (productCategoryToUpdate != null)
-                    foreach (PropertyInfo info in productCategoryToUpdate.GetType().GetProperties())
+                Location locationToUpdate = _context.Locations.FirstOrDefault(loc =>
+                    loc.LocationID == location.GetLocation().LocationID);
+                if (locationToUpdate != null)
+                    foreach (PropertyInfo info in locationToUpdate.GetType().GetProperties())
                     {
                         if (info.CanWrite)
                         {
-                            info.SetValue(productCategoryToUpdate, info.GetValue(productCategory));
+                            info.SetValue(locationToUpdate, info.GetValue(location));
                         }
                     }
             });
         }
 
-        public IEnumerable<ProductCategoryPlaceholder> ReadAllProducts()
+        public IEnumerable<LocationPlaceholder> ReadAllLocations()
         {
-            List<ProductCategory> productCategories = new List<ProductCategory>(_context.ProductCategories);
-            List<ProductCategoryPlaceholder> placeholders = new List<ProductCategoryPlaceholder>();
-            foreach (var productCategory in productCategories)
+            List<Location> locations = new List<Location>(_context.Locations);
+            List<LocationPlaceholder> placeholders = new List<LocationPlaceholder>();
+            foreach (var location in locations)
             {
-                placeholders.Add(new ProductCategoryPlaceholder(productCategory));
+                placeholders.Add(new LocationPlaceholder(location));
             }
+
             return placeholders;
         }
     }
