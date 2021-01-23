@@ -62,5 +62,18 @@ namespace Task4GUIModel
                 locationModelToUpdate.Name,
                 locationModelToUpdate.CostRate, locationModelToUpdate.Availability));
         }
+
+        public ObservableCollection<LocationModel> GetAll()
+        {
+            ObservableCollection<LocationModel> models = new ObservableCollection<LocationModel>();
+
+            foreach (LocationPlaceholder location in _repository.ReadAllLocations())
+            {
+                models.Add(new LocationModel(location.LocationId, location.Name, location.CostRate,
+                    location.Availability, location.ModifiedDate));
+            }
+
+            return models;
+        }
     }
 }
