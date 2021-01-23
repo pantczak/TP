@@ -142,7 +142,6 @@ namespace Task4GUIViewModel
             {
                 _locationsInfo = new ObservableCollection<LocationModel> {_locationServiceModel.Get(_location.Id)};
                 _locationInfo = _locationServiceModel.Get(_location.Id);
-                //TODO DETAIL INFO WINDOW
                 InfoWindow.ShowInfoWindow(this);
             }
         }
