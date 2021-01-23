@@ -21,8 +21,8 @@ namespace Task4GUIViewModel
 
 
         //TODO IMPLEMENT
-        // public IInfoWindow InfoWindow { get; set; }
-        // public IMessageBox MessageBox { get; set; }
+        public IDetailInfoWindow InfoWindow { get; set; }
+        public IMessageBox MessageBox { get; set; }
 
         #region constructors
 
@@ -143,6 +143,7 @@ namespace Task4GUIViewModel
                 _locationsInfo = new ObservableCollection<LocationModel> {_locationServiceModel.Get(_location.Id)};
                 _locationInfo = _locationServiceModel.Get(_location.Id);
                 //TODO DETAIL INFO WINDOW
+                InfoWindow.ShowInfoWindow(this);
             }
         }
 

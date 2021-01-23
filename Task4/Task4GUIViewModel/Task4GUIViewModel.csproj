@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDetailInfoWindow.cs" />
+    <Compile Include="IMessageBox.cs" />
     <Compile Include="MVVMLight\RelayCommand.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
