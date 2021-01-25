@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Task4GUIViewModel;
 
 namespace Task4GUI
 {
@@ -25,9 +26,12 @@ namespace Task4GUI
             InitializeComponent();
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        protected override void OnInitialized(EventArgs e)
         {
+            base.OnInitialized(e);
+            ViewModel viewModel = (ViewModel)DataContext;
 
         }
+
     }
 }
