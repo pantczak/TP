@@ -19,8 +19,16 @@
             <Button Content="Show Details" HorizontalAlignment="Left" Margin="38,163,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-1.733,-2.198"/>
             <Button Content="Delete" HorizontalAlignment="Left" Margin="38,232,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.539,3.534"/>
             <Button Content="Reload" HorizontalAlignment="Left" Margin="38,310,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-4.102,0.821"/>
-            <ListBox HorizontalAlignment="Left" Height="313" Margin="167,17,0,0" VerticalAlignment="Top" Width="603" >
-                
+            <ListBox HorizontalAlignment="Left" Height="313" Margin="167,17,0,0" VerticalAlignment="Top" Width="603" ItemsSource="{Binding Locations}" SelectedItem="{Binding Location}" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Name}" Width="250"/>
+                            <TextBlock Text="{Binding CostRate}" Width="250"/>
+                            <TextBlock Text="{Binding Availability}" Width="250"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
 
