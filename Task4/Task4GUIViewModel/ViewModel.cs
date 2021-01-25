@@ -25,10 +25,10 @@ namespace Task4GUIViewModel
 
         #region constructors
 
-        //TODO FIX CONSTRUCTORS ( add second)
         public ViewModel()
         {
             _locationServiceModel = new LocationsServiceModel();
+            //GetAllDataCommand = new RelayCommand(() => _locationServiceModel = new LocationsServiceModel());
             GetAllDataCommand = new RelayCommand(() =>
                 Locations = new ObservableCollection<LocationModel>(_locationServiceModel.GetAll()));
             AddLocationCommand = new RelayCommand(AddLocation);
@@ -37,16 +37,23 @@ namespace Task4GUIViewModel
             LocationInfoCommand = new RelayCommand(GetInfo);
         }
 
-        public ViewModel(LocationsServiceModel locations)
+        public ViewModel(IServiceModel locationsServiceModel)
         {
-            _locationServiceModel = locations;
+            _locationServiceModel = locationsServiceModel;
+            GetAllDataCommand = new RelayCommand(() =>
+                Locations = new ObservableCollection<LocationModel>(_locationServiceModel.GetAll()));
+            Locations = new ObservableCollection<LocationModel>(_locationServiceModel.GetAll());
+            AddLocationCommand = new RelayCommand(AddLocation);
+            DeleteLocationCommand = new RelayCommand(RemoveLocation);
+            UpdateLocationCommand = new RelayCommand(UpdateLocation);
+            LocationInfoCommand = new RelayCommand(GetInfo);
         }
 
         #endregion
 
         #region API
 
-        public LocationsServiceModel LocationServiceModel
+        public IServiceModel LocationServiceModel
         {
             get => _locationServiceModel;
             set
@@ -157,7 +164,7 @@ namespace Task4GUIViewModel
 
         #region private variables
 
-        private LocationsServiceModel _locationServiceModel;
+        private IServiceModel _locationServiceModel;
         private LocationModel _location;
         private LocationModel _locationInfo;
         private ObservableCollection<LocationModel> _locations;
@@ -165,6 +172,7 @@ namespace Task4GUIViewModel
         public decimal Availability { get; set; }
         public decimal CostRate { get; set; }
         public string Name { get; set; }
+        public short Id { get; set; }
 
         #endregion
     }

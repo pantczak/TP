@@ -35,6 +35,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IServiceModel.cs" />
     <Compile Include="LocationModel.cs" />
     <Compile Include="LocationsServiceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
