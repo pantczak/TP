@@ -30,7 +30,7 @@ namespace Task4GUI
         {
             base.OnInitialized(e);
             ViewModel viewModel = (ViewModel)DataContext;
-            // viewModel.InfoWindow = new Lazy<IDetailInfoWindow>(() => new LocationDetailsWindow());
+          //  viewModel.InfoWindow = new Lazy<IDetailInfoWindow>(() => new LocationDetailsWindow());
             viewModel.InfoWindow = new LocationDetailsWindow();
 
         }

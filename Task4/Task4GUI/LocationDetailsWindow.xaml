@@ -27,7 +27,7 @@
                         <TextBlock Text="{Binding Id}" Width="250"/>
                         <TextBlock Text="{Binding Name}" Width="250"/>
                         <TextBlock Text="{Binding CostRate}" Width="250"/>
-                        <TextBlock Text="{Binding Availibility}" Width="250"/>
+                        <TextBlock Text="{Binding Availability}" Width="250"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
