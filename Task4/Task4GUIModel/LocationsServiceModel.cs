@@ -5,7 +5,7 @@ using Task4Service.ServiceClasses;
 
 namespace Task4GUIModel
 {
-    public class LocationsServiceModel
+    public class LocationsServiceModel : IServiceModel
     {
         private readonly IDataRepository _repository;
         // public ObservableCollection<LocationModel> LocationModels { get; set; }
