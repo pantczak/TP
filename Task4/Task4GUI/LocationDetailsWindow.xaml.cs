@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,30 +11,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Task4GUIViewModel;
 
 namespace Task4GUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logika interakcji dla klasy LocationDetailsWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LocationDetailsWindow : Window,IDetailInfoWindow
     {
-        public MainWindow()
+        public LocationDetailsWindow()
         {
             InitializeComponent();
         }
 
-        protected override void OnInitialized(EventArgs e)
+        public void ShowInfoWindow<T>(T viewModel) where T : INotifyPropertyChanged
         {
-            base.OnInitialized(e);
-            ViewModel viewModel = (ViewModel)DataContext;
-            // viewModel.InfoWindow = new Lazy<IDetailInfoWindow>(() => new LocationDetailsWindow());
-            viewModel.InfoWindow = new LocationDetailsWindow();
-
+            var window = new LocationDetailsWindow();
+            window.DataContext = viewModel;
+            window.Show();
         }
-
     }
 }
