@@ -20,15 +20,17 @@ namespace Task4GUIViewModel
         public ICommand LocationInfoCommand { get; set; }
 
 
-        //TODO IMPLEMENT
         public IDetailInfoWindow InfoWindow { get; set; }
         public IMessageBox MessageBox { get; set; }
 
         #region constructors
 
+        //TODO FIX CONSTRUCTORS ( add second)
         public ViewModel()
         {
-            GetAllDataCommand = new RelayCommand(() => LocationServiceModel = new LocationsServiceModel());
+            _locationServiceModel = new LocationsServiceModel();
+            GetAllDataCommand = new RelayCommand(() =>
+                Locations = new ObservableCollection<LocationModel>(_locationServiceModel.GetAll()));
             AddLocationCommand = new RelayCommand(AddLocation);
             DeleteLocationCommand = new RelayCommand(RemoveLocation);
             UpdateLocationCommand = new RelayCommand(UpdateLocation);

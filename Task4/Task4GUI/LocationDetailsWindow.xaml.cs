@@ -28,8 +28,7 @@ namespace Task4GUI
 
         public void ShowInfoWindow<T>(T viewModel) where T : INotifyPropertyChanged
         {
-            var window = new LocationDetailsWindow();
-            window.DataContext = viewModel;
+            var window = new LocationDetailsWindow {DataContext = viewModel};
             window.Show();
         }
     }
