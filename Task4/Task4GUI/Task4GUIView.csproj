@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Task4GUIViewModel\Task4GUIViewModel.csproj">
+      <Project>{03654a32-d8b7-4839-9918-2a69a8e9b7c9}</Project>
+      <Name>Task4GUIViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
