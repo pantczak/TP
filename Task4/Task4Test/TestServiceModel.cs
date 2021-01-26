@@ -11,10 +11,10 @@ namespace Task4Test
 
         public TestServiceModel()
         {
-            _list.Add(new LocationModel(1, "Location1", 0.5m, 1.0m, DateTime.Now));
-            _list.Add(new LocationModel(2, "Location2", 1.5m, 1.0m, DateTime.Now));
-            _list.Add(new LocationModel(3, "Location3", 2.5m, 1.0m, DateTime.Now));
-            _list.Add(new LocationModel(4, "Location4", 3.5m, 1.0m, DateTime.Now));
+            _list.Add(new LocationModel(0, "Location1", 0.5m, 1.0m, DateTime.Now));
+            _list.Add(new LocationModel(1, "Location2", 1.5m, 1.0m, DateTime.Now));
+            _list.Add(new LocationModel(2, "Location3", 2.5m, 1.0m, DateTime.Now));
+            _list.Add(new LocationModel(3, "Location4", 3.5m, 1.0m, DateTime.Now));
         }
 
         public void Add(LocationModel location)
@@ -34,7 +34,7 @@ namespace Task4Test
 
         public void Update(LocationModel locationModelToUpdate)
         {
-            _list[locationModelToUpdate.Id] = locationModelToUpdate;
+            _list[locationModelToUpdate.Id] = new LocationModel(locationModelToUpdate.Id,locationModelToUpdate.Name, locationModelToUpdate.CostRate, locationModelToUpdate.Availability, DateTime.Now);
         }
 
         public ObservableCollection<LocationModel> GetAll()

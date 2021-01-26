@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Task4Data.Database;
 using Task4Service.ClassWrapper;
 
@@ -23,11 +23,8 @@ namespace Task4Service.ServiceClasses
 
         public void CreateLocation(LocationPlaceholder locationPlaceholder)
         {
-            Task.Run(() =>
-            {
-                _context.Locations.InsertOnSubmit(locationPlaceholder.GetLocation());
-                _context.SubmitChanges();
-            });
+            _context.Locations.InsertOnSubmit(locationPlaceholder.GetLocation());
+            _context.SubmitChanges();
         }
 
         public LocationPlaceholder ReadLocation(int locationId)
@@ -40,28 +37,26 @@ namespace Task4Service.ServiceClasses
 
         public void DeleteLocation(int locationId)
         {
-            Task.Run(() =>
-            {
-                _context.Locations.DeleteOnSubmit(ReadLocation(locationId).GetLocation());
-                _context.SubmitChanges();
-            });
+            _context.Locations.DeleteOnSubmit(ReadLocation(locationId).GetLocation());
+            _context.SubmitChanges();
         }
 
         public void UpdateLocation(LocationPlaceholder location)
         {
-            Task.Run(() =>
-            {
-                Location locationToUpdate = _context.Locations.FirstOrDefault(loc =>
-                    loc.LocationID == location.GetLocation().LocationID);
-                if (locationToUpdate != null)
-                    foreach (PropertyInfo info in locationToUpdate.GetType().GetProperties())
+            Location locationToUpdate = _context.Locations.FirstOrDefault(loc =>
+                loc.LocationID == location.GetLocation().LocationID);
+            if (locationToUpdate != null)
+                foreach (PropertyInfo info in locationToUpdate.GetType().GetProperties())
+                {
+                    if (info.CanWrite)
                     {
-                        if (info.CanWrite)
-                        {
-                            info.SetValue(locationToUpdate, info.GetValue(location));
-                        }
+                        info.SetValue(locationToUpdate, info.GetValue(location.GetLocation()));
                     }
-            });
+                }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public IEnumerable<LocationPlaceholder> ReadAllLocations()
