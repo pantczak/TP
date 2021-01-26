@@ -6,7 +6,7 @@ namespace Task4Test
 {
     public class TestDataRepository : IDataRepository
     {
-        private readonly List<LocationPlaceholder> _list;
+        private List<LocationPlaceholder> Locations { get; }
 
         private static List<LocationPlaceholder> SetupList()
         {
@@ -23,32 +23,32 @@ namespace Task4Test
 
         public TestDataRepository()
         {
-            _list = SetupList();
+            Locations = SetupList();
         }
 
         public void CreateLocation(LocationPlaceholder location)
         {
-            _list.Add(location);
+            Locations.Add(location);
         }
 
         public LocationPlaceholder ReadLocation(int locationId)
         {
-            return _list[locationId];
+            return Locations[locationId];
         }
 
         public void DeleteLocation(int locationId)
         {
-            _list.RemoveAt(locationId);
+            Locations.RemoveAt(locationId);
         }
 
         public void UpdateLocation(LocationPlaceholder location)
         {
-            _list[location.LocationId] = location;
+            Locations[location.LocationId] = location;
         }
 
         public IEnumerable<LocationPlaceholder> ReadAllLocations()
         {
-            return _list;
+            return Locations;
         }
     }
 }
