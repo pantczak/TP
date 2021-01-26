@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Task4GUIModel;
@@ -19,34 +21,30 @@ namespace Task4GUIViewModel
         public ICommand UpdateLocationCommand { get; set; }
         public ICommand LocationInfoCommand { get; set; }
 
+        public bool DisableTasks { get; set; }
 
-        public IDetailInfoWindow InfoWindow { get; set; }
-        public IMessageBox MessageBox { get; set; }
 
         #region constructors
 
         public ViewModel()
         {
+            Location = new LocationModel();
             _locationServiceModel = new LocationsServiceModel();
-            //GetAllDataCommand = new RelayCommand(() => _locationServiceModel = new LocationsServiceModel());
-            GetAllDataCommand = new RelayCommand(() =>
-                Locations = new ObservableCollection<LocationModel>(_locationServiceModel.GetAll()));
+            GetAllDataCommand = new RelayCommand(ReloadLocations);
             AddLocationCommand = new RelayCommand(AddLocation);
             DeleteLocationCommand = new RelayCommand(RemoveLocation);
             UpdateLocationCommand = new RelayCommand(UpdateLocation);
-            LocationInfoCommand = new RelayCommand(GetInfo);
         }
 
         public ViewModel(IServiceModel locationsServiceModel)
         {
+            Location = new LocationModel();
             _locationServiceModel = locationsServiceModel;
-            GetAllDataCommand = new RelayCommand(() =>
-                Locations = new ObservableCollection<LocationModel>(_locationServiceModel.GetAll()));
+            GetAllDataCommand = new RelayCommand(ReloadLocations);
             Locations = new ObservableCollection<LocationModel>(_locationServiceModel.GetAll());
             AddLocationCommand = new RelayCommand(AddLocation);
             DeleteLocationCommand = new RelayCommand(RemoveLocation);
             UpdateLocationCommand = new RelayCommand(UpdateLocation);
-            LocationInfoCommand = new RelayCommand(GetInfo);
         }
 
         #endregion
@@ -73,16 +71,6 @@ namespace Task4GUIViewModel
             }
         }
 
-        public LocationModel LocationInfo
-        {
-            get => _locationInfo;
-            set
-            {
-                _locationInfo = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ObservableCollection<LocationModel> Locations
         {
             get => _locations;
@@ -93,66 +81,35 @@ namespace Task4GUIViewModel
             }
         }
 
-        public ObservableCollection<LocationModel> LocationsInfo
-        {
-            get => _locationsInfo;
-            set
-            {
-                _locationsInfo = value;
-                OnPropertyChanged();
-            }
-        }
-
         private void AddLocation()
         {
-            LocationModel model = new LocationModel(0, Name, CostRate, Availability, DateTime.Today);
-            if (string.IsNullOrEmpty(model.Name) || model.CostRate < 0)
+            ExecuteTask((() =>
             {
-                MessageBox.Show("Incorrect value", "ERROR");
-            }
-            else
-            {
+                LocationModel model = new LocationModel((short) (_locationServiceModel.GetAll().Last().Id + 100),
+                    Location.Name,
+                    Location.CostRate, Location.Availability, DateTime.Now);
                 _locationServiceModel.Add(model);
-            }
+            }));
         }
 
         private void RemoveLocation()
         {
-            if (_location.Id == 0)
-            {
-                MessageBox.Show("Incorrect value", "ERROR");
-            }
-            else
-            {
-                _locationServiceModel.Delete(_location.Id);
-            }
+          ExecuteTask(() => { _locationServiceModel.Delete(_location.Id); });
         }
 
         private void UpdateLocation()
         {
-            LocationModel model = new LocationModel(0, Name, CostRate, Availability, DateTime.Today);
-            if (string.IsNullOrEmpty(model.Name) || model.CostRate < 0 || model.Id == 0)
+            ExecuteTask(() =>
             {
-                MessageBox.Show("Incorrect value", "ERROR");
-            }
-            else
-            {
+                LocationModel model = new LocationModel(Location.Id, Location.Name, Location.CostRate, Location.Availability, DateTime.Now);
                 _locationServiceModel.Update(model);
-            }
+            });
         }
 
-        private void GetInfo()
+        private void ReloadLocations()
         {
-            if (_location == null)
-            {
-                MessageBox.Show("Select location first", "ERROR");
-            }
-            else
-            {
-                _locationsInfo = new ObservableCollection<LocationModel> {_locationServiceModel.Get(_location.Id)};
-                _locationInfo = _locationServiceModel.Get(_location.Id);
-                InfoWindow.ShowInfoWindow(this);
-            }
+            Locations = new ObservableCollection<LocationModel>(_locationServiceModel.GetAll());
+            Location = new LocationModel();
         }
 
         #endregion
@@ -162,17 +119,24 @@ namespace Task4GUIViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void ExecuteTask(Action a)
+        {
+            if (DisableTasks)
+            {
+                a();
+            }
+            else
+            {
+                Task.Run(a);
+            }
+        }
+
         #region private variables
 
         private IServiceModel _locationServiceModel;
         private LocationModel _location;
-        private LocationModel _locationInfo;
         private ObservableCollection<LocationModel> _locations;
-        private ObservableCollection<LocationModel> _locationsInfo;
-        public decimal Availability { get; set; }
-        public decimal CostRate { get; set; }
-        public string Name { get; set; }
-        public short Id { get; set; }
+
 
         #endregion
     }

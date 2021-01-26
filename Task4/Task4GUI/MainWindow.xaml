@@ -4,8 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:vm="clr-namespace:Task4GUIViewModel;assembly=Task4GUIViewModel"
+        xmlns:dataValidators="clr-namespace:Task4GUI.DataValidators"
         mc:Ignorable="d"
         Title="MainWindow" Height="640" Width="800">
+
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <TextBlock Foreground="Red" FontSize="15">ERROR</TextBlock>
+        </ControlTemplate>
+    </Window.Resources>
+
     <Window.DataContext>
         <vm:ViewModel/>
     </Window.DataContext>
@@ -14,10 +22,43 @@
     <StackPanel Margin="0,0,0,0">
         <Label Content="Locations:" FontSize="17" FontWeight="Bold" Margin="8,0,8,0"/>
         <Grid Height="384">
-            <Button Content="Add" HorizontalAlignment="Left" Margin="38,17,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.538,0.858" Command="{Binding AddLocationCommand}"/>
-            <Button Content="Update" HorizontalAlignment="Left" Margin="38,92,0,0" VerticalAlignment="Top" Width="75" Command="{Binding UpdateLocationCommand}"/>
-            <Button Content="Show Details" HorizontalAlignment="Left" Margin="38,163,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-1.733,-2.198" Command="{Binding LocationInfoCommand}"/>
-            <Button Content="Delete" HorizontalAlignment="Left" Margin="38,232,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.539,3.534" Command="{Binding DeleteLocationCommand}"/>
+            <Button Content="Add" HorizontalAlignment="Left" Margin="38,17,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.538,0.858" Command="{Binding AddLocationCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=NameBox}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=CostRateBox}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=AvailabilityBox}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="Update" HorizontalAlignment="Left" Margin="38,110,0,0" VerticalAlignment="Top" Width="75" Command="{Binding UpdateLocationCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=NameBox}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=CostRateBox}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=AvailabilityBox}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="Delete" HorizontalAlignment="Left" Margin="38,206,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.539,3.534" Command="{Binding DeleteLocationCommand}"/>
             <Button Content="Reload" HorizontalAlignment="Left" Margin="38,310,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-4.102,0.821" Command="{Binding GetAllDataCommand}"/>
             <ListBox HorizontalAlignment="Left" Height="313" Margin="167,17,0,0" VerticalAlignment="Top" Width="603" ItemsSource="{Binding Locations}" SelectedItem="{Binding Location}" >
                 <ListBox.ItemTemplate>
@@ -29,14 +70,45 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
+
         <TextBlock Grid.Column="0" Margin="91,0,170,0" Grid.ColumnSpan="2">Id:</TextBlock>
-        <TextBox Text="{Binding Id}" Margin="159,0,56,0" Grid.ColumnSpan="2" />
+        <TextBlock Text="{Binding Location.Id}"  Margin="159,0,56,0" Grid.ColumnSpan="2" />
+
+
         <TextBlock Grid.Column="0" Margin="91,0,170,0" Grid.ColumnSpan="2">Name:</TextBlock>
-        <TextBox Text="{Binding Name}" Margin="159,0,56,0" Grid.ColumnSpan="2" />
+        <TextBox Name="NameBox" Validation.ErrorTemplate="{StaticResource  ValidationTemplate}" Margin="159,0,56,0" Grid.ColumnSpan="2">
+            <TextBox.Text>
+                <Binding Path="Location.Name">
+                    <Binding.ValidationRules>
+                        <dataValidators:StringValidator Min="5" Max="30"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+
         <TextBlock Grid.Column="0" Margin="91,0,170,0" Grid.ColumnSpan="2">CostRate:</TextBlock>
-        <TextBox Text="{Binding CostRate}" Margin="159,0,56,0" Grid.ColumnSpan="2" />
+        <TextBox Name="CostRateBox"  Validation.ErrorTemplate="{StaticResource  ValidationTemplate}" Margin="159,0,56,0" Grid.ColumnSpan="2" >
+            <TextBox.Text>
+                <Binding Path="Location.CostRate">
+                    <Binding.ValidationRules>
+                        <dataValidators:DecimalValidator/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+
         <TextBlock Grid.Column="0" Margin="91,0,170,0" Grid.ColumnSpan="2">Availability:</TextBlock>
-        <TextBox Text="{Binding Availability}" Margin="159,0,56,0" Grid.ColumnSpan="2" />
+        <TextBox Name="AvailabilityBox"  Validation.ErrorTemplate="{StaticResource  ValidationTemplate}" Margin="159,0,56,0" Grid.ColumnSpan="2">
+            <TextBox.Text>
+                <Binding Path="Location.Availability">
+                    <Binding.ValidationRules>
+                        <dataValidators:DecimalValidator/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
     </StackPanel>
 
