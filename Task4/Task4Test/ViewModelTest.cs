@@ -32,11 +32,11 @@ namespace Task4Test
             _viewModel.Location.CostRate = 0.5m;
             _viewModel.Location.Availability = 0.5m;
             _viewModel.AddLocationCommand.Execute(null);
-            _viewModel.GetAllDataCommand.Execute(null);
 
-           
+            _viewModel.GetAllDataCommand.Execute(null);
+            Assert.AreEqual("Old Warehouse", _viewModel.Locations[counter].Name);
             Assert.AreEqual(counter + 1, _viewModel.Locations.Count);
-            Assert.AreEqual(_viewModel.Locations[counter].Name, _viewModel.Location.Name);
+
         }
 
 
@@ -69,9 +69,9 @@ namespace Task4Test
             _viewModel.UpdateLocationCommand.Execute(null);
             _viewModel.GetAllDataCommand.Execute(null);
 
-            Assert.AreEqual(_viewModel.Location.Name, _viewModel.Locations[2].Name );
-            Assert.AreEqual(_viewModel.Location.CostRate, _viewModel.Locations[2].CostRate);
-            Assert.AreEqual(_viewModel.Location.Availability, _viewModel.Locations[2].Availability);
+            Assert.AreEqual("Change", _viewModel.Locations[2].Name );
+            Assert.AreEqual(1.2m, _viewModel.Locations[2].CostRate);
+            Assert.AreEqual(0.22m, _viewModel.Locations[2].Availability);
 
         }
 

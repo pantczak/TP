@@ -7,18 +7,12 @@ using Task4Service.ClassWrapper;
 
 namespace Task4Service.ServiceClasses
 {
-    public class DataRepository : IDataRepository
+    public class DataRepository : IDataRepository, IDisposable
     {
-        private readonly DataSourceDataContext _context;
-
-        public DataRepository(DataSourceDataContext context)
-        {
-            _context = context;
-        }
+        private static readonly DataSourceDataContext _context = new DataSourceDataContext();
 
         public DataRepository()
         {
-            _context = new DataSourceDataContext();
         }
 
         public void CreateLocation(LocationPlaceholder locationPlaceholder)
@@ -69,6 +63,11 @@ namespace Task4Service.ServiceClasses
             }
 
             return placeholders;
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
         }
     }
 }
